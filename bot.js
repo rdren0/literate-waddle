@@ -22,6 +22,7 @@ const QUESTION_TIMEOUT = 60000; // 60 seconds for questions
 client.once('ready', () => {
   console.log(`🤖 Bot is online as ${client.user.tag}!`);
   console.log(`📊 Serving ${client.guilds.cache.size} servers`);
+  console.log(`🚀 Railway deployment successful!`);
 
   // Set bot activity
   client.user.setActivity('Harry Potter Jeopardy!', { type: 'PLAYING' });
