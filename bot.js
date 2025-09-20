@@ -141,7 +141,7 @@ async function sendResponse(message, result) {
       if (result.isSinglePlayer && result.nextQuestion) {
         setTimeout(async () => {
           await message.channel.send(
-            `📝 **Question ${result.questionNumber}/${result.totalQuestions}** (${result.nextQuestion.category} - $${result.nextQuestion.maxPoints})\n\n` +
+            `**Question ${result.questionNumber} of ${result.totalQuestions}**\n\n` +
             `**${result.nextQuestion.question}**\n\n` +
             `<@${result.player.userId}>, type your answer!`
           );
