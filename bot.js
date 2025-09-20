@@ -184,7 +184,8 @@ process.on('SIGTERM', () => {
 const token = process.env.DISCORD_BOT_TOKEN;
 if (!token) {
   console.error('❌ DISCORD_BOT_TOKEN not found in environment variables!');
-  console.log('Please add DISCORD_BOT_TOKEN=your_bot_token to your .env file');
+  console.log('Available environment variables:', Object.keys(process.env).filter(key => key.includes('DISCORD') || key.includes('TOKEN')));
+  console.log('Please add DISCORD_BOT_TOKEN=your_bot_token to your .env file or Railway environment variables');
   process.exit(1);
 }
 
