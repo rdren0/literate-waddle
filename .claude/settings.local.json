@@ -8,7 +8,8 @@
       "Bash(npm run bot:dev:*)",
       "Bash(tasklist:*)",
       "Bash(taskkill:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(npm install)"
     ],
     "deny": [],
     "ask": []
