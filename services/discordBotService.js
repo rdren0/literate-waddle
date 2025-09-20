@@ -62,6 +62,7 @@ function loadTriviaData() {
         formattedData[mappedCategory][points] = levelQuestions.map((q) => ({
           question: q.question,
           answer: q.answer,
+          key_words: q.key_words || [],
         }));
 
         console.log(
@@ -468,7 +469,11 @@ class DiscordBotService {
     const player = this.players.get(userId);
     player.questionsAnswered++;
 
-    const isCorrect = this.checkAnswer(answer, this.currentQuestion.answer);
+    const isCorrect = this.checkAnswer(
+      answer,
+      this.currentQuestion.answer,
+      this.currentQuestion.key_words
+    );
 
     if (isCorrect) {
       player.score += this.currentQuestion.points;
@@ -530,9 +535,14 @@ class DiscordBotService {
     this.gameState.hasAnsweredCurrent = true;
     player.questionsAnswered++;
 
-    const exactMatch = this.checkAnswer(answer, question.answer);
+    const exactMatch = this.checkAnswer(
+      answer,
+      question.answer,
+      question.key_words
+    );
     const closeMatch =
-      !exactMatch && this.checkCloseAnswer(answer, question.answer);
+      !exactMatch &&
+      this.checkCloseAnswer(answer, question.answer, question.key_words);
 
     let pointsEarned = 0;
     let result = null;
@@ -684,9 +694,39 @@ class DiscordBotService {
     return false;
   }
 
-  checkCloseAnswer(userAnswer, correctAnswer) {
+  checkCloseAnswer(userAnswer, correctAnswer, keyWords = []) {
     const userNorm = this.normalizeAnswer(userAnswer);
     const correctNorm = this.normalizeAnswer(correctAnswer);
+
+    if (keyWords && keyWords.length > 0) {
+      for (const keyword of keyWords) {
+        const keywordNorm = this.normalizeAnswer(keyword);
+
+        const maxLength = Math.max(userNorm.length, keywordNorm.length);
+        const distance = this.levenshteinDistance(userNorm, keywordNorm);
+        const similarity = 1 - distance / maxLength;
+
+        if (similarity >= 0.8) {
+          return true;
+        }
+
+        const userWords = userNorm.split(" ").filter((w) => w.length > 2);
+        const keywordWords = keywordNorm.split(" ").filter((w) => w.length > 2);
+
+        for (const userWord of userWords) {
+          for (const keywordWord of keywordWords) {
+            if (
+              userWord.includes(keywordWord) ||
+              keywordWord.includes(userWord)
+            ) {
+              if (keywordWord.length > 2) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
 
     if (this.checkAlternativeFormats(userAnswer, correctAnswer)) {
       return true;
@@ -738,11 +778,24 @@ class DiscordBotService {
     return false;
   }
 
-  checkAnswer(userAnswer, correctAnswer) {
+  checkAnswer(userAnswer, correctAnswer, keyWords = []) {
     const userNorm = this.normalizeAnswer(userAnswer);
     const correctNorm = this.normalizeAnswer(correctAnswer);
 
     if (userNorm === correctNorm) return true;
+
+    if (keyWords && keyWords.length > 0) {
+      for (const keyword of keyWords) {
+        const keywordNorm = this.normalizeAnswer(keyword);
+        if (userNorm === keywordNorm) return true;
+
+        if (userNorm.includes(keywordNorm) || keywordNorm.includes(userNorm)) {
+          if (keywordNorm.length > 3) {
+            return true;
+          }
+        }
+      }
+    }
 
     if (this.checkAlternativeFormats(userAnswer, correctAnswer)) {
       return true;
