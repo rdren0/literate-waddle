@@ -8,18 +8,21 @@ const __dirname = dirname(__filename);
 // Helper function to load trivia data
 function loadTriviaData() {
   try {
-    const triviaDataPath = join(__dirname, '../data/questions.js');
+    const triviaDataPath = join(__dirname, '../data/data.json');
     const triviaDataRaw = readFileSync(triviaDataPath, 'utf8');
+    const rawData = JSON.parse(triviaDataRaw);
 
-    // Import the questions dynamically using a safer approach
-    const moduleContent = triviaDataRaw
-      .replace('export var questions = ', 'const questions = ')
-      .replace(/;$/, '');
+    console.log(`Loaded questions from data.json`);
 
-    // Create a safe evaluation context
-    const questions = new Function('return ' + moduleContent.match(/const questions = (\[[\s\S]*?\]);?/)[1])();
-
-    console.log(`Loaded ${questions.length} questions from questions.js`);
+    // Map the 6 categories from data.json to the expected category names
+    const categoryMapping = {
+      'category_1': 'SPELLS & MAGIC',
+      'category_2': 'HOGWARTS HISTORY',
+      'category_3': 'MAGICAL CREATURES',
+      'category_4': 'POTIONS',
+      'category_5': 'DEFENSE AGAINST DARK ARTS',
+      'category_6': 'WIZARDING WORLD'
+    };
 
     // Convert to the expected format for the bot
     const formattedData = {
@@ -31,30 +34,40 @@ function loadTriviaData() {
       'WIZARDING WORLD': {}
     };
 
-    const categories = Object.keys(formattedData);
     const pointValues = [100, 200, 300, 400, 500];
 
-    // Distribute questions across categories and point values
-    let questionIndex = 0;
-    for (const category of categories) {
-      for (const points of pointValues) {
+    // Initialize all categories with empty arrays for each point value
+    Object.keys(formattedData).forEach(category => {
+      pointValues.forEach(points => {
         formattedData[category][points] = [];
-        // Add questions per category/point combination (distribute evenly)
-        const questionsPerSlot = Math.ceil(questions.length / (categories.length * pointValues.length));
-        for (let i = 0; i < questionsPerSlot && questionIndex < questions.length; i++) {
-          const q = questions[questionIndex];
-          if (q && q.title && q.answer) {
-            formattedData[category][points].push({
-              question: q.title,
-              answer: q.answer
-            });
-          }
-          questionIndex++;
-        }
-      }
-    }
+      });
+    });
 
-    console.log(`Distributed questions across ${categories.length} categories and ${pointValues.length} difficulty levels`);
+    // Distribute questions from data.json across point values
+    Object.keys(categoryMapping).forEach(dataCategory => {
+      const mappedCategory = categoryMapping[dataCategory];
+      const questions = rawData[dataCategory] || [];
+
+      console.log(`Processing ${dataCategory} -> ${mappedCategory}: ${questions.length} questions`);
+
+      // Distribute questions across the 5 difficulty levels
+      const questionsPerLevel = Math.ceil(questions.length / pointValues.length);
+
+      pointValues.forEach((points, levelIndex) => {
+        const startIndex = levelIndex * questionsPerLevel;
+        const endIndex = Math.min(startIndex + questionsPerLevel, questions.length);
+        const levelQuestions = questions.slice(startIndex, endIndex);
+
+        formattedData[mappedCategory][points] = levelQuestions.map(q => ({
+          question: q.question,
+          answer: q.answer
+        }));
+
+        console.log(`${mappedCategory} $${points}: ${levelQuestions.length} questions`);
+      });
+    });
+
+    console.log(`Distributed questions across ${Object.keys(formattedData).length} categories and ${pointValues.length} difficulty levels`);
     console.log('Sample data structure:', Object.keys(formattedData));
     console.log('SPELLS & MAGIC 100 questions:', formattedData['SPELLS & MAGIC'][100]?.length || 0);
     return formattedData;
@@ -379,7 +392,7 @@ class DiscordBotService {
       this.gameState.dailyDouble.pointIndex === pointsIndex;
 
     // Get questions for this category and difficulty
-    const categoryData = triviaData[category];
+    const categoryData = this.triviaData[category];
     if (!categoryData || !categoryData[points]) {
       return { error: 'No questions found for this category and difficulty.' };
     }

@@ -1,0 +1,683 @@
+{
+  "category_1": [
+    {
+      "question": "According to Mr. Weasley, Sirius Black has escaped from Azkaban to kill whom?",
+      "answer": "Harry Potter"
+    },
+    {
+      "question": "What Ministry initiative is Dolores Umbridge in charge of after the Death Eaters take control?",
+      "answer": "The Muggle-born Registration Commission"
+    },
+    {
+      "question": "Who is sent to Azkaban under suspicion of reopening the Chamber of Secrets?",
+      "answer": "Hagrid"
+    },
+    {
+      "question": "How does Harry open the entrance to the Chamber of Secrets?",
+      "answer": "By speaking Parseltongue"
+    },
+    {
+      "question": "Who do Harry and Hermione discover hidden in Bathilda Bagshot's skin in her home at Godric's Hollow?",
+      "answer": "Nagini"
+    },
+    {
+      "question": "Avada Kedavra is known as which curse?",
+      "answer": "The Killing Curse"
+    },
+    {
+      "question": "What name forms the anagram 'I am Lord Voldemort'?",
+      "answer": "Tom Marvolo Riddle"
+    },
+    {
+      "question": "Who is the heir of Slytherin?",
+      "answer": "Tom Riddle/Lord Voldemort"
+    },
+    {
+      "question": "Which ingredients does Snape find missing from his stores during Harry's fourth year at Hogwarts?",
+      "answer": "Boomslang Skin and Lacewing Flies"
+    },
+    {
+      "question": "What is the incantation for the Stunning Spell?",
+      "answer": "Stupefy"
+    },
+    {
+      "question": "How high were the highest constructed magical walls of the maze in the third task of the Triwizard Tournament?",
+      "answer": "40 feet high"
+    },
+    {
+      "question": "What happens to Ron when Disapparating from the Ministry of Magic?",
+      "answer": "He gets Splinched"
+    },
+    {
+      "question": "Which spell produces light from the end of a wand?",
+      "answer": "Lumos"
+    },
+    {
+      "question": "What does Hermione smell when she encounters the potion Amortentia?",
+      "answer": "Freshly mown grass, new parchment and spearmint toothpaste"
+    },
+    {
+      "question": "What happens to the photos of Hermione in her parents' home when she uses the Obliviate charm on them?",
+      "answer": "Her image disappears"
+    },
+    {
+      "question": "Which spell does Harry use on the Gringotts goblin who doubts the identity of Hermione as Bellatrix Lestrange?",
+      "answer": "Imperio/the Imperius Curse"
+    },
+    {
+      "question": "Who signs a note left inside the fake locket Horcrux?",
+      "answer": "R.A.B (Regulus Arcturus Black)"
+    },
+    { "question": "What breaks Harry's wand?", "answer": "A rebounding curse" },
+    { "question": "Who destroys the locket Horcrux?", "answer": "Ron Weasley" },
+    {
+      "question": "What does Professor Lupin say the appearance of the Boggart as a Dementor indicates is Harry's greatest fear?",
+      "answer": "Fear itself"
+    },
+    {
+      "question": "Who sets Hagrid's hut on fire after Dumbledore has been killed?",
+      "answer": "Bellatrix Lestrange"
+    },
+    {
+      "question": "Who kills Professor Dumbledore?",
+      "answer": "Professor Snape"
+    },
+    {
+      "question": "What spell does Harry use against the Hungarian Horntail in the Triwizard Tournament?",
+      "answer": "Accio"
+    },
+    {
+      "question": "Who breaks Harry's nose on the Hogwarts Express?",
+      "answer": "Draco Malfoy"
+    },
+    {
+      "question": "What spell does Harry use against the Dementors in the underpass?",
+      "answer": "Expecto Patronum"
+    },
+    {
+      "question": "What does the prophecy say Harry has the power to do?",
+      "answer": "Vanquish the Dark Lord"
+    },
+    { "question": "What shape is Harry's Patronus?", "answer": "A stag" },
+    {
+      "question": "Who saves Harry from drowning when he retrieves the sword of Gryffindor?",
+      "answer": "Ron Weasley"
+    },
+    {
+      "question": "Which professor teaches Astronomy at Hogwarts?",
+      "answer": "Professor Sinistra"
+    },
+    {
+      "question": "What charm does Flitwick teach Harry's year in their first Charms lesson?",
+      "answer": "Wingardium Leviosa"
+    }
+  ],
+  "category_2": [
+    {
+      "question": "Who owned the Invisibility Cloak prior to Harry?",
+      "answer": "His father"
+    },
+    {
+      "question": "According to Professor Dumbledore, what kind of object can conceal a Horcrux?",
+      "answer": "Any object"
+    },
+    {
+      "question": "What type of flying car do the Weasleys own?",
+      "answer": "Ford Anglia"
+    },
+    {
+      "question": "What date does Tom Riddle's diary show Harry?",
+      "answer": "June 13th"
+    },
+    {
+      "question": "What headline does Harry read in a newspaper on the Knight Bus?",
+      "answer": "Escape from Azkaban!"
+    },
+    {
+      "question": "Where does Grindelwald tell Lord Voldemort the Elder Wand is?",
+      "answer": "Dumbledore's grave"
+    },
+    {
+      "question": "Where does the Sorting Hat reside when not in use?",
+      "answer": "Dumbledore's office"
+    },
+    {
+      "question": "Where do Ron and Harry hide Crabbe and Goyle while they impersonate the two Slytherins?",
+      "answer": "In a broom closet"
+    },
+    {
+      "question": "Where is Moaning Myrtle sitting in the plumbing when someone throws a book through her head?",
+      "answer": "The U-bend"
+    },
+    {
+      "question": "Where, in Hogwarts, is the Ravenclaw diadem Horcrux hidden?",
+      "answer": "The Room of Requirement"
+    },
+    {
+      "question": "In what room did Lavender realize Ron cared for Hermione?",
+      "answer": "Hospital wing"
+    },
+    {
+      "question": "Which classroom at Hogwarts is populated with crystal balls?",
+      "answer": "Divination"
+    },
+    {
+      "question": "What government building acted as Gringotts Bank in Harry Potter and the Sorcerer's Stone?",
+      "answer": "Australia House—home of the Australian High Commission"
+    },
+    {
+      "question": "Which classroom does Hermione storm out of in her third year at Hogwarts?",
+      "answer": "Divination"
+    },
+    {
+      "question": "What street, with five houses on each side, did the production build for use in seven of the films?",
+      "answer": "Privet Drive"
+    },
+    {
+      "question": "What time does the Hogwarts Express leave King's Cross Station on the first day of term?",
+      "answer": "11:00 AM"
+    },
+    {
+      "question": "What store sells wizard equipment in Diagon Alley?",
+      "answer": "Wiseacre's Wizarding Equipment"
+    },
+    {
+      "question": "Though the Great Hall at Hogwarts should be able to hold 900 students, producers whittled the filming set down to hold about what more manageable number?",
+      "answer": "400"
+    },
+    {
+      "question": "What book with a yellow cover is in Umbridge's desk drawer at the Ministry of Magic?",
+      "answer": "Mudbloods and How to Spot Them"
+    },
+    {
+      "question": "Where does the Basilisk's fang injure Harry?",
+      "answer": "On his arm"
+    },
+    {
+      "question": "What store in Diagon Alley sells twine and rope?",
+      "answer": "Peter Boat"
+    },
+    {
+      "question": "What street in Diagon Alley sells cauldrons?",
+      "answer": "Potage's Cauldron Shop"
+    },
+    {
+      "question": "What village near Hogwarts do students visit on weekends?",
+      "answer": "Hogsmeade"
+    },
+    {
+      "question": "What is the name of the pub at Hogsmeade?",
+      "answer": "The Three Broomsticks"
+    },
+    {
+      "question": "Where do Harry and Cho have their first kiss?",
+      "answer": "The Room of Requirement"
+    },
+    {
+      "question": "Where do the Hogwarts house-elves work?",
+      "answer": "The kitchens"
+    },
+    {
+      "question": "Where does Professor Umbridge force Harry to write lines with a Blood Quill?",
+      "answer": "Her office"
+    },
+    {
+      "question": "What location serves as the headquarters of the Order of the Phoenix?",
+      "answer": "12 Grimmauld Place"
+    },
+    {
+      "question": "Where do Harry and Hermione camp when they are on the run during Deathly Hallows?",
+      "answer": "Various forests in Britain"
+    },
+    {
+      "question": "Where do Harry and Ginny share their first kiss?",
+      "answer": "The Gryffindor common room"
+    }
+  ],
+  "category_3": [
+    {
+      "question": "Which owl gets lost delivering Hagrid's release papers?",
+      "answer": "Errol"
+    },
+    {
+      "question": "Which beloved pet is killed during Harry's escape from Privet Drive with the Order of the Phoenix?",
+      "answer": "Hedwig"
+    },
+    { "question": "What type of creature is Fawkes?", "answer": "A Phoenix" },
+    {
+      "question": "What blinds the Basilisk in the Chamber of Secrets?",
+      "answer": "Fawkes"
+    },
+    {
+      "question": "What kind of creature is the Basilisk lurking in the Chamber of Secrets?",
+      "answer": "A serpent"
+    },
+    {
+      "question": "Harry speaks Parseltongue to a snake to prevent an attack on which student during Duelling Club?",
+      "answer": "Justin Finch-Fletchley"
+    },
+    {
+      "question": "Who is speculated to be the informant leaking Dumbledore's secrets in Rita Skeeter's book?",
+      "answer": "Bathilda Bagshot"
+    },
+    {
+      "question": "Who does Harry impersonate with Polyjuice Potion his second year at school?",
+      "answer": "Gregory Goyle"
+    },
+    {
+      "question": "Who does Hermione impersonate using Polyjuice Potion when she, Ron, Harry, and Griphook break into Gringotts?",
+      "answer": "Bellatrix Lestrange"
+    },
+    {
+      "question": "Viktor Krum is selected by the Goblet of Fire as the Triwizard champion for which school?",
+      "answer": "Durmstrang"
+    },
+    {
+      "question": "Which characters did twins Oliver and Jamie Phelps portray?",
+      "answer": "Fred and George Weasley"
+    },
+    {
+      "question": "Who is the only one of the three brothers from The Tale of the Three Brothers to voluntarily present himself to Death during old age?",
+      "answer": "The third/the youngest"
+    },
+    {
+      "question": "Who is the headmistress of Beauxbatons Academy of Magic?",
+      "answer": "Madame Maxime"
+    },
+    {
+      "question": "Alfie Enoch played which one of Harry's friends, who was also Ginny's one-time boyfriend?",
+      "answer": "Dean Thomas"
+    },
+    {
+      "question": "Which of Harry's friends did Matthew Lewis play?",
+      "answer": "Neville Longbottom"
+    },
+    {
+      "question": "What was the name of the Hippogriff Hagrid introduced to the class during his first lesson?",
+      "answer": "Buckbeak"
+    },
+    {
+      "question": "According to Aunt Muriel, what serious crime did Professor Dumbledore's father commit?",
+      "answer": "He killed three Muggles"
+    },
+    {
+      "question": "Which Weasley twin catches Ginny and Harry kissing on the day of Bill and Fleur's wedding?",
+      "answer": "George"
+    },
+    {
+      "question": "Who played the young Tom Riddle in the orphanage?",
+      "answer": "Hero Fiennes Tiffin"
+    },
+    {
+      "question": "Who played Bellatrix Lestrange in the Harry Potter films?",
+      "answer": "Helena Bonham Carter"
+    },
+    { "question": "What is Mr. Filch's first name?", "answer": "Argus" },
+    {
+      "question": "Which student does McGonagall recall has a 'particular proclivity for pyrotechnics'?",
+      "answer": "Seamus Finnigan"
+    },
+    {
+      "question": "Who punches Draco in the face for his desire to see Buckbeak's execution?",
+      "answer": "Hermione Granger"
+    },
+    {
+      "question": "Which Hogwarts student does Ariana Dumbledore bring to Harry, Ron, and Hermione through her portrait?",
+      "answer": "Neville Longbottom"
+    },
+    {
+      "question": "What creature does Harry talk to at the zoo during his visit with the Dursleys?",
+      "answer": "A snake"
+    },
+    {
+      "question": "Who is Harry Potter's godfather?",
+      "answer": "Sirius Black"
+    },
+    {
+      "question": "What is the first name of Hogwarts co-founder Slytherin?",
+      "answer": "Salazar"
+    },
+    {
+      "question": "What is the first name of Hogwarts co-founder Ravenclaw?",
+      "answer": "Rowena"
+    },
+    {
+      "question": "What is the first name of Hogwarts co-founder Hufflepuff?",
+      "answer": "Helga"
+    },
+    {
+      "question": "What is the first name of Hogwarts co-founder Gryffindor?",
+      "answer": "Godric"
+    }
+  ],
+  "category_4": [
+    {
+      "question": "Who is the Minister for Magic for the first five years that Harry attends Hogwarts?",
+      "answer": "Cornelius Fudge"
+    },
+    {
+      "question": "What are the initials of Harry's oldest son?",
+      "answer": "J.S.P."
+    },
+    {
+      "question": "What is the first name of Hogwarts co-founder Gryffindor?",
+      "answer": "Godric"
+    },
+    {
+      "question": "What is the first name of Hogwarts co-founder Hufflepuff?",
+      "answer": "Helga"
+    },
+    {
+      "question": "Who sends a message during Bill and Fleur's wedding to warn everyone that the Ministry has fallen?",
+      "answer": "Kingsley Shacklebolt"
+    },
+    {
+      "question": "What type of broom does Draco's father give to the Slytherin Quidditch team?",
+      "answer": "Nimbus 2001"
+    },
+    {
+      "question": "What breaks Harry's arm during a Quidditch match against Slytherin?",
+      "answer": "A rogue Bludger"
+    },
+    {
+      "question": "What does Fawkes do the first time Harry meets him in Dumbledore's office?",
+      "answer": "Bursts into flames"
+    },
+    {
+      "question": "Who does Tom Riddle turn in, claiming that person opened the Chamber of Secrets?",
+      "answer": "Hagrid"
+    },
+    {
+      "question": "Which family does Dobby serve until he is freed?",
+      "answer": "The Malfoys"
+    },
+    {
+      "question": "What are the skeletal winged horses that pull the carriages from Hogsmeade to Hogwarts?",
+      "answer": "Thestrals"
+    },
+    {
+      "question": "What is the name of the Weasleys' old owl?",
+      "answer": "Errol"
+    },
+    { "question": "What is the name of Ron's pet rat?", "answer": "Scabbers" },
+    {
+      "question": "What is the name of the Black family house-elf?",
+      "answer": "Kreacher"
+    },
+    {
+      "question": "Actor Warwick Davis felt the goblin world didn't particularly like to associate with which world?",
+      "answer": "Wizarding"
+    },
+    {
+      "question": "What creatures does Hagrid say are as clever as they come but not the most friendly of beasts?",
+      "answer": "Goblins"
+    },
+    {
+      "question": "What was the name of the Hippogriff Hagrid introduced to the class during his first lesson?",
+      "answer": "Buckbeak"
+    },
+    {
+      "question": "What is the name of Hagrid's half-brother?",
+      "answer": "Grawp"
+    },
+    {
+      "question": "Where does Bellatrix scratch Griphook with her knife?",
+      "answer": "His cheek"
+    },
+    {
+      "question": "What spell did Harry use to save himself from falling off his broom in his first Quidditch match?",
+      "answer": "Arresto Momentum"
+    },
+    {
+      "question": "What spell does Hermione use to free Harry and Ron from the Devil's Snare?",
+      "answer": "Lumos Solem"
+    },
+    {
+      "question": "What potion did Harry use to disguise himself as a Slytherin student?",
+      "answer": "Polyjuice Potion"
+    },
+    {
+      "question": "What spell does Harry use against the Dementors to conjure a Patronus?",
+      "answer": "Expecto Patronum"
+    },
+    {
+      "question": "What spell does Harry use against the Hungarian Horntail in the Triwizard Tournament?",
+      "answer": "Accio"
+    },
+    { "question": "What spell disarms an opponent?", "answer": "Expelliarmus" },
+    { "question": "What spell stuns an opponent?", "answer": "Stupefy" },
+    {
+      "question": "What spell binds a target with ropes?",
+      "answer": "Incarcerous"
+    },
+    {
+      "question": "What spell is used to conjure the Dark Mark?",
+      "answer": "Morsmordre"
+    },
+    { "question": "What spell repairs broken objects?", "answer": "Reparo" },
+    { "question": "What spell kills instantly?", "answer": "Avada Kedavra" }
+  ],
+  "category_5": [
+    {
+      "question": "Hermione's Petrified body is found near what area of Hogwarts?",
+      "answer": "The library"
+    },
+    {
+      "question": "Where do Harry and Dumbledore go to find a Horcrux together?",
+      "answer": "The cave"
+    },
+    {
+      "question": "How many years ago did the Hogwarts founders live?",
+      "answer": "1000 years"
+    },
+    {
+      "question": "In Harry's second year, what is the password to enter Professor Dumbledore's office?",
+      "answer": "\"Sherbet Lemon\""
+    },
+    {
+      "question": "Where does Grindelwald tell Lord Voldemort the Elder Wand is?",
+      "answer": "Dumbledore's grave"
+    },
+    {
+      "question": "What headline does Harry read in a newspaper on the Knight Bus?",
+      "answer": "Escape from Azkaban!"
+    },
+    {
+      "question": "Rather than a ghost, what does Tom Riddle say he is when he meets Harry in the Chamber of Secrets?",
+      "answer": "A memory, preserved in a diary for fifty years."
+    },
+    {
+      "question": "While under Tom Riddle's control, who opened the Chamber of Secrets and wrote threatening messages on the castle walls?",
+      "answer": "Ginny Weasley"
+    },
+    {
+      "question": "On their quest for the Sorcerer's Stone, Harry, Ron, and Hermione need to catch what flying object?",
+      "answer": "A key"
+    },
+    {
+      "question": "Other than a note, what does Hermione have in her hand when she is found Petrified?",
+      "answer": "A mirror"
+    },
+    {
+      "question": "What happens to ink on the pages of Tom Riddle's diary?",
+      "answer": "It disappears"
+    },
+    {
+      "question": "Who has bequeathed gifts to Ron, Harry and Hermione that the Minister for Magic personally delivers?",
+      "answer": "Albus Dumbledore"
+    },
+    {
+      "question": "How is Harry, as Albert Runcorn, able to get into Dolores Umbridge's office without being seen by the numerous personnel outside of it?",
+      "answer": "By setting off a Decoy Detonator"
+    },
+    {
+      "question": "What store sells wizard equipment in Diagon Alley?",
+      "answer": "Wiseacre's Wizarding Equipment"
+    },
+    { "question": "What color is the Weasleys' flying car?", "answer": "Blue" },
+    {
+      "question": "What does Ron see when he looks into the Mirror of Erised?",
+      "answer": "He is Head Boy and is also holding the Quidditch Cup as Quidditch captain"
+    },
+    {
+      "question": "What name is on the sign of the Broom Brakes Service shop in Diagon Alley?",
+      "answer": "Shimmy Hardsteering"
+    },
+    {
+      "question": "What store in Diagon Alley sells twine and rope?",
+      "answer": "Peter Boat"
+    },
+    {
+      "question": "What can be viewed inside a Pensieve?",
+      "answer": "Memories"
+    },
+    {
+      "question": "How many turns does Dumbledore suggest Hermione give the Time-Turner to go back and save Sirius Black?",
+      "answer": "Three"
+    },
+    {
+      "question": "What book with a yellow cover is in Umbridge's desk drawer at the Ministry of Magic?",
+      "answer": "Mudbloods and How to Spot Them"
+    },
+    {
+      "question": "What potion makes the drinker lucky for a period of time?",
+      "answer": "Felix Felicis"
+    },
+    {
+      "question": "What potion is known as the most powerful truth serum?",
+      "answer": "Veritaserum"
+    },
+    {
+      "question": "What potion restores someone’s health after being Petrified?",
+      "answer": "Mandrake Restorative Draught"
+    },
+    {
+      "question": "What potion heals severe injuries like broken bones?",
+      "answer": "Skele-Gro"
+    },
+    {
+      "question": "What potion helps with cold and flu symptoms?",
+      "answer": "Pepperup Potion"
+    },
+    {
+      "question": "What potion causes the drinker to fall asleep immediately?",
+      "answer": "Draught of Living Death"
+    },
+    {
+      "question": "What potion enhances memory?",
+      "answer": "Mnemosyne Potion"
+    },
+    {
+      "question": "What potion grants temporary protection from fire?",
+      "answer": "Fire Protection Potion"
+    },
+    {
+      "question": "What is Amortentia?",
+      "answer": "The most powerful love potion"
+    }
+  ],
+  "category_6": [
+    {
+      "question": "Once cast, which charm creates a positive force that acts as a shield so Dementors feed on it rather than the wizard?",
+      "answer": "The Patronus Charm"
+    },
+    {
+      "question": "What is the incantation for the spell that reduces solid objects into tiny little pieces?",
+      "answer": "Reducto"
+    },
+    {
+      "question": "What department at the Ministry of Magic cures Aunt Marge?",
+      "answer": "Accidental Magic Reversal Squad"
+    },
+    {
+      "question": "What is known as the art of reading tea leaves to predict the future?",
+      "answer": "Tessomancy"
+    },
+    {
+      "question": "What is the incantation for the Summoning Charm?",
+      "answer": "Accio"
+    },
+    {
+      "question": "What spell does Harry cast to propel him up from the Black Lake when his Gillyweed runs out?",
+      "answer": "Ascendio"
+    },
+    {
+      "question": "What is written next to the spell 'Sectumsempra' in Harry's Potions book?",
+      "answer": "\"For enemies\""
+    },
+    {
+      "question": "What heals Harry from the Basilisk’s venom?",
+      "answer": "Phoenix tears"
+    },
+    {
+      "question": "According to Dumbledore, what is the most inexhaustible source of magic?",
+      "answer": "Words"
+    },
+    {
+      "question": "What spell does Hermione use to free Harry and Ron from the Devil’s Snare?",
+      "answer": "Lumos Solem"
+    },
+    {
+      "question": "What spell did Harry use to save himself from falling off his broom in his first Quidditch match?",
+      "answer": "Arresto Momentum"
+    },
+    {
+      "question": "What spell produces light from the end of a wand?",
+      "answer": "Lumos"
+    },
+    { "question": "What spell stuns an opponent?", "answer": "Stupefy" },
+    {
+      "question": "What spell binds a target with ropes?",
+      "answer": "Incarcerous"
+    },
+    { "question": "What spell disarms an opponent?", "answer": "Expelliarmus" },
+    {
+      "question": "What spell is used to unlock doors?",
+      "answer": "Alohomora"
+    },
+    { "question": "What spell is used to summon objects?", "answer": "Accio" },
+    {
+      "question": "What spell produces a jet of water from the caster’s wand?",
+      "answer": "Aguamenti"
+    },
+    { "question": "What spell produces a shield?", "answer": "Protego" },
+    {
+      "question": "What spell levitates objects?",
+      "answer": "Wingardium Leviosa"
+    },
+    {
+      "question": "What spell produces a bright flash of light?",
+      "answer": "Lumos"
+    },
+    {
+      "question": "What spell produces a loud bang and sparks?",
+      "answer": "Periculum"
+    },
+    {
+      "question": "What spell conjures the Dark Mark?",
+      "answer": "Morsmordre"
+    },
+    { "question": "What spell kills instantly?", "answer": "Avada Kedavra" },
+    { "question": "What spell repairs broken objects?", "answer": "Reparo" },
+    {
+      "question": "What spell does Lockhart try to use that backfires on him?",
+      "answer": "Obliviate"
+    },
+    {
+      "question": "What spell does Ron use to knock out a troll?",
+      "answer": "Wingardium Leviosa"
+    },
+    {
+      "question": "What spell does Harry use against the spiders in the Forbidden Forest?",
+      "answer": "Arania Exumai"
+    },
+    {
+      "question": "What spell does Snape use to heal Draco after Harry uses Sectumsempra?",
+      "answer": "Vulnera Sanentur"
+    },
+    {
+      "question": "What spell does Harry use to reveal that Draco Malfoy is carrying something in his robes?",
+      "answer": "Accio"
+    }
+  ]
+}
