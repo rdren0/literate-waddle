@@ -268,6 +268,9 @@ class DiscordBotService {
       correctAnswers: 0,
     };
 
+    // Store player info in session for later use
+    session.player = player;
+
     return {
       success: true,
       session: session,
@@ -340,11 +343,13 @@ class DiscordBotService {
     result.totalScore = session.singlePlayerScore;
     result.totalQuestions = session.totalQuestions;
     result.isSinglePlayer = true;
+    result.player = session.player;
 
     if (session.currentQuestionNumber >= session.totalQuestions) {
       result.gameComplete = true;
       result.finalScore = session.singlePlayerScore;
       result.maxPossibleScore = session.totalQuestions;
+      result.percentage = Math.round((session.singlePlayerScore / session.totalQuestions) * 100);
 
       session.isActive = false;
       session.answering = false;
