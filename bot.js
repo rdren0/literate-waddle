@@ -131,12 +131,13 @@ async function sendResponse(message, result) {
 
     case "success":
       if (result.isSinglePlayer && result.nextQuestion) {
+        const userId = result.player?.userId || message.author.id;
         await message.reply(
           result.content +
             `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
             `**Question ${result.questionNumber} of ${result.totalQuestions}**\n\n` +
             `**${result.nextQuestion.question}**\n\n` +
-            `<@${result.player.userId}>, type your answer!`
+            `<@${userId}>, type your answer!`
         );
       } else {
         await message.reply(result.content);

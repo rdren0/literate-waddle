@@ -221,9 +221,10 @@ export class DiscordBotCommands {
   handleSinglePlayerResponse(result) {
     if (result.gameComplete) {
       // Game finished
+      const playerDisplayName = result.player?.displayName || "Player";
       const embed = {
         title: "🏁 Traditional Trivia Complete!",
-        description: `**${result.player.displayName}**, here are your final results!`,
+        description: `**${playerDisplayName}**, here are your final results!`,
         color:
           result.percentage >= 80
             ? 0x10b981

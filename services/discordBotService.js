@@ -292,6 +292,18 @@ class DiscordBotService {
       return { error: "No question is currently being answered." };
     }
 
+    // Ensure session has player info
+    if (!session.player) {
+      session.player = {
+        userId,
+        username,
+        displayName: username,
+        score: 0,
+        questionsAnswered: 0,
+        correctAnswers: 0,
+      };
+    }
+
     if (session.hasAnsweredCurrent) {
       return { error: "You already answered this question!" };
     }
@@ -351,9 +363,8 @@ class DiscordBotService {
       result.maxPossibleScore = session.totalQuestions;
       result.percentage = Math.round((session.singlePlayerScore / session.totalQuestions) * 100);
 
-      session.isActive = false;
-      session.answering = false;
-      session.currentQuestion = null;
+      // Automatically end the session
+      this.endUserSession(userId);
     } else {
       session.currentQuestionNumber++;
       session.currentQuestion =
