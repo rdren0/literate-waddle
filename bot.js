@@ -31,19 +31,22 @@ client.on("messageCreate", async (message) => {
     if (message.content.toLowerCase().startsWith(PREFIX)) {
       await handleCommand(message);
     } else {
-      // Only handle answers if there's an active session/game for this user
-      const userSession = discordBot.getUserSession(message.author.id);
-      if (userSession && userSession.answering) {
-        await handleAnswer(message);
-        return;
-      }
-
-      // Only handle multiplayer answers if user is in an active game
-      const gameStatus = discordBot.getGameStatus();
-      if (gameStatus.success && gameStatus.gameState.answering) {
-        // Check if user is actually registered for the active game
-        if (discordBot.players && discordBot.players.has(message.author.id)) {
+      // Only handle answers if the message is a reply to a question message
+      if (message.reference && message.reference.messageId) {
+        // Check if user has an active solo session and this is a reply to their question
+        const userSession = discordBot.getUserSession(message.author.id);
+        if (userSession && userSession.answering && userSession.lastQuestionMessageId === message.reference.messageId) {
           await handleAnswer(message);
+          return;
+        }
+
+        // Check if this is a reply to a multiplayer question
+        const gameStatus = discordBot.getGameStatus();
+        if (gameStatus.success && gameStatus.gameState.answering && gameStatus.gameState.lastQuestionMessageId === message.reference.messageId) {
+          // Check if user is actually registered for the active game
+          if (discordBot.players && discordBot.players.has(message.author.id)) {
+            await handleAnswer(message);
+          }
         }
       }
     }
@@ -110,9 +113,15 @@ async function sendResponse(message, result) {
 
     case "question":
       const questionMessage = await message.channel.send({
-        content: result.content,
+        content: result.content + "\n\n**Reply to this message with your answer!**",
         embeds: [result.embed],
       });
+
+      // Store the question message ID in the game state
+      const gameState = discordBot.getGameStatus();
+      if (gameState.success && gameState.gameState) {
+        gameState.gameState.lastQuestionMessageId = questionMessage.id;
+      }
 
       setTimeout(async () => {
         const timeoutResult = discordBot.endCurrentQuestion();
@@ -140,13 +149,19 @@ async function sendResponse(message, result) {
     case "success":
       if (result.isSinglePlayer && result.nextQuestion) {
         const userId = result.player?.userId || message.author.id;
-        await message.reply(
+        const questionMessage = await message.reply(
           result.content +
             `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
             `**Question ${result.questionNumber} of ${result.totalQuestions}**\n\n` +
             `**${result.nextQuestion.question}**\n\n` +
-            `<@${userId}>, type your answer!`
+            `<@${userId}>, reply to this message with your answer!`
         );
+
+        // Store the question message ID in the user session
+        const userSession = discordBot.getUserSession(userId);
+        if (userSession) {
+          userSession.lastQuestionMessageId = questionMessage.id;
+        }
       } else {
         await message.reply(result.content);
       }
