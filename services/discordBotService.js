@@ -684,11 +684,18 @@ class DiscordBotService {
   }
 
   getCurrentPlayer() {
-    if (
-      !this.gameState ||
-      !this.gameState.isActive ||
-      this.playerOrder.length === 0
-    ) {
+    if (!this.gameState) {
+      console.warn('getCurrentPlayer: No gameState found');
+      return null;
+    }
+
+    if (!this.gameState.isActive) {
+      console.warn('getCurrentPlayer: Game is not active');
+      return null;
+    }
+
+    if (this.playerOrder.length === 0) {
+      console.warn('getCurrentPlayer: No players in playerOrder');
       return null;
     }
 
@@ -706,6 +713,7 @@ class DiscordBotService {
       return null;
     }
 
+    console.log(`getCurrentPlayer: Found player ${player.displayName} (${player.userId})`);
     return player;
   }
 

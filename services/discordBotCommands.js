@@ -49,6 +49,8 @@ export class DiscordBotCommands {
       case "fix":
       case "repair":
         return this.fixGame(message);
+      case "debug":
+        return this.debugGame(message);
       case "reply":
       case "answer":
         return this.handleAnswerCommand(message, args);
@@ -865,6 +867,31 @@ export class DiscordBotCommands {
     return {
       type: "success",
       content: `✅ Game state looks good! <@${currentPlayer.userId}> should pick the next question.`,
+    };
+  }
+
+  // Debug game state
+  async debugGame(message) {
+    const status = discordBot.getGameStatus();
+
+    let debugInfo = "🐛 **Game Debug Info:**\n\n";
+
+    debugInfo += `**Game State Exists:** ${!!discordBot.gameState}\n`;
+    debugInfo += `**Game Active:** ${discordBot.gameState?.isActive || false}\n`;
+    debugInfo += `**Player Order Length:** ${discordBot.playerOrder?.length || 0}\n`;
+    debugInfo += `**Current Player Index:** ${discordBot.currentPlayerIndex}\n`;
+    debugInfo += `**Players Map Size:** ${discordBot.players?.size || 0}\n`;
+
+    if (discordBot.playerOrder && discordBot.playerOrder.length > 0) {
+      debugInfo += `**Player Order:** ${discordBot.playerOrder.slice(0, 3).join(', ')}${discordBot.playerOrder.length > 3 ? '...' : ''}\n`;
+    }
+
+    const currentPlayer = discordBot.getCurrentPlayer();
+    debugInfo += `**Current Player:** ${currentPlayer ? `${currentPlayer.displayName} (${currentPlayer.userId})` : 'NULL'}\n`;
+
+    return {
+      type: "info",
+      content: debugInfo,
     };
   }
 
