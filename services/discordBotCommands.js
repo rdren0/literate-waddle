@@ -46,6 +46,9 @@ export class DiscordBotCommands {
         return this.endGame(message);
       case "reset":
         return this.resetGame(message);
+      case "fix":
+      case "repair":
+        return this.fixGame(message);
       case "reply":
       case "answer":
         return this.handleAnswerCommand(message, args);
@@ -575,10 +578,17 @@ export class DiscordBotCommands {
   async selectQuestion(message, args) {
     // Check if it's the current player's turn
     const currentPlayer = discordBot.getCurrentPlayer();
-    if (!currentPlayer || currentPlayer.userId !== message.author.id) {
+    if (!currentPlayer) {
       return {
         type: "error",
-        content: `❌ It's not your turn! <@${currentPlayer?.userId}> should pick the question.`,
+        content: `❌ No active game or player turn found! Use \`!trivia start\` to begin a new game.`,
+      };
+    }
+
+    if (currentPlayer.userId !== message.author.id) {
+      return {
+        type: "error",
+        content: `❌ It's not your turn! <@${currentPlayer.userId}> should pick the question.`,
       };
     }
 
@@ -817,6 +827,44 @@ export class DiscordBotCommands {
     return {
       type: "success",
       content: "🔄 **Game Reset!** Use `!trivia start` to begin a new game.",
+    };
+  }
+
+  // Fix corrupted game state
+  async fixGame(message) {
+    const status = discordBot.getGameStatus();
+
+    if (!status.success || !status.gameState || !status.gameState.isActive) {
+      return {
+        type: "error",
+        content: "❌ No active game found to fix. Use `!trivia create` to start a new game.",
+      };
+    }
+
+    // Try to fix the current player index
+    const currentPlayer = discordBot.getCurrentPlayer();
+
+    if (!currentPlayer) {
+      // Reset to first player
+      if (discordBot.playerOrder && discordBot.playerOrder.length > 0) {
+        discordBot.currentPlayerIndex = 0;
+        const fixedPlayer = discordBot.getCurrentPlayer();
+
+        return {
+          type: "success",
+          content: `🔧 **Game State Fixed!** <@${fixedPlayer.userId}> is now the current player. You can pick a question!`,
+        };
+      } else {
+        return {
+          type: "error",
+          content: "❌ Game state is too corrupted. Use `!trivia reset` to start over.",
+        };
+      }
+    }
+
+    return {
+      type: "success",
+      content: `✅ Game state looks good! <@${currentPlayer.userId}> should pick the next question.`,
     };
   }
 

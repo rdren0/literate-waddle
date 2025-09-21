@@ -691,7 +691,22 @@ class DiscordBotService {
     ) {
       return null;
     }
-    return this.players.get(this.playerOrder[this.currentPlayerIndex]);
+
+    // Safety check for currentPlayerIndex
+    if (this.currentPlayerIndex >= this.playerOrder.length || this.currentPlayerIndex < 0) {
+      console.warn(`Invalid currentPlayerIndex: ${this.currentPlayerIndex}, resetting to 0`);
+      this.currentPlayerIndex = 0;
+    }
+
+    const playerId = this.playerOrder[this.currentPlayerIndex];
+    const player = this.players.get(playerId);
+
+    if (!player) {
+      console.warn(`Player not found for ID: ${playerId}`);
+      return null;
+    }
+
+    return player;
   }
 
   nextPlayerTurn() {
