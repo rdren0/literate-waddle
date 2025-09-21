@@ -146,7 +146,7 @@ export class DiscordBotCommands {
       return {
         type: "error",
         content:
-          "❌ Usage: `!trivia reply [your answer]`\nExample: `!trivia reply Albus Dumbledore`",
+          "❌ Usage: `/reply [your answer]`\nExample: `/reply Albus Dumbledore`",
       };
     }
 
@@ -375,7 +375,7 @@ export class DiscordBotCommands {
       fields: [
         {
           name: " How to Join",
-          value: "Use `!trivia join` to register for the game!",
+          value: "Use `/join` to register for the game!",
           inline: false,
         },
         {
@@ -389,7 +389,7 @@ export class DiscordBotCommands {
         },
         {
           name: "⚡ Ready to Start?",
-          value: "Once everyone has joined, use `!trivia start` to begin!",
+          value: "Once everyone has joined, use `/start` to begin!",
           inline: false,
         },
       ],
@@ -425,7 +425,7 @@ export class DiscordBotCommands {
       type: "success",
       content:
         `✅ **${result.playerName}** joined the game! (${result.playerCount} players registered)\n` +
-        `Use \`!trivia players\` to see who's joined.`,
+        `Use \`/players\` to see who's joined.`,
     };
   }
 
@@ -452,14 +452,14 @@ export class DiscordBotCommands {
               ? result.players
                   .map((p, i) => `${i + 1}. ${p.displayName}`)
                   .join("\n")
-              : "No players yet - use `!trivia join` to be first!",
+              : "No players yet - use `/join` to be first!",
           inline: false,
         },
       ],
       footer: {
         text:
           result.playerCount >= 2
-            ? "Ready to start! Use !trivia start to begin the game"
+            ? "Ready to start! Use /start to begin the game"
             : `Need ${2 - result.playerCount} more player(s) to start`,
       },
       timestamp: new Date().toISOString(),
@@ -513,10 +513,10 @@ export class DiscordBotCommands {
         {
           name: "🎯 How to Play",
           value:
-            "• Current player picks: `!trivia pick [category] [points]`\n" +
+            "• Current player picks: `/pick [category] [points]`\n" +
             "• If wrong, everyone can answer!\n" +
             "• Winner picks next question\n" +
-            "• Example: `!trivia pick 1 3` = Spells & Magic, $300",
+            "• Example: `/pick 1 3` = Spells & Magic, $300",
           inline: false,
         },
       ],
@@ -564,7 +564,7 @@ export class DiscordBotCommands {
         },
       ],
       footer: {
-        text: "Use !trivia pick [category] [points] to select a question",
+        text: "Use /pick [category] [points] to select a question",
       },
       timestamp: new Date().toISOString(),
     };
@@ -583,7 +583,7 @@ export class DiscordBotCommands {
     if (!currentPlayer) {
       return {
         type: "error",
-        content: `❌ No active game or player turn found! Use \`!trivia start\` to begin a new game.`,
+        content: `❌ No active game or player turn found! Use \`/start\` to begin a new game.`,
       };
     }
 
@@ -598,8 +598,8 @@ export class DiscordBotCommands {
       return {
         type: "error",
         content:
-          "❌ Usage: `!trivia pick [category 1-6] [points 1-5]`\n" +
-          "Example: `!trivia pick 1 3` (Spells & Magic, $300)",
+          "❌ Usage: `/pick [category 1-6] [points 1-5]`\n" +
+          "Example: `/pick 1 3` (Spells & Magic, $300)",
       };
     }
 
@@ -701,25 +701,25 @@ export class DiscordBotCommands {
         {
           name: "📚 Solo Mode",
           value:
-            "`!trivia solo` - Start solo trivia (10 questions, increasing difficulty)",
+            "`/solo` - Start solo trivia (10 questions, increasing difficulty)",
           inline: false,
         },
         {
           name: " Multi-Player Setup",
           value:
-            "`!trivia create` - Create new game (2+ players)\n" +
-            "`!trivia join` - Join the game\n" +
-            "`!trivia players` - Show registered players\n" +
-            "`!trivia start` - Start the game",
+            "`/create` - Create new game (2+ players)\n" +
+            "`/join` - Join the game\n" +
+            "`/players` - Show registered players\n" +
+            "`/start` - Start the game",
           inline: true,
         },
         {
           name: "🎯 Multi-Player Gameplay",
           value:
-            "`!trivia board` - Show current board\n" +
-            "`!trivia pick [cat] [pts]` - Select question\n" +
-            "`!trivia scores` - Show leaderboard\n" +
-            "`!trivia end` - End current game",
+            "`/board` - Show current board\n" +
+            "`/pick [cat] [pts]` - Select question\n" +
+            "`/scores` - Show leaderboard\n" +
+            "`/end` - End current game",
           inline: true,
         },
         {
@@ -743,8 +743,8 @@ export class DiscordBotCommands {
         {
           name: "🎯 How to Answer",
           value:
-            "`!trivia reply [your answer]` - Answer the current question\n" +
-            "Example: `!trivia reply Albus Dumbledore`\n" +
+            "`/reply [your answer]` - Answer the current question\n" +
+            "Example: `/reply Albus Dumbledore`\n" +
             "This keeps normal chat separate from trivia answers!",
           inline: false,
         },
@@ -757,7 +757,7 @@ export class DiscordBotCommands {
         },
       ],
       footer: {
-        text: "Solo: !trivia solo | Multi: !trivia create → !trivia join → !trivia start",
+        text: "Solo: /solo | Multi: /create → /join → /start",
       },
     };
 
@@ -828,7 +828,7 @@ export class DiscordBotCommands {
 
     return {
       type: "success",
-      content: "🔄 **Game Reset!** Use `!trivia start` to begin a new game.",
+      content: "🔄 **Game Reset!** Use `/start` to begin a new game.",
     };
   }
 
@@ -839,7 +839,7 @@ export class DiscordBotCommands {
     if (!status.success || !status.gameState || !status.gameState.isActive) {
       return {
         type: "error",
-        content: "❌ No active game found to fix. Use `!trivia create` to start a new game.",
+        content: "❌ No active game found to fix. Use `/create` to start a new game.",
       };
     }
 
@@ -859,7 +859,7 @@ export class DiscordBotCommands {
       } else {
         return {
           type: "error",
-          content: "❌ Game state is too corrupted. Use `!trivia reset` to start over.",
+          content: "❌ Game state is too corrupted. Use `/reset` to start over.",
         };
       }
     }
@@ -941,7 +941,7 @@ export class DiscordBotCommands {
       color: 0x7c3aed,
       fields: [],
       footer: {
-        text: "Use !trivia pick [category] [points] to select a question",
+        text: "Use /pick [category] [points] to select a question",
       },
     };
 

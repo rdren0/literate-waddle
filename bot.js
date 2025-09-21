@@ -30,102 +30,102 @@ client.once("ready", async () => {
 async function registerSlashCommands() {
   const commands = [
     {
-      name: 'solo',
-      description: 'Start a solo trivia game (10 questions)',
+      name: "solo",
+      description: "Start a solo trivia game (10 questions)",
     },
     {
-      name: 'create',
-      description: 'Create a new multiplayer game',
+      name: "create",
+      description: "Create a new multiplayer game",
     },
     {
-      name: 'join',
-      description: 'Join the current game',
+      name: "join",
+      description: "Join the current game",
     },
     {
-      name: 'start',
-      description: 'Start the registered game',
+      name: "start",
+      description: "Start the registered game",
     },
     {
-      name: 'board',
-      description: 'Show the current game board',
+      name: "board",
+      description: "Show the current game board",
     },
     {
-      name: 'pick',
-      description: 'Pick a question from the board',
+      name: "pick",
+      description: "Pick a question from the board",
       options: [
         {
-          name: 'category',
-          description: 'Category number (1-6)',
+          name: "category",
+          description: "Category number (1-6)",
           type: 4, // INTEGER
           required: true,
           choices: [
-            { name: '1. Spells & Magic', value: 1 },
-            { name: '2. Hogwarts History', value: 2 },
-            { name: '3. Magical Creatures', value: 3 },
-            { name: '4. Potions', value: 4 },
-            { name: '5. Defense Against Dark Arts', value: 5 },
-            { name: '6. Wizarding World', value: 6 },
+            { name: "1. Spells & Magic", value: 1 },
+            { name: "2. Hogwarts History", value: 2 },
+            { name: "3. Magical Creatures", value: 3 },
+            { name: "4. Potions", value: 4 },
+            { name: "5. Defense Against Dark Arts", value: 5 },
+            { name: "6. Wizarding World", value: 6 },
           ],
         },
         {
-          name: 'points',
-          description: 'Point value (1-5)',
+          name: "points",
+          description: "Point value (1-5)",
           type: 4, // INTEGER
           required: true,
           choices: [
-            { name: '$100', value: 1 },
-            { name: '$200', value: 2 },
-            { name: '$300', value: 3 },
-            { name: '$400', value: 4 },
-            { name: '$500', value: 5 },
+            { name: "$100", value: 1 },
+            { name: "$200", value: 2 },
+            { name: "$300", value: 3 },
+            { name: "$400", value: 4 },
+            { name: "$500", value: 5 },
           ],
         },
       ],
     },
     {
-      name: 'reply',
-      description: 'Answer the current question',
+      name: "reply",
+      description: "Answer the current question",
       options: [
         {
-          name: 'answer',
-          description: 'Your answer to the trivia question',
+          name: "answer",
+          description: "Your answer to the trivia question",
           type: 3, // STRING
           required: true,
         },
       ],
     },
     {
-      name: 'scores',
-      description: 'Show the current leaderboard',
+      name: "scores",
+      description: "Show the current leaderboard",
     },
     {
-      name: 'players',
-      description: 'Show registered players',
+      name: "players",
+      description: "Show registered players",
     },
     {
-      name: 'help',
-      description: 'Show help information',
+      name: "help",
+      description: "Show help information",
     },
     {
-      name: 'end',
-      description: 'End the current game',
+      name: "end",
+      description: "End the current game",
     },
     {
-      name: 'reset',
-      description: 'Reset the game',
+      name: "reset",
+      description: "Reset the game",
     },
     {
-      name: 'fix',
-      description: 'Fix corrupted game state',
+      name: "fix",
+      description: "Fix corrupted game state",
     },
   ];
 
   try {
-    console.log('🔄 Started refreshing application (/) commands.');
+    console.log("🔄 Started refreshing application (/) commands.");
     await client.application.commands.set(commands);
-    console.log('✅ Successfully reloaded application (/) commands.');
+    console.log("✅ Successfully reloaded application (/) commands.");
   } catch (error) {
-    console.error('❌ Error registering slash commands:', error);
+    console.error("❌ Error registering slash commands:", error);
   }
 }
 
@@ -143,40 +143,39 @@ client.on("interactionCreate", async (interaction) => {
       channel: interaction.channel,
       guild: interaction.guild,
       reply: async (content) => {
-        if (typeof content === 'string') {
+        if (typeof content === "string") {
           return await interaction.reply({ content, ephemeral: false });
         } else {
           return await interaction.reply({
             content: content.content,
             embeds: content.embeds || [],
-            ephemeral: false
+            ephemeral: false,
           });
         }
-      }
+      },
     };
 
     let result;
     let args = [commandName];
 
     // Handle commands with options
-    if (commandName === 'pick') {
-      const category = interaction.options.getInteger('category');
-      const points = interaction.options.getInteger('points');
+    if (commandName === "pick") {
+      const category = interaction.options.getInteger("category");
+      const points = interaction.options.getInteger("points");
       args = [commandName, category.toString(), points.toString()];
-    } else if (commandName === 'reply') {
-      const answer = interaction.options.getString('answer');
-      args = [commandName, ...answer.split(' ')];
+    } else if (commandName === "reply") {
+      const answer = interaction.options.getString("answer");
+      args = [commandName, ...answer.split(" ")];
     }
 
     result = await discordBotCommands.handleCommand(mockMessage, args);
     await handleSlashResponse(interaction, result);
-
   } catch (error) {
     console.error("Error handling slash command:", error);
     if (!interaction.replied) {
       await interaction.reply({
         content: `❌ An error occurred: ${error.message}`,
-        ephemeral: true
+        ephemeral: true,
       });
     }
   }
@@ -186,7 +185,7 @@ async function handleSlashResponse(interaction, result) {
   if (!result) return;
 
   const responseData = {
-    ephemeral: false
+    ephemeral: false,
   };
 
   switch (result.type) {
@@ -205,7 +204,8 @@ async function handleSlashResponse(interaction, result) {
       }
       break;
     case "question":
-      responseData.content = result.content + "\n\n**Use `/reply` to respond!**";
+      responseData.content =
+        result.content + "\n\n**Use `/reply` to respond!**";
       responseData.embeds = [result.embed];
       break;
     default:
@@ -223,7 +223,13 @@ async function handleSlashResponse(interaction, result) {
   }
 
   // Handle board display for slash commands
-  if (result && (result.type === "correct" || (result.type === "incorrect" && result.content && result.content.includes("Moving to next player")))) {
+  if (
+    result &&
+    (result.type === "correct" ||
+      (result.type === "incorrect" &&
+        result.content &&
+        result.content.includes("Moving to next player")))
+  ) {
     setTimeout(async () => {
       const boardStatus = discordBot.getGameStatus();
       if (boardStatus.success) {
@@ -268,7 +274,13 @@ async function handleCommand(message) {
   await sendResponse(message, result);
 
   // Show board after correct answers or max attempts reached (for !trivia reply commands)
-  if (result && (result.type === "correct" || (result.type === "incorrect" && result.content && result.content.includes("Moving to next player")))) {
+  if (
+    result &&
+    (result.type === "correct" ||
+      (result.type === "incorrect" &&
+        result.content &&
+        result.content.includes("Moving to next player")))
+  ) {
     setTimeout(async () => {
       const boardStatus = discordBot.getGameStatus();
       if (boardStatus.success) {
@@ -298,7 +310,12 @@ async function handleAnswer(message) {
     await sendResponse(message, result);
   }
 
-  if (result.type === "correct" || (result.type === "incorrect" && result.content && result.content.includes("Moving to next player"))) {
+  if (
+    result.type === "correct" ||
+    (result.type === "incorrect" &&
+      result.content &&
+      result.content.includes("Moving to next player"))
+  ) {
     setTimeout(async () => {
       const boardStatus = discordBot.getGameStatus();
       if (boardStatus.success) {
@@ -343,9 +360,7 @@ async function sendResponse(message, result) {
 
     case "question":
       const questionMessage = await message.channel.send({
-        content:
-          result.content +
-          "\n\n**Use `!trivia reply [your answer]` to respond!**",
+        content: result.content + "\n\n**Use `/reply` to respond!**",
         embeds: [result.embed],
       });
 
@@ -380,7 +395,7 @@ async function sendResponse(message, result) {
             `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
             `**Question ${result.questionNumber} of ${result.totalQuestions}**\n\n` +
             `**${result.nextQuestion.question}**\n\n` +
-            `<@${userId}>, use \`!trivia reply [your answer]\` to respond!`
+            `<@${userId}>, use \`/reply\` to respond!`
         );
       } else {
         await message.reply(result.content);

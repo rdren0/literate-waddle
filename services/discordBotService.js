@@ -409,7 +409,7 @@ class DiscordBotService {
     if (!this.waitingForRegistration) {
       return {
         error:
-          "No game is currently accepting registrations. Use `!trivia create` first!",
+          "No game is currently accepting registrations. Use `/create` first!",
       };
     }
 
@@ -480,13 +480,13 @@ class DiscordBotService {
 
   startRegisteredGame() {
     if (!this.waitingForRegistration) {
-      return { error: "No game waiting to start. Use `!trivia create` first!" };
+      return { error: "No game waiting to start. Use `/create` first!" };
     }
 
     if (this.registeredPlayers.size < 2) {
       return {
         error:
-          "Need at least 2 players to start the game! For solo play, use `!trivia solo`.",
+          "Need at least 2 players to start the game! For solo play, use `/solo`.",
       };
     }
 
@@ -739,7 +739,7 @@ class DiscordBotService {
 
   getQuestion(categoryIndex, pointsIndex) {
     if (!this.gameState || !this.gameState.isActive) {
-      return { error: "No active game found. Use `!trivia start` to begin!" };
+      return { error: "No active game found. Use `/start` to begin!" };
     }
 
     const category = this.categories[categoryIndex - 1];
