@@ -108,7 +108,9 @@ async function sendResponse(message, result) {
 
     case "question":
       const questionMessage = await message.channel.send({
-        content: result.content + "\n\n**Use `!trivia reply [your answer]` to respond!**",
+        content:
+          result.content +
+          "\n\n**Use `!trivia reply [your answer]` to respond!**",
         embeds: [result.embed],
       });
 

@@ -125,7 +125,7 @@ export class DiscordBotCommands {
 
     return {
       type: "success",
-      content: `🎮 **Solo Mode Started!**`,
+      content: ` **Solo Mode Started!**`,
       embed,
       nextQuestion: result.question,
       questionNumber: result.questionNumber,
@@ -140,7 +140,8 @@ export class DiscordBotCommands {
     if (args.length < 2) {
       return {
         type: "error",
-        content: "❌ Usage: `!trivia reply [your answer]`\nExample: `!trivia reply Albus Dumbledore`",
+        content:
+          "❌ Usage: `!trivia reply [your answer]`\nExample: `!trivia reply Albus Dumbledore`",
       };
     }
 
@@ -350,7 +351,7 @@ export class DiscordBotCommands {
       color: 0x7c3aed,
       fields: [
         {
-          name: "🎮 How to Join",
+          name: " How to Join",
           value: "Use `!trivia join` to register for the game!",
           inline: false,
         },
@@ -443,7 +444,7 @@ export class DiscordBotCommands {
 
     return {
       type: "embed",
-      content: "🎮 **Game Registration Status**",
+      content: " **Game Registration Status**",
       embed,
     };
   }
@@ -504,7 +505,7 @@ export class DiscordBotCommands {
 
     return {
       type: "embed",
-      content: `🎮 **Game Started!** <@${result.firstPlayer.userId}>, you're up first!`,
+      content: ` **Game Started!** <@${result.firstPlayer.userId}>, you're up first!`,
       embed,
     };
   }
@@ -674,7 +675,7 @@ export class DiscordBotCommands {
           inline: false,
         },
         {
-          name: "🎮 Multi-Player Setup",
+          name: " Multi-Player Setup",
           value:
             "`!trivia create` - Create new game (2+ players)\n" +
             "`!trivia join` - Join the game\n" +
@@ -786,7 +787,7 @@ export class DiscordBotCommands {
 
     return {
       type: "embed",
-      content: "🎮 **Game Over!**",
+      content: " **Game Over!**",
       embed,
     };
   }

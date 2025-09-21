@@ -8,7 +8,7 @@ A Discord bot that lets players participate in Harry Potter Jeopardy games direc
 - 🏆 Real-time scoring and leaderboards
 - 📊 Automatic answer validation with flexible matching
 - ⏰ Question timeouts (60 seconds default)
-- 🎮 Easy-to-use commands
+- Easy-to-use commands
 - 📋 Visual game board display with Discord embeds
 - 🔄 Real-time sync with web interface
 - 👥 Support for multiple players (up to 50)
@@ -16,6 +16,7 @@ A Discord bot that lets players participate in Harry Potter Jeopardy games direc
 ## Prerequisites
 
 Before starting, make sure you have:
+
 - **Node.js 16.0.0 or higher** - [Download here](https://nodejs.org/)
 - **A Discord account** - [Create one here](https://discord.com/)
 - **Administrator permissions** on the Discord server where you want to add the bot
@@ -25,22 +26,26 @@ Before starting, make sure you have:
 ### Step 1: Create Discord Application & Bot
 
 #### 1.1 Create the Application
+
 1. Open your web browser and go to [Discord Developer Portal](https://discord.com/developers/applications)
 2. Click the **"New Application"** button (blue button in top-right)
 3. Enter a name for your bot (e.g., "Harry Potter Jeopardy Bot")
 4. Click **"Create"**
 
 #### 1.2 Configure Application Settings
+
 1. On the **General Information** tab:
    - Add a description: "Harry Potter Jeopardy bot for trivia games"
    - Upload an icon if desired (optional)
    - Save changes
 
 #### 1.3 Create the Bot
+
 1. Click on the **"Bot"** tab in the left sidebar
 2. Click **"Add Bot"** button
 3. Click **"Yes, do it!"** to confirm
 4. Configure bot settings:
+
    - **Username**: Change if desired (e.g., "HP-Jeopardy-Bot")
    - **Public Bot**: Leave ON (checked) - **IMPORTANT: Must be enabled to generate invite URLs**
    - **Requires OAuth2 Code Grant**: Leave OFF (unchecked)
@@ -53,6 +58,7 @@ Before starting, make sure you have:
 **IMPORTANT**: The Message Content Intent is absolutely required. Without it, the bot cannot see message content and won't work.
 
 #### 1.4 Get Your Bot Token
+
 1. In the **Token** section, click **"Reset Token"**
 2. Click **"Yes, do it!"** to confirm
 3. Click **"Copy"** to copy your bot token
@@ -61,6 +67,7 @@ Before starting, make sure you have:
 ### Step 2: Set Bot Permissions & Invite to Server
 
 #### 2.1 Generate Invite URL
+
 1. Click on the **"OAuth2"** tab in the left sidebar
 2. Click on **"URL Generator"** sub-tab
 3. In the **Scopes** section, check:
@@ -73,6 +80,7 @@ Before starting, make sure you have:
    - ✅ `Add Reactions` (optional, for enhanced interactivity)
 
 #### 2.2 Invite Bot to Your Server
+
 1. Copy the generated URL at the bottom of the page
 2. Open the URL in a new tab
 3. Select the Discord server where you want to add the bot
@@ -84,6 +92,7 @@ Before starting, make sure you have:
 ### Step 3: Install and Configure the Bot
 
 #### 3.1 Navigate to Bot Directory
+
 Open your terminal/command prompt and navigate to the discord-bot folder:
 
 ```bash
@@ -98,23 +107,27 @@ cd /path/to/witches-and-snitches/discord-bot
 ```
 
 #### 3.2 Install Dependencies
+
 ```bash
 npm install
 ```
 
 You should see output similar to:
+
 ```
 added 15 packages, and audited 16 packages in 3s
 found 0 vulnerabilities
 ```
 
 #### 3.3 Create Environment File
+
 ```bash
 # Copy the example file
 cp .env.example .env
 ```
 
 #### 3.4 Configure Environment Variables
+
 Open the `.env` file in your text editor and replace the placeholder values:
 
 ```env
@@ -131,6 +144,7 @@ MAX_PLAYERS=50
 ### Step 4: Test the Bot
 
 #### 4.1 Start the Bot
+
 ```bash
 # For development (auto-restarts on file changes)
 npm run dev
@@ -140,7 +154,9 @@ npm start
 ```
 
 #### 4.2 Verify Bot is Online
+
 You should see output like:
+
 ```
 Discord bot logged in as: HP-Jeopardy-Bot#1234
 Bot is ready and listening for commands!
@@ -149,6 +165,7 @@ Bot is ready and listening for commands!
 In your Discord server, the bot's status should change from offline to online.
 
 #### 4.3 Test Basic Functionality
+
 In any text channel where the bot has permissions, try:
 
 ```
@@ -160,6 +177,7 @@ You should receive a help message with all available commands.
 ### Step 5: Start Your First Game
 
 #### 5.1 Start a Game
+
 ```
 !jeopardy start
 ```
@@ -167,6 +185,7 @@ You should receive a help message with all available commands.
 The bot will display the game board and instructions.
 
 #### 5.2 Pick a Question
+
 ```
 !jeopardy pick 1 1
 ```
@@ -174,12 +193,15 @@ The bot will display the game board and instructions.
 This selects the first category, $100 question.
 
 #### 5.3 Answer the Question
+
 Simply type your answer in the chat (no special command needed):
+
 ```
 Expecto Patronum
 ```
 
 #### 5.4 Check Scores
+
 ```
 !jeopardy scores
 ```
@@ -189,17 +211,19 @@ Expecto Patronum
 ### Game Commands
 
 #### `!jeopardy start`
+
 - **Purpose**: Starts a new Jeopardy game
 - **Usage**: `!jeopardy start`
 - **Example**:
   ```
   User: !jeopardy start
-  Bot: 🎮 HARRY POTTER JEOPARDY GAME STARTED! 🎮
+  Bot:  HARRY POTTER JEOPARDY GAME STARTED!
        [Displays full game board with all categories and dollar amounts]
   ```
 - **Notes**: Only one game can be active at a time. Use `!jeopardy reset` to clear existing games.
 
 #### `!jeopardy board`
+
 - **Purpose**: Displays the current game board
 - **Usage**: `!jeopardy board`
 - **Shows**: All categories, available questions (✅ for completed questions)
@@ -210,6 +234,7 @@ Expecto Patronum
   ```
 
 #### `!jeopardy pick [category] [points]`
+
 - **Purpose**: Select a specific question to answer
 - **Usage**: `!jeopardy pick <category_number> <difficulty_level>`
 - **Parameters**:
@@ -235,11 +260,13 @@ Expecto Patronum
 - **Notes**: Cannot pick already-answered questions. Game must be started first.
 
 #### `!jeopardy end`
+
 - **Purpose**: Ends the current game and shows final scores
 - **Usage**: `!jeopardy end`
 - **Result**: Displays final leaderboard and clears game state
 
 #### `!jeopardy reset`
+
 - **Purpose**: Immediately clears/resets the current game
 - **Usage**: `!jeopardy reset`
 - **Warning**: This will erase all progress and scores!
@@ -247,6 +274,7 @@ Expecto Patronum
 ### Information Commands
 
 #### `!jeopardy scores`
+
 - **Purpose**: Shows current leaderboard
 - **Usage**: `!jeopardy scores`
 - **Displays**: Top players with their current scores, sorted by points
@@ -259,6 +287,7 @@ Expecto Patronum
   ```
 
 #### `!jeopardy help`
+
 - **Purpose**: Shows comprehensive help message
 - **Usage**: `!jeopardy help`
 - **Displays**: All commands, categories, and basic game rules
@@ -266,12 +295,14 @@ Expecto Patronum
 ### Answering Questions
 
 #### How to Answer
+
 - **No special command needed** - just type your answer in chat
 - **Timer**: You have 60 seconds to answer (configurable)
 - **Multiple attempts**: Players can try different answers until timeout
 - **Answer format**: Case-insensitive, flexible matching (e.g., "patronus" matches "Patronus")
 
 #### Answer Examples
+
 ```
 Bot: 🎯 SPELLS & MAGIC - $300
      What spell creates a Patronus?
@@ -291,7 +322,7 @@ Bot: 🎯 SPELLS & MAGIC - $300
 
 ```
 Player1: !jeopardy start
-Bot: 🎮 HARRY POTTER JEOPARDY GAME STARTED! 🎮
+Bot:  HARRY POTTER JEOPARDY GAME STARTED!
      [Shows complete 6x5 board with all categories and dollar amounts]
 
 Player1: !jeopardy pick 1 1
@@ -364,11 +395,13 @@ MAX_PLAYERS=50               # Maximum players per game
 ### Customizing Game Settings
 
 #### Question Timeout
+
 - **Default**: 60 seconds (60000 ms)
 - **Range**: 10-300 seconds (10000-300000 ms)
 - **Example**: Set to 30 seconds: `QUESTION_TIMEOUT=30000`
 
 #### Maximum Players
+
 - **Default**: 50 players
 - **Range**: 1-100 players
 - **Example**: Limit to 20 players: `MAX_PLAYERS=20`
@@ -376,6 +409,7 @@ MAX_PLAYERS=50               # Maximum players per game
 ### Running in Production
 
 #### Using PM2 (Recommended)
+
 ```bash
 # Install PM2 globally
 npm install -g pm2
@@ -394,6 +428,7 @@ pm2 stop hp-jeopardy-bot
 ```
 
 #### Using Docker (Optional)
+
 Create a `Dockerfile` in the discord-bot directory:
 
 ```dockerfile
@@ -417,12 +452,14 @@ The Discord bot automatically syncs with the web interface when both are running
 4. **Game state syncs automatically** between Discord and web
 
 #### Sync Features
+
 - ✅ Completed questions sync between platforms
 - ✅ Current game state displays on web
 - ✅ Player scores visible on web interface
 - ✅ Real-time updates every 2 seconds
 
 #### Using Both Platforms
+
 - **Discord**: Players can answer questions and interact with the bot
 - **Web**: Game master can monitor progress and see visual board
 - **Automatic**: No manual sync required - everything updates automatically
@@ -438,6 +475,7 @@ The Discord bot automatically syncs with the web interface when both are running
 **Possible Causes & Solutions**:
 
 1. **Missing Message Content Intent**
+
    ```
    Solution: Go to Discord Developer Portal > Your App > Bot
    Scroll down to "Privileged Gateway Intents"
@@ -446,6 +484,7 @@ The Discord bot automatically syncs with the web interface when both are running
    ```
 
 2. **Incorrect Permissions**
+
    ```
    Solution: Check bot permissions in Discord server
    Required: Send Messages, Embed Links, Read Message History
@@ -464,6 +503,7 @@ The Discord bot automatically syncs with the web interface when both are running
 **Symptoms**: Bot fails to start with "Error: Used disallowed intents"
 
 **Solution**:
+
 ```
 1. Go to Discord Developer Portal > Your App > Bot
 2. Scroll to "Privileged Gateway Intents" section at bottom
@@ -482,6 +522,7 @@ The Discord bot automatically syncs with the web interface when both are running
 **Symptoms**: Bot shows as offline in Discord
 
 **Solutions**:
+
 ```bash
 # Check if bot process is running
 ps aux | grep node  # Linux/Mac
@@ -502,6 +543,7 @@ npm start  # Look for connection errors
 **Symptoms**: Error when trying to generate OAuth2 invite URL
 
 **Solution**:
+
 ```
 1. Go to Discord Developer Portal > Your App > Bot
 2. Find "Public Bot" setting
@@ -518,6 +560,7 @@ npm start  # Look for connection errors
 **Symptoms**: Bot says it can't send messages or see channel
 
 **Solution**:
+
 ```
 1. Right-click on text channel → Edit Channel
 2. Go to Permissions tab
@@ -536,6 +579,7 @@ npm start  # Look for connection errors
 **Symptoms**: Commands fail with "No active game found"
 
 **Solutions**:
+
 ```
 1. Start a new game: !jeopardy start
 2. If that fails: !jeopardy reset then !jeopardy start
@@ -547,6 +591,7 @@ npm start  # Look for connection errors
 **Symptoms**: Board shows but questions don't appear when picked
 
 **Check These**:
+
 ```bash
 # 1. Verify trivia data file exists
 ls ../src/Components/JeopardyBoard/Data/harry_potter_qa.json
@@ -563,6 +608,7 @@ chmod 644 ../src/Components/JeopardyBoard/Data/harry_potter_qa.json
 **Symptoms**: Correct answers marked as wrong
 
 **Debug Steps**:
+
 ```
 1. Check answer format in trivia JSON file
 2. Try exact answer from JSON file
@@ -577,6 +623,7 @@ chmod 644 ../src/Components/JeopardyBoard/Data/harry_potter_qa.json
 **Symptoms**: Error about port already in use
 
 **Solutions**:
+
 ```bash
 # Find process using the port
 lsof -i :PORT_NUMBER  # Mac/Linux
@@ -594,6 +641,7 @@ taskkill /PID PID /F  # Windows
 **Symptoms**: Import/require errors when starting bot
 
 **Solutions**:
+
 ```bash
 # Clean install dependencies
 rm -rf node_modules package-lock.json
@@ -612,6 +660,7 @@ ls -la ../src/services/  # Verify service files exist
 **Symptoms**: Errors loading trivia data
 
 **Solutions**:
+
 ```bash
 # Validate JSON file
 node -e "JSON.parse(require('fs').readFileSync('../src/Components/JeopardyBoard/Data/harry_potter_qa.json'))"
@@ -629,6 +678,7 @@ file ../src/Components/JeopardyBoard/Data/harry_potter_qa.json
 **Symptoms**: Bot stops responding, "Rate limited" in console
 
 **Solutions**:
+
 ```
 1. Wait 60 seconds for rate limit to reset
 2. Reduce command frequency
@@ -641,6 +691,7 @@ file ../src/Components/JeopardyBoard/Data/harry_potter_qa.json
 **Symptoms**: Bot disconnects frequently
 
 **Solutions**:
+
 ```
 1. Check internet connection stability
 2. Verify firewall isn't blocking connections
@@ -651,13 +702,16 @@ file ../src/Components/JeopardyBoard/Data/harry_potter_qa.json
 ### Debugging Tools
 
 #### Enable Debug Logging
+
 Add to your `.env` file:
+
 ```env
 DEBUG=true
 LOG_LEVEL=debug
 ```
 
 #### Check Bot Logs
+
 ```bash
 # View recent logs
 npm start | tee bot.log
@@ -670,6 +724,7 @@ grep -i "error" bot.log
 ```
 
 #### Test Bot Connection
+
 ```bash
 # Simple connection test
 node -e "
@@ -697,19 +752,20 @@ If you're still experiencing issues:
 
 #### Common Error Messages & Solutions
 
-| Error Message | Solution |
-|---------------|----------|
-| `Invalid Token` | Check DISCORD_BOT_TOKEN in .env file |
-| `Missing Intent` | Enable Message Content Intent in Developer Portal |
-| `Missing Permissions` | Grant bot proper channel permissions |
-| `Cannot find module` | Run `npm install` in discord-bot directory |
-| `ENOTFOUND discord.com` | Check internet connection |
-| `Rate limited` | Wait 60 seconds, reduce command frequency |
-| `JSON parse error` | Check trivia data file format |
+| Error Message           | Solution                                          |
+| ----------------------- | ------------------------------------------------- |
+| `Invalid Token`         | Check DISCORD_BOT_TOKEN in .env file              |
+| `Missing Intent`        | Enable Message Content Intent in Developer Portal |
+| `Missing Permissions`   | Grant bot proper channel permissions              |
+| `Cannot find module`    | Run `npm install` in discord-bot directory        |
+| `ENOTFOUND discord.com` | Check internet connection                         |
+| `Rate limited`          | Wait 60 seconds, reduce command frequency         |
+| `JSON parse error`      | Check trivia data file format                     |
 
 ## Development
 
 ### Project File Structure
+
 ```
 witches-and-snitches/
 ├── discord-bot/                           # Discord bot directory
@@ -733,7 +789,9 @@ witches-and-snitches/
 ### Adding New Features
 
 #### Adding New Game Commands
+
 1. **Add command handler** in `src/services/discordBotCommands.js`:
+
 ```javascript
 export const handleNewCommand = (args) => {
   // Command logic here
@@ -742,19 +800,22 @@ export const handleNewCommand = (args) => {
 ```
 
 2. **Register command** in `discord-bot/bot.js`:
+
 ```javascript
-if (command === 'newcommand') {
+if (command === "newcommand") {
   const result = discordCommands.handleNewCommand(args);
   // Handle result
 }
 ```
 
 #### Modifying Game Logic
+
 - **Game state**: Edit `src/services/discordBotService.js`
 - **Question handling**: Modify the `handleAnswer()` function
 - **Scoring system**: Update the `updatePlayerScore()` function
 
 #### Adding New Trivia Categories
+
 1. **Update trivia data** in `src/Components/JeopardyBoard/Data/harry_potter_qa.json`
 2. **Modify category list** in both:
    - `src/Components/JeopardyBoard/JeopardyBoard.js`
@@ -763,6 +824,7 @@ if (command === 'newcommand') {
 ### Testing Your Changes
 
 #### Local Testing
+
 ```bash
 # 1. Test JSON data integrity
 node -e "console.log('✅ JSON valid:', !!require('../src/Components/JeopardyBoard/Data/harry_potter_qa.json'))"
@@ -776,7 +838,9 @@ npm start
 ```
 
 #### Debug Mode
+
 Enable detailed logging by adding to `.env`:
+
 ```env
 DEBUG=true
 LOG_LEVEL=debug
@@ -785,12 +849,15 @@ LOG_LEVEL=debug
 ### Performance Considerations
 
 #### Bot Performance
+
 - **Memory usage**: ~50-100MB for typical game
 - **Response time**: <2 seconds for most commands
 - **Concurrent games**: Supports 1 active game per bot instance
 
 #### Scaling for Multiple Servers
+
 To support multiple Discord servers simultaneously:
+
 1. Modify game state to be server-specific
 2. Use server ID as key for game storage
 3. Update all game functions to include server context
@@ -798,12 +865,14 @@ To support multiple Discord servers simultaneously:
 ### Security Best Practices
 
 #### Environment Security
+
 - ✅ Never commit `.env` file to version control
 - ✅ Use strong, unique bot tokens
 - ✅ Regularly rotate bot tokens
 - ✅ Limit bot permissions to minimum required
 
 #### Code Security
+
 - ✅ Validate all user inputs
 - ✅ Sanitize answers before comparison
 - ✅ Rate limit command usage
@@ -812,6 +881,7 @@ To support multiple Discord servers simultaneously:
 ### Deployment Options
 
 #### Simple VPS/Server Deployment
+
 ```bash
 # 1. Clone repository
 git clone <your-repo>
@@ -834,6 +904,7 @@ pm2 save
 ```
 
 #### Docker Deployment
+
 ```bash
 # Build image
 docker build -t hp-jeopardy-bot .
@@ -846,6 +917,7 @@ docker logs -f hp-jeopardy
 ```
 
 #### Cloud Platform Deployment
+
 - **Heroku**: Add `Procfile` with `web: node bot.js`
 - **Railway**: Connect GitHub repo, set environment variables
 - **DigitalOcean App Platform**: Use Node.js buildpack
@@ -856,6 +928,7 @@ docker logs -f hp-jeopardy
 ### Getting Help
 
 #### Before Asking for Help
+
 1. ✅ Check this README thoroughly
 2. ✅ Look at console/terminal output for errors
 3. ✅ Verify all prerequisites are installed
@@ -863,7 +936,9 @@ docker logs -f hp-jeopardy
 5. ✅ Check Discord service status at https://discordstatus.com/
 
 #### When Reporting Issues
+
 Please include:
+
 - **Operating System** (Windows 10, macOS Big Sur, Ubuntu 20.04, etc.)
 - **Node.js Version** (`node --version`)
 - **Error Messages** (full console output)
@@ -871,6 +946,7 @@ Please include:
 - **Expected vs Actual Behavior**
 
 #### Community Resources
+
 - **Discord.js Documentation**: https://discord.js.org/
 - **Discord Developer Portal**: https://discord.com/developers/applications
 - **Node.js Documentation**: https://nodejs.org/docs/
@@ -878,23 +954,29 @@ Please include:
 ### FAQ
 
 #### Q: Can I run multiple bots simultaneously?
+
 A: Yes, but each needs a separate bot token and application in Discord Developer Portal.
 
 #### Q: How do I backup my trivia questions?
+
 A: The questions are stored in `src/Components/JeopardyBoard/Data/harry_potter_qa.json` - back up this file.
 
 #### Q: Can I add my own questions?
+
 A: Yes! Edit the JSON file following the existing format with categories and difficulty levels.
 
 #### Q: Why does the bot sometimes not respond?
+
 A: Usually due to missing Message Content Intent or incorrect permissions. Check the troubleshooting section.
 
 #### Q: Can I change the command prefix from `!jeopardy`?
+
 A: Yes, modify the command parsing in `discord-bot/bot.js` around line 20-30.
 
 #### Q: How do I update the bot?
+
 A: Pull latest changes from git, run `npm install`, and restart the bot with `pm2 restart hp-jeopardy` (if using PM2).
 
 ---
 
-🎮 **Happy gaming!** If you encounter any issues not covered in this guide, please check the console output first, then refer to the troubleshooting section. The bot is designed to be robust and user-friendly for Harry Potter trivia enthusiasts!
+**Happy gaming!** If you encounter any issues not covered in this guide, please check the console output first, then refer to the troubleshooting section. The bot is designed to be robust and user-friendly for Harry Potter trivia enthusiasts!
