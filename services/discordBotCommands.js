@@ -46,6 +46,9 @@ export class DiscordBotCommands {
         return this.endGame(message);
       case "reset":
         return this.resetGame(message);
+      case "reply":
+      case "answer":
+        return this.handleAnswerCommand(message, args);
       default:
         return this.showHelp(message);
     }
@@ -132,11 +135,32 @@ export class DiscordBotCommands {
     };
   }
 
-  // Handle answer submissions (when no command prefix)
+  // Handle answer submissions via !trivia reply command
+  async handleAnswerCommand(message, args) {
+    if (args.length < 2) {
+      return {
+        type: "error",
+        content: "❌ Usage: `!trivia reply [your answer]`\nExample: `!trivia reply Albus Dumbledore`",
+      };
+    }
+
+    // Extract the answer from the remaining arguments
+    const answer = args.slice(1).join(" ").trim();
+
+    // Use the existing handleAnswer logic
+    return this.handleAnswerLogic(message, answer);
+  }
+
+  // Handle answer submissions (when no command prefix) - Legacy method
   async handleAnswer(message) {
+    const answer = message.content.trim();
+    return this.handleAnswerLogic(message, answer);
+  }
+
+  // Common answer handling logic
+  async handleAnswerLogic(message, answer) {
     const userId = message.author.id;
     const username = message.author.username;
-    const answer = message.content.trim();
 
     // Check if user has an active solo session first
     const userSession = discordBot.getUserSession(userId);
@@ -688,8 +712,9 @@ export class DiscordBotCommands {
         {
           name: "🎯 How to Answer",
           value:
-            "When a question appears, simply type your answer in chat!\n" +
-            "No special command needed - just your answer.",
+            "`!trivia reply [your answer]` - Answer the current question\n" +
+            "Example: `!trivia reply Albus Dumbledore`\n" +
+            "This keeps normal chat separate from trivia answers!",
           inline: false,
         },
         {

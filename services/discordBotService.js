@@ -492,8 +492,8 @@ class DiscordBotService {
 
     this.players = new Map(this.registeredPlayers);
 
+    // Maintain join order - no shuffling
     this.playerOrder = Array.from(this.players.keys());
-    this.shuffleArray(this.playerOrder);
     this.currentPlayerIndex = 0;
 
     this.gameState.dailyDouble = this.selectDailyDouble();
