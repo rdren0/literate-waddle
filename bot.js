@@ -135,17 +135,17 @@ async function sendResponse(message, result) {
       break;
 
     case 'success':
-      await message.reply(result.content);
-
       // Handle single player next question
       if (result.isSinglePlayer && result.nextQuestion) {
-        setTimeout(async () => {
-          await message.channel.send(
-            `**Question ${result.questionNumber} of ${result.totalQuestions}**\n\n` +
-            `**${result.nextQuestion.question}**\n\n` +
-            `<@${result.player.userId}>, type your answer!`
-          );
-        }, 1500); // Small delay for readability
+        await message.reply(
+          result.content +
+          `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+          `**Question ${result.questionNumber} of ${result.totalQuestions}**\n\n` +
+          `**${result.nextQuestion.question}**\n\n` +
+          `<@${result.player.userId}>, type your answer!`
+        );
+      } else {
+        await message.reply(result.content);
       }
       break;
 
