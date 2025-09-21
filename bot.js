@@ -51,8 +51,8 @@ async function handleCommand(message) {
 
   await sendResponse(message, result);
 
-  // Show board after correct answers (for !trivia reply commands)
-  if (result && result.type === "correct") {
+  // Show board after correct answers or max attempts reached (for !trivia reply commands)
+  if (result && (result.type === "correct" || (result.type === "incorrect" && result.content && result.content.includes("Moving to next player")))) {
     setTimeout(async () => {
       const boardStatus = discordBot.getGameStatus();
       if (boardStatus.success) {
@@ -82,7 +82,7 @@ async function handleAnswer(message) {
     await sendResponse(message, result);
   }
 
-  if (result.type === "correct") {
+  if (result.type === "correct" || (result.type === "incorrect" && result.content && result.content.includes("Moving to next player"))) {
     setTimeout(async () => {
       const boardStatus = discordBot.getGameStatus();
       if (boardStatus.success) {

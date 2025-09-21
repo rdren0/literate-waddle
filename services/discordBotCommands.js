@@ -206,13 +206,20 @@ export class DiscordBotCommands {
         ? `🎊 **DAILY DOUBLE CORRECT!** 🎊 ${result.winner.displayName} earned **$${result.points}** (DOUBLE POINTS)!`
         : `🎉 **Correct!** ${result.winner.displayName} earned **$${result.points}**!`;
 
+      let nextPlayerMessage;
+      if (result.turnAdvanced) {
+        nextPlayerMessage = `<@${result.nextPlayer.userId}>, you're up next! Pick a question.`;
+      } else {
+        nextPlayerMessage = `<@${result.winner.userId}>, pick the next question!`;
+      }
+
       return {
         type: "correct",
         content:
           `${correctMessage}\n` +
           `**Answer:** ${result.answer}\n` +
           `**New Score:** $${result.newScore}\n\n` +
-          `<@${result.winner.userId}>, pick the next question!`,
+          nextPlayerMessage,
         embed: this.createScoreEmbed(result.winner),
       };
     } else {
@@ -232,11 +239,22 @@ export class DiscordBotCommands {
             `🚨 **OPEN TO ALL PLAYERS!** ${allPlayers}\n` +
             `First correct answer wins the points!`,
         };
-      } else {
-        // Someone else got it wrong during open answering
+      } else if (result.maxAttemptsReached) {
+        // Max attempts reached, moving to next player
         return {
           type: "incorrect",
-          content: `❌ Sorry ${username}, that's not correct. Keep trying!`,
+          content:
+            `❌ **${username}** got it wrong!\n` +
+            `**Correct answer:** ${result.correctAnswer}\n\n` +
+            `💥 **${result.attemptsUsed} attempts used!** Moving to next player.\n` +
+            `<@${result.nextPlayer.userId}>, you're up! Pick a question.`,
+        };
+      } else {
+        // Someone else got it wrong during open answering
+        const remaining = result.attemptsRemaining || 0;
+        return {
+          type: "incorrect",
+          content: `❌ Sorry ${username}, that's not correct. **${remaining} attempts remaining!**`,
         };
       }
     }

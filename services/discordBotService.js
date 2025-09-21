@@ -759,6 +759,9 @@ class DiscordBotService {
 
     this.gameState.currentQuestion = this.currentQuestion;
     this.gameState.answering = true;
+    this.gameState.openAnsweringAttempts = 0;
+    this.gameState.maxOpenAttempts = 3;
+    this.gameState.attemptingPlayers = new Set();
 
     return {
       success: true,
@@ -826,8 +829,11 @@ class DiscordBotService {
       this.gameState.currentQuestion = null;
 
       if (!isCurrentPlayersTurn) {
-        this.currentPlayerIndex = this.playerOrder.indexOf(userId);
+        // During open answering, always move to next player regardless of who answered correctly
+        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.playerOrder.length;
       }
+
+      const nextPlayer = this.getCurrentPlayer();
 
       return {
         correct: true,
@@ -836,6 +842,8 @@ class DiscordBotService {
         newScore: player.score,
         winner: player,
         wasOpenAnswering: isOpenAnswering,
+        turnAdvanced: !isCurrentPlayersTurn,
+        nextPlayer: nextPlayer,
       };
     } else {
       if (isCurrentPlayersTurn && !isOpenAnswering) {
@@ -847,10 +855,38 @@ class DiscordBotService {
           currentPlayer: player,
         };
       } else {
+        // Open answering mode - track attempts
+        this.gameState.openAnsweringAttempts++;
+        this.gameState.attemptingPlayers.add(userId);
+
+        if (this.gameState.openAnsweringAttempts >= this.gameState.maxOpenAttempts) {
+          // Max attempts reached, move to next player
+          this.gameState.answering = false;
+          this.gameState.openAnswering = false;
+          const completedQuestion = this.currentQuestion;
+          this.currentQuestion = null;
+          this.gameState.currentQuestion = null;
+
+          // Move to next player
+          this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.playerOrder.length;
+          const nextPlayer = this.getCurrentPlayer();
+
+          return {
+            correct: false,
+            yourAnswer: answer,
+            wasOpenAnswering: true,
+            maxAttemptsReached: true,
+            correctAnswer: completedQuestion.answer,
+            nextPlayer: nextPlayer,
+            attemptsUsed: this.gameState.openAnsweringAttempts,
+          };
+        }
+
         return {
           correct: false,
           yourAnswer: answer,
           wasOpenAnswering: true,
+          attemptsRemaining: this.gameState.maxOpenAttempts - this.gameState.openAnsweringAttempts,
         };
       }
     }
