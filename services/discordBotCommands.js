@@ -146,7 +146,7 @@ export class DiscordBotCommands {
       return {
         type: "error",
         content:
-          "❌ Usage: `/reply [your answer]`\nExample: `/reply Albus Dumbledore`",
+          "❌ Usage: `/answer [your answer]`\nExample: `/answer Albus Dumbledore`",
       };
     }
 
@@ -743,8 +743,8 @@ export class DiscordBotCommands {
         {
           name: "🎯 How to Answer",
           value:
-            "`/reply [your answer]` - Answer the current question\n" +
-            "Example: `/reply Albus Dumbledore`\n" +
+            "`/answer [your answer]` - Answer the current question\n" +
+            "Example: `/answer Albus Dumbledore`\n" +
             "This keeps normal chat separate from trivia answers!",
           inline: false,
         },

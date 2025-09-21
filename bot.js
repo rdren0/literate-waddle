@@ -83,7 +83,7 @@ async function registerSlashCommands() {
       ],
     },
     {
-      name: "reply",
+      name: "answer",
       description: "Answer the current question",
       options: [
         {
@@ -163,9 +163,9 @@ client.on("interactionCreate", async (interaction) => {
       const category = interaction.options.getInteger("category");
       const points = interaction.options.getInteger("points");
       args = [commandName, category.toString(), points.toString()];
-    } else if (commandName === "reply") {
+    } else if (commandName === "answer") {
       const answer = interaction.options.getString("answer");
-      args = [commandName, ...answer.split(" ")];
+      args = ["answer", ...answer.split(" ")];
     }
 
     result = await discordBotCommands.handleCommand(mockMessage, args);
@@ -205,7 +205,7 @@ async function handleSlashResponse(interaction, result) {
       break;
     case "question":
       responseData.content =
-        result.content + "\n\n**Use `/reply` to respond!**";
+        result.content + "\n\n**Use `/answer` to respond!**";
       responseData.embeds = [result.embed];
       break;
     default:
@@ -360,7 +360,7 @@ async function sendResponse(message, result) {
 
     case "question":
       const questionMessage = await message.channel.send({
-        content: result.content + "\n\n**Use `/reply` to respond!**",
+        content: result.content + "\n\n**Use `/answer` to respond!**",
         embeds: [result.embed],
       });
 
