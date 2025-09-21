@@ -31,15 +31,20 @@ client.on("messageCreate", async (message) => {
     if (message.content.toLowerCase().startsWith(PREFIX)) {
       await handleCommand(message);
     } else {
+      // Only handle answers if there's an active session/game for this user
       const userSession = discordBot.getUserSession(message.author.id);
       if (userSession && userSession.answering) {
         await handleAnswer(message);
         return;
       }
 
+      // Only handle multiplayer answers if user is in an active game
       const gameStatus = discordBot.getGameStatus();
       if (gameStatus.success && gameStatus.gameState.answering) {
-        await handleAnswer(message);
+        // Check if user is actually registered for the active game
+        if (discordBot.players && discordBot.players.has(message.author.id)) {
+          await handleAnswer(message);
+        }
       }
     }
   } catch (error) {
@@ -47,9 +52,12 @@ client.on("messageCreate", async (message) => {
     console.error("Error stack:", error.stack);
     console.error("Message content:", message.content);
     console.error("User ID:", message.author.id);
-    message.reply(
-      `❌ An error occurred while processing your request: ${error.message}`
-    );
+    // Only reply with error if it was a !trivia command
+    if (message.content.toLowerCase().startsWith(PREFIX)) {
+      message.reply(
+        `❌ An error occurred while processing your request: ${error.message}`
+      );
+    }
   }
 });
 

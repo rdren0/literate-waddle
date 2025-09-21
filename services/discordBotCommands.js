@@ -157,9 +157,9 @@ export class DiscordBotCommands {
     const result = discordBot.submitAnswer(userId, username, answer);
 
     if (result.error) {
-      // Don't show "not your turn" errors to avoid spam
-      if (result.notYourTurn) {
-        return null; // Silent fail for wrong turn
+      // Don't show "not your turn" errors or "no active game" errors to avoid spam
+      if (result.notYourTurn || result.error.includes("No active game")) {
+        return null; // Silent fail
       }
       return {
         type: "error",
