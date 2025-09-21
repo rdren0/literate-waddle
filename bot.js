@@ -18,7 +18,7 @@ const QUESTION_TIMEOUT = 60000;
 
 client.once("ready", async () => {
   console.log(`🤖 Bot is online as ${client.user.tag}!`);
-  console.log(`📊 Serving ${client.guilds.cache.size} servers`);
+  console.log(`📜 Serving ${client.guilds.cache.size} servers`);
   console.log(`🚀 Railway deployment successful!`);
 
   client.user.setActivity("Harry Potter Jeopardy!", { type: "PLAYING" });
@@ -121,7 +121,7 @@ async function registerSlashCommands() {
   ];
 
   try {
-    console.log("🔄 Started refreshing application (/) commands.");
+    console.log("🌀 Started refreshing application (/) commands.");
     await client.application.commands.set(commands);
     console.log("✅ Successfully reloaded application (/) commands.");
   } catch (error) {

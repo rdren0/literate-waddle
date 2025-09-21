@@ -108,7 +108,7 @@ export class DiscordBotCommands {
           inline: false,
         },
         {
-          name: "🎯 Scoring",
+          name: "⚡ Scoring",
           value:
             "• **Full Points**: Exact correct answer\n" +
             "• **Half Points**: Close/partial answer\n" +
@@ -117,7 +117,7 @@ export class DiscordBotCommands {
           inline: false,
         },
         {
-          name: "🏆 Your Goal",
+          name: "👑 Your Goal",
           value: `**Maximum Score**: $3,000\n**Good Score**: $2,000+\n**Great Score**: $2,500+`,
           inline: false,
         },
@@ -208,8 +208,8 @@ export class DiscordBotCommands {
       const isDailyDouble = discordBot.currentQuestion?.isDailyDouble;
 
       let correctMessage = isDailyDouble
-        ? `🎊 **DAILY DOUBLE CORRECT!** 🎊 ${result.winner.displayName} earned **$${result.points}** (DOUBLE POINTS)!`
-        : `🎉 **Correct!** ${result.winner.displayName} earned **$${result.points}**!`;
+        ? `✨ **DAILY DOUBLE CORRECT!** ✨ ${result.winner.displayName} earned **$${result.points}** (DOUBLE POINTS)!`
+        : `✨ **Correct!** ${result.winner.displayName} earned **$${result.points}**!`;
 
       let nextPlayerMessage;
       if (result.turnAdvanced) {
@@ -241,7 +241,7 @@ export class DiscordBotCommands {
           content:
             `❌ **${result.currentPlayer.displayName}** got it wrong!\n` +
             `**Their answer:** ${result.yourAnswer}\n\n` +
-            `🚨 **OPEN TO ALL PLAYERS!** ${allPlayers}\n` +
+            `🔥 **OPEN TO ALL PLAYERS!** ${allPlayers}\n` +
             `First correct answer wins the points!`,
         };
       } else if (result.maxAttemptsReached) {
@@ -251,7 +251,7 @@ export class DiscordBotCommands {
           content:
             `❌ **${username}** got it wrong!\n` +
             `**Correct answer:** ${result.correctAnswer}\n\n` +
-            `💥 **${result.attemptsUsed} attempts used!** Moving to next player.\n` +
+            `⚡ **${result.attemptsUsed} attempts used!** Moving to next player.\n` +
             `<@${result.nextPlayer.userId}>, you're up! Pick a question.`,
         };
       } else {
@@ -281,26 +281,26 @@ export class DiscordBotCommands {
             : 0xef4444,
         fields: [
           {
-            name: "📊 Final Score",
+            name: "📜 Final Score",
             value: `**${result.finalScore}** out of ${result.maxPossibleScore} questions`,
             inline: true,
           },
           {
-            name: "📈 Percentage",
+            name: "🌟 Percentage",
             value: `**${result.percentage}%**`,
             inline: true,
           },
           {
-            name: "🎯 Performance",
+            name: "⚡ Performance",
             value:
               result.percentage >= 90
-                ? "🏆 EXCELLENT!"
+                ? "👑 EXCELLENT!"
                 : result.percentage >= 80
-                ? "🥇 GREAT!"
+                ? "⭐ GREAT!"
                 : result.percentage >= 70
-                ? "🥈 GOOD!"
+                ? "🌟 GOOD!"
                 : result.percentage >= 60
-                ? "🥉 FAIR"
+                ? "✨ FAIR"
                 : result.percentage >= 50
                 ? "📚 NEEDS STUDY"
                 : "💪 KEEP TRYING!",
@@ -369,7 +369,7 @@ export class DiscordBotCommands {
     }
 
     const embed = {
-      title: "🎯 Harry Potter Trivia - Registration Open!",
+      title: "⚡ Harry Potter Trivia - Registration Open!",
       description: "A new trivia game is being set up. Players can now join!",
       color: 0x7c3aed,
       fields: [
@@ -441,7 +441,7 @@ export class DiscordBotCommands {
     }
 
     const embed = {
-      title: "🎯 Players Waiting to Play",
+      title: "🔮 Players Waiting to Play",
       description: `**${result.playerCount}** players have joined the game`,
       color: 0x3b82f6,
       fields: [
@@ -491,12 +491,12 @@ export class DiscordBotCommands {
     const boardDisplay = this.createBoardDisplay(status.boardStatus);
 
     const embed = {
-      title: "🎯 Harry Potter Trivia Game Started!",
+      title: "⚡ Harry Potter Trivia Game Started!",
       description: `**${result.playerOrder.length}** players are ready to compete!`,
       color: 0x10b981, // Green color
       fields: [
         {
-          name: "🎲 Player Order",
+          name: "🔮 Player Order",
           value: result.playerOrder
             .map(
               (p, i) =>
@@ -511,7 +511,7 @@ export class DiscordBotCommands {
           inline: false,
         },
         {
-          name: "🎯 How to Play",
+          name: "⚡ How to Play",
           value:
             "• Current player picks: `/pick [category] [points]`\n" +
             "• If wrong, everyone can answer!\n" +
@@ -553,7 +553,7 @@ export class DiscordBotCommands {
       color: 0x7c3aed,
       fields: [
         {
-          name: "🎯 Game Board",
+          name: "📜 Game Board",
           value: boardDisplay,
           inline: false,
         },
@@ -636,14 +636,14 @@ export class DiscordBotCommands {
     );
 
     // Create content with Daily Double announcement if needed
-    let content = `🎯 **${result.question.category} - $${
+    let content = `⚡ **${result.question.category} - $${
       result.question.originalPoints || result.question.points
     }**`;
 
     if (result.isDailyDouble) {
       content =
-        `🎊 **DAILY DOUBLE!** 🎊\n` +
-        `🎯 **${result.question.category} - $${result.question.originalPoints} (Worth $${result.question.points}!)**\n` +
+        `✨ **DAILY DOUBLE!** ✨\n` +
+        `⚡ **${result.question.category} - $${result.question.originalPoints} (Worth $${result.question.points}!)**\n` +
         `<@${currentPlayer.userId}>, this question is worth **DOUBLE POINTS**!`;
     } else {
       content += `\n<@${currentPlayer.userId}>, this is your question!`;
@@ -665,12 +665,12 @@ export class DiscordBotCommands {
       return {
         type: "info",
         content:
-          "📊 No players have joined yet! Answer a question to get on the board.",
+          "📜 No players have joined yet! Answer a question to get on the board.",
       };
     }
 
     const embed = {
-      title: "🏆 Leaderboard",
+      title: "👑 Leaderboard",
       color: 0xffd700, // Gold color
       fields: leaderboard.map((player, index) => ({
         name: `${this.getRankEmoji(index)} ${
@@ -687,7 +687,7 @@ export class DiscordBotCommands {
 
     return {
       type: "embed",
-      content: "🏆 **Current Standings**",
+      content: "👑 **Current Standings**",
       embed,
     };
   }
@@ -714,7 +714,7 @@ export class DiscordBotCommands {
           inline: true,
         },
         {
-          name: "🎯 Multi-Player Gameplay",
+          name: "⚡ Multi-Player Gameplay",
           value:
             "`/board` - Show current board\n" +
             "`/pick [cat] [pts]` - Select question\n" +
@@ -723,7 +723,7 @@ export class DiscordBotCommands {
           inline: true,
         },
         {
-          name: "🎲 Multi-Player Rules",
+          name: "🔮 Multi-Player Rules",
           value:
             "• Players take turns picking questions\n" +
             "• If you get it wrong, everyone can answer\n" +
@@ -741,7 +741,7 @@ export class DiscordBotCommands {
           inline: false,
         },
         {
-          name: "🎯 How to Answer",
+          name: "⚡ How to Answer",
           value:
             "`/answer [your answer]` - Answer the current question\n" +
             "Example: `/answer Albus Dumbledore`\n" +
@@ -828,7 +828,7 @@ export class DiscordBotCommands {
 
     return {
       type: "success",
-      content: "🔄 **Game Reset!** Use `/start` to begin a new game.",
+      content: "🌀 **Game Reset!** Use `/start` to begin a new game.",
     };
   }
 
@@ -970,7 +970,7 @@ export class DiscordBotCommands {
 
     return {
       title: isDailyDouble
-        ? `🎊 ${question.category} - DAILY DOUBLE! 🎊`
+        ? `✨ ${question.category} - DAILY DOUBLE! ✨`
         : `💡 ${question.category}`,
       description: isDailyDouble
         ? `**$${question.originalPoints} → $${question.points} (DOUBLE POINTS!)**\n\n${question.question}`
@@ -990,7 +990,7 @@ export class DiscordBotCommands {
   // Helper: Create score embed
   createScoreEmbed(player) {
     return {
-      title: `🎉 ${player.displayName || player.username}`,
+      title: `✨ ${player.displayName || player.username}`,
       description: `**Current Score:** $${player.score}`,
       color: 0x22c55e,
       fields: [
@@ -1012,7 +1012,7 @@ export class DiscordBotCommands {
 
   // Helper: Get rank emoji
   getRankEmoji(index) {
-    const emojis = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+    const emojis = ["⭐", "🌟", "✨", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
     return emojis[index] || "📍";
   }
 }
