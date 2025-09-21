@@ -1,6 +1,6 @@
 import { discordBot } from "./discordBotService.js";
 
-// Discord bot command handlers
+
 export class DiscordBotCommands {
   constructor() {
     this.prefix = "!trivia";
@@ -14,7 +14,7 @@ export class DiscordBotCommands {
     ];
   }
 
-  // Parse and handle commands
+  
   async handleCommand(message, args) {
     const command = args[0]?.toLowerCase();
 
@@ -51,30 +51,29 @@ export class DiscordBotCommands {
     }
   }
 
-  // Start solo game immediately
+  
   async startSoloGame(message) {
-    // Check if there's already an active game
-    if (discordBot.gameState && discordBot.gameState.isActive) {
-      return {
-        type: "error",
-        content: "❌ There's already an active game! Use `!trivia end` to finish it first.",
-      };
-    }
+    const userId = message.author.id;
 
-    if (discordBot.waitingForRegistration) {
-      return {
-        type: "error",
-        content: "❌ There's already a game waiting for players! Use `!trivia reset` to clear it first.",
-      };
-    }
-
-    // Start solo mode directly
-    const result = discordBot.startSoloMode(
-      message.author.id,
-      message.author.username,
-      message.member?.displayName,
+    
+    const sessionResult = discordBot.createUserSession(
+      userId,
       message.channel.id,
       message.guild?.id
+    );
+
+    if (sessionResult.error) {
+      return {
+        type: "error",
+        content: `❌ ${sessionResult.error}`,
+      };
+    }
+
+    
+    const result = discordBot.startSoloModeForUser(
+      userId,
+      message.author.username,
+      message.member?.displayName
     );
 
     if (result.error) {
@@ -87,7 +86,7 @@ export class DiscordBotCommands {
     const embed = {
       title: "📚 Solo Trivia Challenge!",
       description: `**${result.player.displayName}**, you're about to take on 10 Harry Potter questions with increasing difficulty!`,
-      color: 0x7c3aed, // Purple color
+      color: 0x7c3aed, 
       fields: [
         {
           name: "📝 How It Works",
@@ -133,18 +132,34 @@ export class DiscordBotCommands {
     };
   }
 
-  // Handle answer submissions (when no command prefix)
+  
   async handleAnswer(message) {
     const userId = message.author.id;
     const username = message.author.username;
     const answer = message.content.trim();
 
+    
+    const userSession = discordBot.getUserSession(userId);
+    if (userSession && userSession.answering) {
+      const result = discordBot.submitUserAnswer(userId, username, answer);
+
+      if (result.error) {
+        return {
+          type: "error",
+          content: `❌ ${result.error}`,
+        };
+      }
+
+      return this.handleSinglePlayerResponse(result);
+    }
+
+    
     const result = discordBot.submitAnswer(userId, username, answer);
 
     if (result.error) {
-      // Don't show "not your turn" errors to avoid spam
+      
       if (result.notYourTurn) {
-        return null; // Silent fail for wrong turn
+        return null; 
       }
       return {
         type: "error",
@@ -152,12 +167,12 @@ export class DiscordBotCommands {
       };
     }
 
-    // Handle single player mode
+    
     if (result.questionNumber) {
       return this.handleSinglePlayerResponse(result);
     }
 
-    // Multi-player mode
+    
     if (result.correct) {
       const nextPlayer = discordBot.getCurrentPlayer();
       const isDailyDouble = discordBot.currentQuestion?.isDailyDouble;
@@ -176,9 +191,9 @@ export class DiscordBotCommands {
         embed: this.createScoreEmbed(result.winner),
       };
     } else {
-      // Wrong answer
+      
       if (result.openToAll) {
-        // Current player got it wrong, now everyone can answer
+        
         const allPlayers = Array.from(discordBot.players.values())
           .filter(p => p.userId !== result.currentPlayer.userId)
           .map(p => `<@${p.userId}>`)
@@ -193,7 +208,7 @@ export class DiscordBotCommands {
             `First correct answer wins the points!`,
         };
       } else {
-        // Someone else got it wrong during open answering
+        
         return {
           type: "incorrect",
           content: `❌ Sorry ${username}, that's not correct. Keep trying!`,
@@ -202,10 +217,10 @@ export class DiscordBotCommands {
     }
   }
 
-  // Handle single player response
+  
   handleSinglePlayerResponse(result) {
     if (result.gameComplete) {
-      // Game finished
+      
       const embed = {
         title: "🏁 Traditional Trivia Complete!",
         description: `**${result.player.displayName}**, here are your final results!`,
@@ -254,7 +269,7 @@ export class DiscordBotCommands {
         embed,
       };
     } else {
-      // Continue to next question - send answer feedback first
+      
       let answerMessage = "";
       if (result.correct) {
         if (result.fullPoints) {
@@ -266,7 +281,7 @@ export class DiscordBotCommands {
         answerMessage = `❌ **WRONG** (+0 points)\n**Your answer:** ${result.userAnswer}\n**Correct answer:** ${result.answer}`;
       }
 
-      // Return answer feedback first, then trigger next question
+      
       return {
         type: "success",
         content: `${answerMessage}\n**Current Score:** ${result.totalScore} points`,
@@ -279,7 +294,7 @@ export class DiscordBotCommands {
     }
   }
 
-  // Create a new game and open registration
+  
   async createGame(message) {
     const result = discordBot.createGame(
       message.channel.id,
@@ -331,7 +346,7 @@ export class DiscordBotCommands {
     };
   }
 
-  // Join the game
+  
   async joinGame(message) {
     const result = discordBot.registerPlayer(
       message.author.id,
@@ -353,7 +368,7 @@ export class DiscordBotCommands {
     };
   }
 
-  // Show waiting players
+  
   async showWaitingPlayers(message) {
     const result = discordBot.getRegistrationStatus();
 
@@ -392,7 +407,7 @@ export class DiscordBotCommands {
     };
   }
 
-  // Start the registered game
+  
   async startGame(message) {
     const result = discordBot.startRegisteredGame();
 
@@ -403,17 +418,17 @@ export class DiscordBotCommands {
       };
     }
 
-    // Multi-player mode only now
+    
 
-    // Multi-player mode
-    // Get initial board status
+    
+    
     const status = discordBot.getGameStatus();
     const boardDisplay = this.createBoardDisplay(status.boardStatus);
 
     const embed = {
       title: "🎯 Harry Potter Trivia Game Started!",
       description: `**${result.playerOrder.length}** players are ready to compete!`,
-      color: 0x10b981, // Green color
+      color: 0x10b981, 
       fields: [
         {
           name: "🎲 Player Order",
@@ -451,7 +466,7 @@ export class DiscordBotCommands {
   }
 
 
-  // Show the current board
+  
   async showBoard(message) {
     const status = discordBot.getGameStatus();
 
@@ -494,9 +509,9 @@ export class DiscordBotCommands {
     };
   }
 
-  // Select a question
+  
   async selectQuestion(message, args) {
-    // Check if it's the current player's turn
+    
     const currentPlayer = discordBot.getCurrentPlayer();
     if (!currentPlayer || currentPlayer.userId !== message.author.id) {
       return {
@@ -543,7 +558,7 @@ export class DiscordBotCommands {
 
     const questionEmbed = this.createQuestionEmbed(result.question, currentPlayer);
 
-    // Create content with Daily Double announcement if needed
+    
     let content = `🎯 **${result.question.category} - $${result.question.originalPoints || result.question.points}**`;
 
     if (result.isDailyDouble) {
@@ -562,7 +577,7 @@ export class DiscordBotCommands {
     };
   }
 
-  // Show scores/leaderboard
+  
   async showScores(message) {
     const leaderboard = discordBot.getLeaderboard();
 
@@ -576,7 +591,7 @@ export class DiscordBotCommands {
 
     const embed = {
       title: "🏆 Leaderboard",
-      color: 0xffd700, // Gold color
+      color: 0xffd700, 
       fields: leaderboard.map((player, index) => ({
         name: `${this.getRankEmoji(index)} ${
           player.displayName || player.username
@@ -597,11 +612,11 @@ export class DiscordBotCommands {
     };
   }
 
-  // Show help
+  
   async showHelp(message) {
     const embed = {
       title: "❓ Trivia Bot Commands",
-      color: 0x3b82f6, // Blue color
+      color: 0x3b82f6, 
       fields: [
         {
           name: "📚 Solo Mode",
@@ -671,8 +686,27 @@ export class DiscordBotCommands {
     };
   }
 
-  // End game
+  
   async endGame(message) {
+    const userId = message.author.id;
+
+    
+    const userSession = discordBot.getUserSession(userId);
+    if (userSession) {
+      const result = discordBot.endUserSession(userId);
+      if (result.nextUser) {
+        
+        
+        console.log(`Next user ${result.nextUser} can now start trivia`);
+      }
+
+      return {
+        type: "success",
+        content: `✅ Your solo trivia session has been ended. Thanks for playing!`,
+      };
+    }
+
+    
     const result = discordBot.endGame();
 
     if (result.error) {
@@ -684,7 +718,7 @@ export class DiscordBotCommands {
 
     const embed = {
       title: "🏁 Game Ended!",
-      color: 0xef4444, // Red color
+      color: 0xef4444, 
       fields: result.finalScores.slice(0, 3).map((player, index) => ({
         name: `${this.getRankEmoji(index)} ${
           player.displayName || player.username
@@ -707,7 +741,7 @@ export class DiscordBotCommands {
     };
   }
 
-  // Reset game
+  
   async resetGame(message) {
     discordBot.resetGame();
 
@@ -717,16 +751,16 @@ export class DiscordBotCommands {
     };
   }
 
-  // Helper: Create compact board display for Discord
+  
   createBoardDisplay(boardStatus) {
     let board = "```\n";
 
-    // Compact header with shortened category names
+    
     board += "    1     2     3     4     5     6\n";
     board += "SPELL HOGWA CREAT POTIO DEFEN WIZAR\n";
     board += "------------------------------------\n";
 
-    // Add each dollar amount row
+    
     const dollarAmounts = [100, 200, 300, 400, 500];
     const dailyDouble = discordBot.gameState?.dailyDouble;
 
@@ -737,7 +771,7 @@ export class DiscordBotCommands {
         if (question && question.completed) {
           return " ❌ ";
         } else {
-          return `$${amount}`;  // Don't show Daily Double location
+          return `$${amount}`;  
         }
       });
       board += row.map(cell => cell.padEnd(5)).join(" ") + "\n";
@@ -745,18 +779,18 @@ export class DiscordBotCommands {
 
     board += "```\n\n";
 
-    // Add category legend below the board
+    
     board += "**Categories:**\n";
     boardStatus.forEach((cat, index) => {
       board += `**${index + 1}.** ${cat.category}\n`;
     });
 
-    // Don't show Daily Double legend - keep it hidden!
+    
 
     return board;
   }
 
-  // Helper: Create board embed (legacy format - keeping for compatibility)
+  
   createBoardEmbed(boardStatus) {
     const embed = {
       title: "📋 Trivia Board",
@@ -786,7 +820,7 @@ export class DiscordBotCommands {
     return embed;
   }
 
-  // Helper: Create question embed
+  
   createQuestionEmbed(question, currentPlayer) {
     const isDailyDouble = question.isDailyDouble;
 
@@ -795,7 +829,7 @@ export class DiscordBotCommands {
       description: isDailyDouble
         ? `**$${question.originalPoints} → $${question.points} (DOUBLE POINTS!)**\n\n${question.question}`
         : `**$${question.points}**\n\n${question.question}`,
-      color: isDailyDouble ? 0xFFD700 : 0x10b981, // Gold for Daily Double, Green for normal
+      color: isDailyDouble ? 0xFFD700 : 0x10b981, 
       footer: {
         text: currentPlayer
           ? isDailyDouble
@@ -807,7 +841,7 @@ export class DiscordBotCommands {
     };
   }
 
-  // Helper: Create score embed
+  
   createScoreEmbed(player) {
     return {
       title: `🎉 ${player.displayName || player.username}`,
@@ -825,12 +859,12 @@ export class DiscordBotCommands {
         },
       ],
       thumbnail: {
-        url: "https://cdn.discordapp.com/emojis/emoji_id.png", // Optional: Add celebration emoji
+        url: "https:
       },
     };
   }
 
-  // Helper: Get rank emoji
+  
   getRankEmoji(index) {
     const emojis = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
     return emojis[index] || "📍";

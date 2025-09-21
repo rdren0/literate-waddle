@@ -105,6 +105,11 @@ function loadTriviaData() {
 
 class DiscordBotService {
   constructor() {
+    this.activeSessions = new Map();
+    this.sessionQueue = [];
+    this.maxSessions = 10;
+    this.sessionTimeout = 2 * 60 * 60 * 1000;
+
     this.gameState = null;
     this.players = new Map();
     this.registeredPlayers = new Map();
@@ -113,6 +118,7 @@ class DiscordBotService {
     this.currentQuestion = null;
     this.questionTimeout = null;
     this.waitingForRegistration = false;
+
     this.categories = [
       "SPELLS & MAGIC",
       "HOGWARTS HISTORY",
@@ -128,6 +134,231 @@ class DiscordBotService {
       "DiscordBotService initialized with trivia data:",
       !!this.triviaData
     );
+
+    this.startSessionCleanup();
+  }
+
+  startSessionCleanup() {
+    setInterval(() => {
+      this.cleanupExpiredSessions();
+    }, 5 * 60 * 1000);
+  }
+
+  cleanupExpiredSessions() {
+    const now = Date.now();
+    for (const [userId, session] of this.activeSessions.entries()) {
+      if (now - session.startTime > this.sessionTimeout) {
+        console.log(`Cleaning up expired session for user ${userId}`);
+        this.activeSessions.delete(userId);
+        this.processQueue();
+      }
+    }
+  }
+
+  canStartSession(userId) {
+    return (
+      this.activeSessions.size < this.maxSessions &&
+      !this.activeSessions.has(userId)
+    );
+  }
+
+  addToQueue(userId) {
+    if (!this.sessionQueue.includes(userId)) {
+      this.sessionQueue.push(userId);
+    }
+  }
+
+  processQueue() {
+    if (
+      this.activeSessions.size < this.maxSessions &&
+      this.sessionQueue.length > 0
+    ) {
+      const nextUserId = this.sessionQueue.shift();
+      return nextUserId;
+    }
+    return null;
+  }
+
+  createUserSession(userId, channelId, guildId) {
+    if (!this.canStartSession(userId)) {
+      if (this.activeSessions.has(userId)) {
+        return { error: "You already have an active trivia session!" };
+      } else {
+        this.addToQueue(userId);
+        return {
+          error: `All ${
+            this.maxSessions
+          } trivia slots are full! You've been added to the queue. Position: ${
+            this.sessionQueue.indexOf(userId) + 1
+          }`,
+        };
+      }
+    }
+
+    const session = {
+      userId,
+      channelId,
+      guildId,
+      startTime: Date.now(),
+      isActive: false,
+      isSinglePlayer: true,
+      singlePlayerQuestions: [],
+      currentQuestionNumber: 1,
+      totalQuestions: 10,
+      singlePlayerScore: 0,
+      currentQuestion: null,
+      answering: false,
+      hasAnsweredCurrent: false,
+      selectedQuestions: new Set(),
+      board: this.createEmptyBoard(),
+    };
+
+    this.activeSessions.set(userId, session);
+    return { success: true, session };
+  }
+
+  getUserSession(userId) {
+    return this.activeSessions.get(userId);
+  }
+
+  endUserSession(userId) {
+    if (this.activeSessions.has(userId)) {
+      this.activeSessions.delete(userId);
+
+      const nextUserId = this.processQueue();
+      if (nextUserId) {
+        return { success: true, nextUser: nextUserId };
+      }
+      return { success: true };
+    }
+    return { error: "No active session found" };
+  }
+
+  createEmptyBoard() {
+    const board = {};
+    this.categories.forEach((category) => {
+      board[category] = {};
+      this.pointValues.forEach((points) => {
+        board[category][points] = {
+          available: true,
+          completed: false,
+        };
+      });
+    });
+    return board;
+  }
+
+  startSoloModeForUser(userId, username, displayName) {
+    const session = this.getUserSession(userId);
+    if (!session) {
+      return { error: "No active session found for user" };
+    }
+
+    session.singlePlayerQuestions = this.generateSinglePlayerQuestions();
+    session.isActive = true;
+    session.currentQuestion = session.singlePlayerQuestions[0];
+    session.answering = true;
+
+    const player = {
+      userId,
+      username,
+      displayName: displayName || username,
+      score: 0,
+      questionsAnswered: 0,
+      correctAnswers: 0,
+    };
+
+    return {
+      success: true,
+      session: session,
+      player: player,
+      question: session.currentQuestion,
+      isSinglePlayer: true,
+      questionNumber: 1,
+      totalQuestions: 10,
+    };
+  }
+
+  submitUserAnswer(userId, username, answer) {
+    const session = this.getUserSession(userId);
+    if (!session) {
+      return { error: "No active session found for user" };
+    }
+
+    if (!session.isActive || !session.answering) {
+      return { error: "No question is currently being answered." };
+    }
+
+    if (session.hasAnsweredCurrent) {
+      return { error: "You already answered this question!" };
+    }
+
+    const question = session.currentQuestion;
+    session.hasAnsweredCurrent = true;
+
+    const exactMatch = this.checkAnswer(
+      answer,
+      question.answer,
+      question.key_words
+    );
+    const closeMatch =
+      !exactMatch &&
+      this.checkCloseAnswer(answer, question.answer, question.key_words);
+
+    let pointsEarned = 0;
+    let result = null;
+
+    if (exactMatch) {
+      pointsEarned = 1;
+      session.singlePlayerScore += pointsEarned;
+      result = {
+        correct: true,
+        points: pointsEarned,
+        answer: question.answer,
+        fullPoints: true,
+      };
+    } else if (closeMatch) {
+      pointsEarned = 1;
+      session.singlePlayerScore += pointsEarned;
+      result = {
+        correct: true,
+        points: pointsEarned,
+        answer: question.answer,
+        halfPoints: true,
+        userAnswer: answer,
+      };
+    } else {
+      result = {
+        correct: false,
+        points: 0,
+        answer: question.answer,
+        userAnswer: answer,
+      };
+    }
+
+    result.questionNumber = session.currentQuestionNumber;
+    result.totalScore = session.singlePlayerScore;
+    result.totalQuestions = session.totalQuestions;
+    result.isSinglePlayer = true;
+
+    if (session.currentQuestionNumber >= session.totalQuestions) {
+      result.gameComplete = true;
+      result.finalScore = session.singlePlayerScore;
+      result.maxPossibleScore = session.totalQuestions;
+
+      session.isActive = false;
+      session.answering = false;
+      session.currentQuestion = null;
+    } else {
+      session.currentQuestionNumber++;
+      session.currentQuestion =
+        session.singlePlayerQuestions[session.currentQuestionNumber - 1];
+      session.hasAnsweredCurrent = false;
+
+      result.nextQuestion = session.currentQuestion;
+    }
+
+    return result;
   }
 
   createGame(channelId, guildId) {
@@ -270,10 +501,46 @@ class DiscordBotService {
     const questions = [];
     const usedQuestions = new Set();
 
-    const difficultyLevels = [100, 100, 200, 200, 300, 300, 400, 400, 500, 500];
+    const difficultyPool = [100, 100, 200, 200, 300, 300, 400, 400, 500, 500];
 
-    for (let i = 0; i < 10; i++) {
-      const difficulty = difficultyLevels[i];
+    this.shuffleArray(difficultyPool);
+
+    const shuffledCategories = [...this.categories];
+    this.shuffleArray(shuffledCategories);
+
+    let questionsFromEachCategory = 0;
+    const categoryUsed = new Set();
+
+    for (let i = 0; i < Math.min(10, this.categories.length); i++) {
+      const category = shuffledCategories[i % this.categories.length];
+
+      if (categoryUsed.has(category)) continue;
+
+      const difficulty = difficultyPool[i];
+      const question = this.getRandomQuestionFromCategory(
+        category,
+        difficulty,
+        usedQuestions
+      );
+
+      if (question) {
+        questions.push({
+          ...question,
+          questionNumber: questions.length + 1,
+          points: difficulty,
+          maxPoints: difficulty,
+          halfPoints: Math.floor(difficulty / 2),
+        });
+        usedQuestions.add(
+          `${question.category}-${difficulty}-${question.question}`
+        );
+        categoryUsed.add(category);
+        questionsFromEachCategory++;
+      }
+    }
+
+    while (questions.length < 10 && questions.length < difficultyPool.length) {
+      const difficulty = difficultyPool[questions.length];
       const question = this.getRandomQuestionByDifficulty(
         difficulty,
         usedQuestions
@@ -282,7 +549,7 @@ class DiscordBotService {
       if (question) {
         questions.push({
           ...question,
-          questionNumber: i + 1,
+          questionNumber: questions.length + 1,
           points: difficulty,
           maxPoints: difficulty,
           halfPoints: Math.floor(difficulty / 2),
@@ -290,10 +557,59 @@ class DiscordBotService {
         usedQuestions.add(
           `${question.category}-${difficulty}-${question.question}`
         );
+      } else {
+        console.warn(`Could not find question for difficulty ${difficulty}`);
+        break;
       }
     }
 
+    this.shuffleArray(questions);
+
+    questions.forEach((q, index) => {
+      q.questionNumber = index + 1;
+    });
+
+    console.log(
+      `Generated ${questions.length} questions with categories:`,
+      questions.map((q) => `${q.category}(${q.points})`)
+    );
+
     return questions;
+  }
+
+  getRandomQuestionFromCategory(category, difficulty, usedQuestions) {
+    console.log(
+      `Getting question from ${category} at difficulty ${difficulty}`
+    );
+
+    const categoryData = this.triviaData[category];
+    if (!categoryData || !categoryData[difficulty]) {
+      console.log(
+        `No questions available for ${category} at difficulty ${difficulty}`
+      );
+      return null;
+    }
+
+    const questions = categoryData[difficulty];
+    const availableQuestions = questions.filter(
+      (q) => !usedQuestions.has(`${category}-${difficulty}-${q.question}`)
+    );
+
+    if (availableQuestions.length === 0) {
+      console.log(
+        `No unused questions available for ${category} at difficulty ${difficulty}`
+      );
+      return null;
+    }
+
+    const randomQuestion =
+      availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+
+    return {
+      ...randomQuestion,
+      category,
+      difficulty,
+    };
   }
 
   getRandomQuestionByDifficulty(difficulty, usedQuestions) {
