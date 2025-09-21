@@ -66,18 +66,17 @@ async function handleAnswer(message) {
   }
 
   if (result.type === "correct") {
-    setTimeout(async () => {
-      const boardStatus = discordBot.getGameStatus();
-      if (boardStatus.success) {
-        const boardEmbed = discordBotCommands.createBoardEmbed(
-          boardStatus.boardStatus
-        );
-        message.channel.send({
-          content: "📋 **Updated Board:**",
-          embeds: [boardEmbed],
-        });
-      }
-    }, 3000);
+    const boardStatus = discordBot.getGameStatus();
+    if (boardStatus.success) {
+      const boardEmbed = discordBotCommands.createBoardEmbed(
+        boardStatus.boardStatus
+      );
+      const currentPlayer = discordBot.getCurrentPlayer();
+      message.channel.send({
+        content: `📋 **Updated Board** - <@${currentPlayer?.userId}>, pick your question!`,
+        embeds: [boardEmbed],
+      });
+    }
   }
 }
 
@@ -90,6 +89,21 @@ async function sendResponse(message, result) {
         content: result.content,
         embeds: [result.embed],
       });
+
+      // If this is a game start, show the board again as a separate message for clarity
+      if (result.content && result.content.includes("Game Started!")) {
+        const boardStatus = discordBot.getGameStatus();
+        if (boardStatus.success) {
+          const boardEmbed = discordBotCommands.createBoardEmbed(
+            boardStatus.boardStatus
+          );
+          const currentPlayer = discordBot.getCurrentPlayer();
+          message.channel.send({
+            content: `📋 **Current Board** - <@${currentPlayer?.userId}>, choose your category and points!`,
+            embeds: [boardEmbed],
+          });
+        }
+      }
       break;
 
     case "question":
@@ -97,6 +111,20 @@ async function sendResponse(message, result) {
         content: result.content + "\n\n**Use `!trivia reply [your answer]` to respond!**",
         embeds: [result.embed],
       });
+
+      // Show updated board after question selection
+      setTimeout(async () => {
+        const boardStatus = discordBot.getGameStatus();
+        if (boardStatus.success) {
+          const boardEmbed = discordBotCommands.createBoardEmbed(
+            boardStatus.boardStatus
+          );
+          message.channel.send({
+            content: "📋 **Remaining Questions:**",
+            embeds: [boardEmbed],
+          });
+        }
+      }, 500);
 
       setTimeout(async () => {
         const timeoutResult = discordBot.endCurrentQuestion();
