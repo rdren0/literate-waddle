@@ -14,21 +14,21 @@ function loadTriviaData() {
     console.log(`Loaded questions from data.json`);
 
     const categoryMapping = {
-      category_1: "SPELLS & MAGIC",
-      category_2: "HOGWARTS HISTORY",
-      category_3: "MAGICAL CREATURES",
-      category_4: "POTIONS",
-      category_5: "DEFENSE AGAINST DARK ARTS",
-      category_6: "WIZARDING WORLD",
+      category_1: "Slytherin House, Death Eaters and The Dark Arts",
+      category_2: "Objects & Artifacts",
+      category_3: "Animals, Magical Creatures & Magical Beings",
+      category_4: "Witches, Wizards, Ghosts, and Muggles",
+      category_5: "Hogwarts, Other Locations and Transportation",
+      category_6: "Spells, Potions, and other magic",
     };
 
     const formattedData = {
-      "SPELLS & MAGIC": {},
-      "HOGWARTS HISTORY": {},
-      "MAGICAL CREATURES": {},
-      POTIONS: {},
-      "DEFENSE AGAINST DARK ARTS": {},
-      "WIZARDING WORLD": {},
+      "Slytherin House, Death Eaters and The Dark Arts": {},
+      "Objects & Artifacts": {},
+      "Animals, Magical Creatures & Magical Beings": {},
+      "Witches, Wizards, Ghosts, and Muggles": {},
+      "Hogwarts, Other Locations and Transportation": {},
+      "Spells, Potions, and other magic": {},
     };
 
     const pointValues = [100, 200, 300, 400, 500];
@@ -78,8 +78,9 @@ function loadTriviaData() {
     );
     console.log("Sample data structure:", Object.keys(formattedData));
     console.log(
-      "SPELLS & MAGIC 100 questions:",
-      formattedData["SPELLS & MAGIC"][100]?.length || 0
+      "Slytherin House, Death Eaters and The Dark Arts 100 questions:",
+      formattedData["Slytherin House, Death Eaters and The Dark Arts"][100]
+        ?.length || 0
     );
     return formattedData;
   } catch (error) {
@@ -87,18 +88,42 @@ function loadTriviaData() {
     console.error("Stack trace:", error.stack);
 
     return {
-      "SPELLS & MAGIC": { 100: [], 200: [], 300: [], 400: [], 500: [] },
-      "HOGWARTS HISTORY": { 100: [], 200: [], 300: [], 400: [], 500: [] },
-      "MAGICAL CREATURES": { 100: [], 200: [], 300: [], 400: [], 500: [] },
-      POTIONS: { 100: [], 200: [], 300: [], 400: [], 500: [] },
-      "DEFENSE AGAINST DARK ARTS": {
+      "Slytherin House, Death Eaters and The Dark Arts": {
         100: [],
         200: [],
         300: [],
         400: [],
         500: [],
       },
-      "WIZARDING WORLD": { 100: [], 200: [], 300: [], 400: [], 500: [] },
+      "Objects & Artifacts": { 100: [], 200: [], 300: [], 400: [], 500: [] },
+      "Animals, Magical Creatures & Magical Beings": {
+        100: [],
+        200: [],
+        300: [],
+        400: [],
+        500: [],
+      },
+      "Witches, Wizards, Ghosts, and Muggles": {
+        100: [],
+        200: [],
+        300: [],
+        400: [],
+        500: [],
+      },
+      "Hogwarts, Other Locations and Transportation": {
+        100: [],
+        200: [],
+        300: [],
+        400: [],
+        500: [],
+      },
+      "Spells, Potions, and other magic": {
+        100: [],
+        200: [],
+        300: [],
+        400: [],
+        500: [],
+      },
     };
   }
 }
@@ -120,12 +145,12 @@ class DiscordBotService {
     this.waitingForRegistration = false;
 
     this.categories = [
-      "SPELLS & MAGIC",
-      "HOGWARTS HISTORY",
-      "MAGICAL CREATURES",
-      "POTIONS",
-      "DEFENSE AGAINST DARK ARTS",
-      "WIZARDING WORLD",
+      "Slytherin House, Death Eaters and The Dark Arts",
+      "Objects & Artifacts",
+      "Animals, Magical Creatures & Magical Beings",
+      "Witches, Wizards, Ghosts, and Muggles",
+      "Hogwarts, Other Locations and Transportation",
+      "Spells, Potions, and other magic",
     ];
     this.pointValues = [100, 200, 300, 400, 500];
 
@@ -361,7 +386,9 @@ class DiscordBotService {
       result.gameComplete = true;
       result.finalScore = session.singlePlayerScore;
       result.maxPossibleScore = session.totalQuestions;
-      result.percentage = Math.round((session.singlePlayerScore / session.totalQuestions) * 100);
+      result.percentage = Math.round(
+        (session.singlePlayerScore / session.totalQuestions) * 100
+      );
 
       // Automatically end the session
       this.endUserSession(userId);
@@ -400,6 +427,16 @@ class DiscordBotService {
       board: this.initializeBoard(),
       registrationOpen: true,
       dailyDouble: null,
+      finalJeopardy: {
+        active: false,
+        bettingPhase: false,
+        answeringPhase: false,
+        revealPhase: false,
+        question: null,
+        bets: new Map(),
+        answers: new Map(),
+        category: "Final Jeopardy",
+      },
     };
 
     return { success: true, gameState: this.gameState };
@@ -483,10 +520,9 @@ class DiscordBotService {
       return { error: "No game waiting to start. Use `/create` first!" };
     }
 
-    if (this.registeredPlayers.size < 2) {
+    if (this.registeredPlayers.size < 1) {
       return {
-        error:
-          "Need at least 2 players to start the game! For solo play, use `/solo`.",
+        error: "Need at least 1 player to start the game! Use `/join` first.",
       };
     }
 
@@ -685,23 +721,28 @@ class DiscordBotService {
 
   getCurrentPlayer() {
     if (!this.gameState) {
-      console.warn('getCurrentPlayer: No gameState found');
+      console.warn("getCurrentPlayer: No gameState found");
       return null;
     }
 
     if (!this.gameState.isActive) {
-      console.warn('getCurrentPlayer: Game is not active');
+      console.warn("getCurrentPlayer: Game is not active");
       return null;
     }
 
     if (this.playerOrder.length === 0) {
-      console.warn('getCurrentPlayer: No players in playerOrder');
+      console.warn("getCurrentPlayer: No players in playerOrder");
       return null;
     }
 
     // Safety check for currentPlayerIndex
-    if (this.currentPlayerIndex >= this.playerOrder.length || this.currentPlayerIndex < 0) {
-      console.warn(`Invalid currentPlayerIndex: ${this.currentPlayerIndex}, resetting to 0`);
+    if (
+      this.currentPlayerIndex >= this.playerOrder.length ||
+      this.currentPlayerIndex < 0
+    ) {
+      console.warn(
+        `Invalid currentPlayerIndex: ${this.currentPlayerIndex}, resetting to 0`
+      );
       this.currentPlayerIndex = 0;
     }
 
@@ -713,7 +754,9 @@ class DiscordBotService {
       return null;
     }
 
-    console.log(`getCurrentPlayer: Found player ${player.displayName} (${player.userId})`);
+    console.log(
+      `getCurrentPlayer: Found player ${player.displayName} (${player.userId})`
+    );
     return player;
   }
 
@@ -853,7 +896,8 @@ class DiscordBotService {
 
       if (!isCurrentPlayersTurn) {
         // During open answering, always move to next player regardless of who answered correctly
-        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.playerOrder.length;
+        this.currentPlayerIndex =
+          (this.currentPlayerIndex + 1) % this.playerOrder.length;
       }
 
       const nextPlayer = this.getCurrentPlayer();
@@ -867,6 +911,7 @@ class DiscordBotService {
         wasOpenAnswering: isOpenAnswering,
         turnAdvanced: !isCurrentPlayersTurn,
         nextPlayer: nextPlayer,
+        shouldStartFinalJeopardy: this.shouldStartFinalJeopardy(),
       };
     } else {
       if (isCurrentPlayersTurn && !isOpenAnswering) {
@@ -882,7 +927,9 @@ class DiscordBotService {
         this.gameState.openAnsweringAttempts++;
         this.gameState.attemptingPlayers.add(userId);
 
-        if (this.gameState.openAnsweringAttempts >= this.gameState.maxOpenAttempts) {
+        if (
+          this.gameState.openAnsweringAttempts >= this.gameState.maxOpenAttempts
+        ) {
           // Max attempts reached, move to next player
           this.gameState.answering = false;
           this.gameState.openAnswering = false;
@@ -891,7 +938,8 @@ class DiscordBotService {
           this.gameState.currentQuestion = null;
 
           // Move to next player
-          this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.playerOrder.length;
+          this.currentPlayerIndex =
+            (this.currentPlayerIndex + 1) % this.playerOrder.length;
           const nextPlayer = this.getCurrentPlayer();
 
           return {
@@ -902,6 +950,7 @@ class DiscordBotService {
             correctAnswer: completedQuestion.answer,
             nextPlayer: nextPlayer,
             attemptsUsed: this.gameState.openAnsweringAttempts,
+            shouldStartFinalJeopardy: this.shouldStartFinalJeopardy(),
           };
         }
 
@@ -909,7 +958,9 @@ class DiscordBotService {
           correct: false,
           yourAnswer: answer,
           wasOpenAnswering: true,
-          attemptsRemaining: this.gameState.maxOpenAttempts - this.gameState.openAnsweringAttempts,
+          attemptsRemaining:
+            this.gameState.maxOpenAttempts -
+            this.gameState.openAnsweringAttempts,
         };
       }
     }
@@ -1354,6 +1405,222 @@ class DiscordBotService {
       };
     }
     return null;
+  }
+
+  shouldStartFinalJeopardy() {
+    if (!this.gameState || this.gameState.isSinglePlayer) return false;
+
+    // Check if all board questions are completed (30 total questions)
+    return this.gameState.selectedQuestions.size >= 30;
+  }
+
+  startFinalJeopardy() {
+    if (!this.gameState || this.gameState.isSinglePlayer) {
+      return { error: "No multiplayer game to start Final Jeopardy." };
+    }
+
+    if (!this.shouldStartFinalJeopardy()) {
+      return { error: "Board must be completed before Final Jeopardy." };
+    }
+
+    // Get a random Final Jeopardy question
+    const finalQuestion = this.getFinalJeopardyQuestion();
+    if (!finalQuestion) {
+      return { error: "No Final Jeopardy questions available." };
+    }
+
+    this.gameState.finalJeopardy.active = true;
+    this.gameState.finalJeopardy.bettingPhase = true;
+    this.gameState.finalJeopardy.question = finalQuestion;
+    this.gameState.finalJeopardy.bets.clear();
+    this.gameState.finalJeopardy.answers.clear();
+
+    return {
+      success: true,
+      question: finalQuestion,
+      players: Array.from(this.players.values()),
+    };
+  }
+
+  getFinalJeopardyQuestion() {
+    // Get a high-difficulty question from any category
+    const categories = this.categories;
+    const shuffledCategories = [...categories];
+    this.shuffleArray(shuffledCategories);
+
+    for (const category of shuffledCategories) {
+      const categoryData = this.triviaData[category];
+      if (categoryData && categoryData[500] && categoryData[500].length > 0) {
+        const questions = categoryData[500];
+        const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+        return {
+          ...randomQuestion,
+          category: "Final Jeopardy",
+          originalCategory: category,
+        };
+      }
+    }
+    return null;
+  }
+
+  submitFinalJeopardyBet(userId, betAmount) {
+    if (!this.gameState || !this.gameState.finalJeopardy.active || !this.gameState.finalJeopardy.bettingPhase) {
+      return { error: "Final Jeopardy betting is not currently active." };
+    }
+
+    const player = this.players.get(userId);
+    if (!player) {
+      return { error: "You are not registered for this game." };
+    }
+
+    const maxBet = Math.max(0, player.score);
+    if (betAmount < 0 || betAmount > maxBet) {
+      return { error: `Bet must be between $0 and $${maxBet} (your current score).` };
+    }
+
+    this.gameState.finalJeopardy.bets.set(userId, betAmount);
+
+    const allPlayersHaveBet = Array.from(this.players.keys()).every(playerId =>
+      this.gameState.finalJeopardy.bets.has(playerId)
+    );
+
+    if (allPlayersHaveBet) {
+      this.gameState.finalJeopardy.bettingPhase = false;
+      this.gameState.finalJeopardy.answeringPhase = true;
+      return {
+        success: true,
+        betAccepted: true,
+        allBetsIn: true,
+        question: this.gameState.finalJeopardy.question,
+      };
+    }
+
+    return {
+      success: true,
+      betAccepted: true,
+      allBetsIn: false,
+      waitingFor: Array.from(this.players.keys()).filter(playerId =>
+        !this.gameState.finalJeopardy.bets.has(playerId)
+      ).map(playerId => this.players.get(playerId).displayName),
+    };
+  }
+
+  submitFinalJeopardyAnswer(userId, answer) {
+    if (!this.gameState || !this.gameState.finalJeopardy.active || !this.gameState.finalJeopardy.answeringPhase) {
+      return { error: "Final Jeopardy answering is not currently active." };
+    }
+
+    const player = this.players.get(userId);
+    if (!player) {
+      return { error: "You are not registered for this game." };
+    }
+
+    this.gameState.finalJeopardy.answers.set(userId, answer);
+
+    const allPlayersHaveAnswered = Array.from(this.players.keys()).every(playerId =>
+      this.gameState.finalJeopardy.answers.has(playerId)
+    );
+
+    if (allPlayersHaveAnswered) {
+      return this.revealFinalJeopardy();
+    }
+
+    return {
+      success: true,
+      answerSubmitted: true,
+      allAnswersIn: false,
+      waitingFor: Array.from(this.players.keys()).filter(playerId =>
+        !this.gameState.finalJeopardy.answers.has(playerId)
+      ).map(playerId => this.players.get(playerId).displayName),
+    };
+  }
+
+  revealFinalJeopardy() {
+    this.gameState.finalJeopardy.answeringPhase = false;
+    this.gameState.finalJeopardy.revealPhase = true;
+
+    const results = [];
+    const correctAnswer = this.gameState.finalJeopardy.question.answer;
+
+    Array.from(this.players.keys()).forEach(playerId => {
+      const player = this.players.get(playerId);
+      const bet = this.gameState.finalJeopardy.bets.get(playerId);
+      const answer = this.gameState.finalJeopardy.answers.get(playerId);
+
+      const isCorrect = this.checkAnswer(
+        answer,
+        correctAnswer,
+        this.gameState.finalJeopardy.question.key_words
+      );
+
+      const oldScore = player.score;
+      if (isCorrect) {
+        player.score += bet;
+      } else {
+        player.score -= bet;
+      }
+
+      results.push({
+        player: player,
+        bet: bet,
+        answer: answer,
+        correct: isCorrect,
+        oldScore: oldScore,
+        newScore: player.score,
+        scoreChange: isCorrect ? +bet : -bet,
+      });
+    });
+
+    // Game is now complete
+    this.gameState.isActive = false;
+
+    return {
+      success: true,
+      finalResults: results,
+      correctAnswer: correctAnswer,
+      question: this.gameState.finalJeopardy.question.question,
+      gameComplete: true,
+    };
+  }
+
+  // TEST ONLY: Create a test Final Jeopardy setup with custom score/bet
+  createTestFinalJeopardy(userId, username, score, bet) {
+    // Get a random Final Jeopardy question
+    const finalQuestion = this.getFinalJeopardyQuestion();
+    if (!finalQuestion) {
+      return { error: "No Final Jeopardy questions available." };
+    }
+
+    // Create a minimal game state for testing
+    this.gameState = {
+      isActive: true,
+      isSinglePlayer: false, // Set to false to allow Final Jeopardy
+      selectedQuestions: new Set(Array.from({ length: 30 }, (_, i) => i)), // Mock 30 completed questions
+      finalJeopardy: {
+        active: true,
+        bettingPhase: false, // Skip betting since we're setting it manually
+        answeringPhase: true, // Go straight to answering
+        revealPhase: false,
+        question: finalQuestion,
+        bets: new Map([[userId, bet]]),
+        answers: new Map(),
+        category: "Final Jeopardy",
+      }
+    };
+
+    // Create a test player
+    this.players = new Map([[userId, {
+      userId: userId,
+      displayName: username,
+      score: score,
+    }]]);
+
+    return {
+      success: true,
+      question: finalQuestion,
+      score: score,
+      bet: bet,
+    };
   }
 }
 

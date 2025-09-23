@@ -5,12 +5,12 @@ export class DiscordBotCommands {
   constructor() {
     this.prefix = "!trivia";
     this.categories = [
-      "SPELLS & MAGIC",
-      "HOGWARTS HISTORY",
-      "MAGICAL CREATURES",
-      "POTIONS",
-      "DEFENSE AGAINST DARK ARTS",
-      "WIZARDING WORLD",
+      "Slytherin House, Death Eaters and The Dark Arts",
+      "Objects & Artifacts",
+      "Animals, Magical Creatures & Magical Beings",
+      "Witches,Wizard, Ghosts, and Muggles",
+      "Hogwarts, Other Locations and Transportation",
+      "Spells, Potions, and other magic",
     ];
   }
 
@@ -54,6 +54,12 @@ export class DiscordBotCommands {
       case "reply":
       case "answer":
         return this.handleAnswerCommand(message, args);
+      case "finalbet":
+        return this.handleFinalJeopardyBet(message, args);
+      case "finalanswer":
+        return this.handleFinalJeopardyAnswer(message, args);
+      case "final":
+        return this.startFinalJeopardy(message);
       default:
         return this.showHelp(message);
     }
@@ -212,7 +218,9 @@ export class DiscordBotCommands {
         : `✨ **Correct!** ${result.winner.displayName} earned **$${result.points}**!`;
 
       let nextPlayerMessage;
-      if (result.turnAdvanced) {
+      if (result.shouldStartFinalJeopardy) {
+        nextPlayerMessage = `🎯 **THE BOARD IS COMPLETE!** Time for Final Jeopardy! All players must set their bets using \`/finalbet\`!`;
+      } else if (result.turnAdvanced) {
         nextPlayerMessage = `<@${result.nextPlayer.userId}>, you're up next! Pick a question.`;
       } else {
         nextPlayerMessage = `<@${result.winner.userId}>, pick the next question!`;
@@ -239,27 +247,33 @@ export class DiscordBotCommands {
         return {
           type: "incorrect",
           content:
-            `❌ **${result.currentPlayer.displayName}** got it wrong!\n` +
-            `**Their answer:** ${result.yourAnswer}\n\n` +
+            `❌ **${result.currentPlayer.displayName}** answered: "${result.yourAnswer}" - That's not correct!\n\n` +
             `🔥 **OPEN TO ALL PLAYERS!** ${allPlayers}\n` +
             `First correct answer wins the points!`,
         };
       } else if (result.maxAttemptsReached) {
         // Max attempts reached, moving to next player
+        let nextAction;
+        if (result.shouldStartFinalJeopardy) {
+          nextAction = `🎯 **THE BOARD IS COMPLETE!** Time for Final Jeopardy! All players must set their bets using \`/finalbet\`!`;
+        } else {
+          nextAction = `<@${result.nextPlayer.userId}>, you're up! Pick a question.`;
+        }
+
         return {
           type: "incorrect",
           content:
-            `❌ **${username}** got it wrong!\n` +
+            `❌ **${username}** answered: "${result.yourAnswer}" - That's not correct!\n` +
             `**Correct answer:** ${result.correctAnswer}\n\n` +
             `⚡ **${result.attemptsUsed} attempts used!** Moving to next player.\n` +
-            `<@${result.nextPlayer.userId}>, you're up! Pick a question.`,
+            nextAction,
         };
       } else {
         // Someone else got it wrong during open answering
         const remaining = result.attemptsRemaining || 0;
         return {
           type: "incorrect",
-          content: `❌ Sorry ${username}, that's not correct. **${remaining} attempts remaining!**`,
+          content: `❌ **${username}** answered: "${result.yourAnswer}" - That's not correct. **${remaining} attempts remaining!**`,
         };
       }
     }
@@ -394,7 +408,7 @@ export class DiscordBotCommands {
         },
       ],
       footer: {
-        text: "Minimum 2 players required to start",
+        text: "Minimum 1 player required to start",
       },
       timestamp: new Date().toISOString(),
     };
@@ -458,9 +472,9 @@ export class DiscordBotCommands {
       ],
       footer: {
         text:
-          result.playerCount >= 2
+          result.playerCount >= 1
             ? "Ready to start! Use /start to begin the game"
-            : `Need ${2 - result.playerCount} more player(s) to start`,
+            : `Need ${1 - result.playerCount} more player(s) to start`,
       },
       timestamp: new Date().toISOString(),
     };
@@ -559,7 +573,7 @@ export class DiscordBotCommands {
         },
         {
           name: "📝 Legend",
-          value: "💰 = Available Question | ❌ = Already Answered",
+          value: "❌ = Already Answered",
           inline: false,
         },
       ],
@@ -828,7 +842,7 @@ export class DiscordBotCommands {
 
     return {
       type: "success",
-      content: "🌀 **Game Reset!** Use `/start` to begin a new game.",
+      content: "🌀 **Game Reset!** Use `/create` to begin a new game.",
     };
   }
 
@@ -839,7 +853,8 @@ export class DiscordBotCommands {
     if (!status.success || !status.gameState || !status.gameState.isActive) {
       return {
         type: "error",
-        content: "❌ No active game found to fix. Use `/create` to start a new game.",
+        content:
+          "❌ No active game found to fix. Use `/create` to start a new game.",
       };
     }
 
@@ -859,7 +874,8 @@ export class DiscordBotCommands {
       } else {
         return {
           type: "error",
-          content: "❌ Game state is too corrupted. Use `/reset` to start over.",
+          content:
+            "❌ Game state is too corrupted. Use `/reset` to start over.",
         };
       }
     }
@@ -877,17 +893,27 @@ export class DiscordBotCommands {
     let debugInfo = "🐛 **Game Debug Info:**\n\n";
 
     debugInfo += `**Game State Exists:** ${!!discordBot.gameState}\n`;
-    debugInfo += `**Game Active:** ${discordBot.gameState?.isActive || false}\n`;
-    debugInfo += `**Player Order Length:** ${discordBot.playerOrder?.length || 0}\n`;
+    debugInfo += `**Game Active:** ${
+      discordBot.gameState?.isActive || false
+    }\n`;
+    debugInfo += `**Player Order Length:** ${
+      discordBot.playerOrder?.length || 0
+    }\n`;
     debugInfo += `**Current Player Index:** ${discordBot.currentPlayerIndex}\n`;
     debugInfo += `**Players Map Size:** ${discordBot.players?.size || 0}\n`;
 
     if (discordBot.playerOrder && discordBot.playerOrder.length > 0) {
-      debugInfo += `**Player Order:** ${discordBot.playerOrder.slice(0, 3).join(', ')}${discordBot.playerOrder.length > 3 ? '...' : ''}\n`;
+      debugInfo += `**Player Order:** ${discordBot.playerOrder
+        .slice(0, 3)
+        .join(", ")}${discordBot.playerOrder.length > 3 ? "..." : ""}\n`;
     }
 
     const currentPlayer = discordBot.getCurrentPlayer();
-    debugInfo += `**Current Player:** ${currentPlayer ? `${currentPlayer.displayName} (${currentPlayer.userId})` : 'NULL'}\n`;
+    debugInfo += `**Current Player:** ${
+      currentPlayer
+        ? `${currentPlayer.displayName} (${currentPlayer.userId})`
+        : "NULL"
+    }\n`;
 
     return {
       type: "info",
@@ -901,7 +927,7 @@ export class DiscordBotCommands {
 
     // Compact header with shortened category names
     board += "    1     2     3     4     5     6\n";
-    board += "SPELL HOGWA CREAT POTIO DEFEN WIZAR\n";
+    board += "SLYTH OBJEC ANIMA WITCH HOGWA SPELL\n";
     board += "------------------------------------\n";
 
     // Add each dollar amount row
@@ -1007,6 +1033,186 @@ export class DiscordBotCommands {
       thumbnail: {
         url: "https://cdn.discordapp.com/emojis/emoji_id.png", // Optional: Add celebration emoji
       },
+    };
+  }
+
+  // Manually start Final Jeopardy (for testing)
+  async startFinalJeopardy(message) {
+    const result = discordBot.startFinalJeopardy();
+
+    if (result.error) {
+      return {
+        type: "error",
+        content: `❌ ${result.error}`,
+      };
+    }
+
+    const embed = {
+      title: "🎯 FINAL JEOPARDY BEGINS!",
+      description: "The board is complete! Time for the final round!",
+      color: 0xffd700, // Gold color
+      fields: [
+        {
+          name: "📝 Instructions",
+          value: "1. All players must set their bets using `/finalbet [amount]`\n2. You cannot bet more than your current score\n3. Once all bets are in, the Final Jeopardy question will be revealed\n4. Submit your answers privately with `/finalanswer [answer]`",
+          inline: false,
+        },
+        {
+          name: "👥 Players",
+          value: result.players.map(p => `**${p.displayName}** - $${p.score}`).join('\n'),
+          inline: false,
+        },
+      ],
+      footer: {
+        text: "Use /finalbet to place your bet!",
+      },
+      timestamp: new Date().toISOString(),
+    };
+
+    return {
+      type: "embed",
+      content: "🎯 **FINAL JEOPARDY!**",
+      embed,
+    };
+  }
+
+  // Handle Final Jeopardy bet submission
+  async handleFinalJeopardyBet(message, args) {
+    if (args.length < 2) {
+      return {
+        type: "error",
+        content: "❌ Usage: `/finalbet [amount]`\nExample: `/finalbet 500`",
+      };
+    }
+
+    const betAmount = parseInt(args[1]);
+    if (isNaN(betAmount)) {
+      return {
+        type: "error",
+        content: "❌ Bet amount must be a valid number.",
+      };
+    }
+
+    const result = discordBot.submitFinalJeopardyBet(message.author.id, betAmount);
+
+    if (result.error) {
+      return {
+        type: "error",
+        content: `❌ ${result.error}`,
+      };
+    }
+
+    if (result.allBetsIn) {
+      // All players have bet, show Final Jeopardy question
+      const finalJeopardyEmbed = {
+        title: "🎯 FINAL JEOPARDY!",
+        description: `**Category:** ${result.question.category}`,
+        color: 0xffd700, // Gold color
+        fields: [
+          {
+            name: "📝 Question",
+            value: result.question.question,
+            inline: false,
+          },
+          {
+            name: "⚡ Instructions",
+            value: "All players must now submit their answers privately using `/finalanswer [your answer]`\n\n**Remember:** This answer is private and will only be revealed when everyone has answered!",
+            inline: false,
+          },
+        ],
+        footer: {
+          text: "Use /finalanswer to submit your answer privately",
+        },
+        timestamp: new Date().toISOString(),
+      };
+
+      return {
+        type: "embed",
+        content: `✅ **${message.author.displayName}** has placed their Final Jeopardy bet!\n\n🎯 **ALL BETS ARE IN!** Here's your Final Jeopardy question:`,
+        embed: finalJeopardyEmbed,
+      };
+    } else {
+      const stillWaiting = result.waitingFor.join(", ");
+      return {
+        type: "success",
+        content: `✅ **${message.author.displayName}** has placed their Final Jeopardy bet of **$${betAmount}**!\n\n⏳ Still waiting for bets from: **${stillWaiting}**`,
+      };
+    }
+  }
+
+  // Handle Final Jeopardy answer submission
+  async handleFinalJeopardyAnswer(message, args) {
+    if (args.length < 2) {
+      return {
+        type: "error",
+        content: "❌ Usage: `/finalanswer [your answer]`\nExample: `/finalanswer Harry Potter`",
+      };
+    }
+
+    const answer = args.slice(1).join(" ");
+    const result = discordBot.submitFinalJeopardyAnswer(message.author.id, answer);
+
+    if (result.error) {
+      return {
+        type: "error",
+        content: `❌ ${result.error}`,
+      };
+    }
+
+    if (result.gameComplete) {
+      // All players have answered, show results
+      return this.handleFinalJeopardyResults(result);
+    } else {
+      const stillWaiting = result.waitingFor.join(", ");
+      return {
+        type: "success",
+        content: `✅ **${message.author.displayName}** has submitted their Final Jeopardy answer!\n\n⏳ Still waiting for answers from: **${stillWaiting}**`,
+      };
+    }
+  }
+
+  // Handle Final Jeopardy results display
+  handleFinalJeopardyResults(result) {
+    const embed = {
+      title: "🏁 FINAL JEOPARDY RESULTS!",
+      description: `**Question:** ${result.question}\n**Correct Answer:** ${result.correctAnswer}`,
+      color: 0x10b981, // Green color
+      fields: [],
+      footer: {
+        text: "Game Complete! Thanks for playing!",
+      },
+      timestamp: new Date().toISOString(),
+    };
+
+    // Add each player's results
+    result.finalResults.forEach((playerResult, index) => {
+      const { player, bet, answer, correct, oldScore, newScore, scoreChange } = playerResult;
+
+      let resultIcon = correct ? "✅" : "❌";
+      let scoreText = correct ? `+$${bet}` : `-$${bet}`;
+
+      embed.fields.push({
+        name: `${resultIcon} ${player.displayName}`,
+        value: `**Answer:** "${answer}"\n**Bet:** $${bet} (${scoreText})\n**Score:** $${oldScore} → $${newScore}`,
+        inline: true,
+      });
+    });
+
+    // Sort by final score for winner announcement
+    const sortedResults = [...result.finalResults].sort((a, b) => b.newScore - a.newScore);
+    const winner = sortedResults[0];
+
+    let winnerMessage = "";
+    if (winner.newScore > 0) {
+      winnerMessage = `🏆 **${winner.player.displayName} WINS with $${winner.newScore}!**`;
+    } else {
+      winnerMessage = `🎭 **No winner this round!** Better luck next time!`;
+    }
+
+    return {
+      type: "embed",
+      content: `🎯 **FINAL JEOPARDY COMPLETE!**\n\n${winnerMessage}`,
+      embed,
     };
   }
 

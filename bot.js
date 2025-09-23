@@ -6,11 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
+  intents: [GatewayIntentBits.Guilds],
 });
 
 const PREFIX = "!trivia";
@@ -23,7 +19,6 @@ client.once("ready", async () => {
 
   client.user.setActivity("Harry Potter Jeopardy!", { type: "PLAYING" });
 
-  // Register slash commands
   await registerSlashCommands();
 });
 
@@ -56,21 +51,30 @@ async function registerSlashCommands() {
         {
           name: "category",
           description: "Category number (1-6)",
-          type: 4, // INTEGER
+          type: 4,
           required: true,
           choices: [
-            { name: "1. Spells & Magic", value: 1 },
-            { name: "2. Hogwarts History", value: 2 },
-            { name: "3. Magical Creatures", value: 3 },
-            { name: "4. Potions", value: 4 },
-            { name: "5. Defense Against Dark Arts", value: 5 },
-            { name: "6. Wizarding World", value: 6 },
+            {
+              name: "1. Slytherin House, Death Eaters and The Dark Arts",
+              value: 1,
+            },
+            { name: "2. Objects & Artifacts", value: 2 },
+            {
+              name: "3. Animals, Magical Creatures & Magical Beings",
+              value: 3,
+            },
+            { name: "4. Witches,Wizard, Ghosts, and Muggles", value: 4 },
+            {
+              name: "5. Hogwarts, Other Locations and Transportation",
+              value: 5,
+            },
+            { name: "6. Spells, Potions, and other magic", value: 6 },
           ],
         },
         {
           name: "points",
           description: "Point value (1-5)",
-          type: 4, // INTEGER
+          type: 4,
           required: true,
           choices: [
             { name: "$100", value: 1 },
@@ -89,7 +93,7 @@ async function registerSlashCommands() {
         {
           name: "answer",
           description: "Your answer to the trivia question",
-          type: 3, // STRING
+          type: 3,
           required: true,
         },
       ],
@@ -118,6 +122,34 @@ async function registerSlashCommands() {
       name: "fix",
       description: "Fix corrupted game state",
     },
+    {
+      name: "finalbet",
+      description: "Set your bet for Final Jeopardy",
+      options: [
+        {
+          name: "amount",
+          description: "Bet amount (cannot exceed your current score)",
+          type: 4, // INTEGER
+          required: true,
+        },
+      ],
+    },
+    {
+      name: "finalanswer",
+      description: "Submit your Final Jeopardy answer (private)",
+      options: [
+        {
+          name: "answer",
+          description: "Your answer to the Final Jeopardy question",
+          type: 3, // STRING
+          required: true,
+        },
+      ],
+    },
+    {
+      name: "final",
+      description: "Manually start Final Jeopardy (for testing)",
+    },
   ];
 
   try {
@@ -129,36 +161,27 @@ async function registerSlashCommands() {
   }
 }
 
-// Handle slash command interactions
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const commandName = interaction.commandName;
 
   try {
-    // Create a mock message object to work with existing command handlers
+    // Create a mock message object for compatibility with existing command handlers
     const mockMessage = {
       author: interaction.user,
       member: interaction.member,
       channel: interaction.channel,
       guild: interaction.guild,
-      reply: async (content) => {
-        if (typeof content === "string") {
-          return await interaction.reply({ content, ephemeral: false });
-        } else {
-          return await interaction.reply({
-            content: content.content,
-            embeds: content.embeds || [],
-            ephemeral: false,
-          });
-        }
+      reply: async () => {
+        // This is a no-op - we handle replies through handleSlashResponse
+        return null;
       },
     };
 
     let result;
     let args = [commandName];
 
-    // Handle commands with options
     if (commandName === "pick") {
       const category = interaction.options.getInteger("category");
       const points = interaction.options.getInteger("points");
@@ -166,6 +189,12 @@ client.on("interactionCreate", async (interaction) => {
     } else if (commandName === "answer") {
       const answer = interaction.options.getString("answer");
       args = ["answer", ...answer.split(" ")];
+    } else if (commandName === "finalbet") {
+      const amount = interaction.options.getInteger("amount");
+      args = ["finalbet", amount.toString()];
+    } else if (commandName === "finalanswer") {
+      const answer = interaction.options.getString("answer");
+      args = ["finalanswer", ...answer.split(" ")];
     }
 
     result = await discordBotCommands.handleCommand(mockMessage, args);
@@ -175,7 +204,7 @@ client.on("interactionCreate", async (interaction) => {
     if (!interaction.replied) {
       await interaction.reply({
         content: `❌ An error occurred: ${error.message}`,
-        ephemeral: true,
+        flags: 64, // MessageFlags.Ephemeral
       });
     }
   }
@@ -184,9 +213,12 @@ client.on("interactionCreate", async (interaction) => {
 async function handleSlashResponse(interaction, result) {
   if (!result) return;
 
-  const responseData = {
-    ephemeral: false,
-  };
+  const responseData = {};
+
+  // Make Final Jeopardy answers private using flags
+  if (interaction.commandName === "finalanswer") {
+    responseData.flags = 64; // MessageFlags.Ephemeral
+  }
 
   switch (result.type) {
     case "embed":
@@ -222,7 +254,6 @@ async function handleSlashResponse(interaction, result) {
     await interaction.followUp(responseData);
   }
 
-  // Handle board display for slash commands
   if (
     result &&
     (result.type === "correct" ||
@@ -243,168 +274,6 @@ async function handleSlashResponse(interaction, result) {
         });
       }
     }, 1000);
-  }
-}
-
-client.on("messageCreate", async (message) => {
-  if (message.author.bot) return;
-
-  try {
-    if (message.content.toLowerCase().startsWith(PREFIX)) {
-      await handleCommand(message);
-    }
-  } catch (error) {
-    console.error("Error handling message:", error);
-    console.error("Error stack:", error.stack);
-    console.error("Message content:", message.content);
-    console.error("User ID:", message.author.id);
-    // Only reply with error if it was a !trivia command
-    if (message.content.toLowerCase().startsWith(PREFIX)) {
-      message.reply(
-        `❌ An error occurred while processing your request: ${error.message}`
-      );
-    }
-  }
-});
-
-async function handleCommand(message) {
-  const args = message.content.slice(PREFIX.length).trim().split(/ +/);
-  const result = await discordBotCommands.handleCommand(message, args);
-
-  await sendResponse(message, result);
-
-  // Show board after correct answers or max attempts reached (for !trivia reply commands)
-  if (
-    result &&
-    (result.type === "correct" ||
-      (result.type === "incorrect" &&
-        result.content &&
-        result.content.includes("Moving to next player")))
-  ) {
-    setTimeout(async () => {
-      const boardStatus = discordBot.getGameStatus();
-      if (boardStatus.success) {
-        const boardEmbed = discordBotCommands.createBoardEmbed(
-          boardStatus.boardStatus
-        );
-        const currentPlayer = discordBot.getCurrentPlayer();
-        message.channel.send({
-          content: `📋 **Updated Board** - <@${currentPlayer?.userId}>, choose your category and points!`,
-          embeds: [boardEmbed],
-        });
-      }
-    }, 1000);
-  }
-}
-
-async function handleAnswer(message) {
-  const result = await discordBotCommands.handleAnswer(message);
-
-  if (result.ephemeral) {
-    const reply = await message.reply(result.content);
-    setTimeout(() => {
-      reply.delete().catch(() => {});
-      message.delete().catch(() => {});
-    }, 5000);
-  } else {
-    await sendResponse(message, result);
-  }
-
-  if (
-    result.type === "correct" ||
-    (result.type === "incorrect" &&
-      result.content &&
-      result.content.includes("Moving to next player"))
-  ) {
-    setTimeout(async () => {
-      const boardStatus = discordBot.getGameStatus();
-      if (boardStatus.success) {
-        const boardEmbed = discordBotCommands.createBoardEmbed(
-          boardStatus.boardStatus
-        );
-        const currentPlayer = discordBot.getCurrentPlayer();
-        message.channel.send({
-          content: `📋 **Updated Board** - <@${currentPlayer?.userId}>, choose your category and points!`,
-          embeds: [boardEmbed],
-        });
-      }
-    }, 1000);
-  }
-}
-
-async function sendResponse(message, result) {
-  if (!result) return;
-
-  switch (result.type) {
-    case "embed":
-      await message.channel.send({
-        content: result.content,
-        embeds: [result.embed],
-      });
-
-      // If this is a game start, show the board again as a separate message for clarity
-      if (result.content && result.content.includes("Game Started!")) {
-        const boardStatus = discordBot.getGameStatus();
-        if (boardStatus.success) {
-          const boardEmbed = discordBotCommands.createBoardEmbed(
-            boardStatus.boardStatus
-          );
-          const currentPlayer = discordBot.getCurrentPlayer();
-          message.channel.send({
-            content: `📋 **Current Board** - <@${currentPlayer?.userId}>, choose your category and points!`,
-            embeds: [boardEmbed],
-          });
-        }
-      }
-      break;
-
-    case "question":
-      const questionMessage = await message.channel.send({
-        content: result.content + "\n\n**Use `/answer` to respond!**",
-        embeds: [result.embed],
-      });
-
-      setTimeout(async () => {
-        const timeoutResult = discordBot.endCurrentQuestion();
-        if (timeoutResult.success && timeoutResult.timedOut) {
-          questionMessage.reply({
-            content: `⏰ **Time's up!**\n**Correct answer:** ${timeoutResult.correctAnswer}`,
-            embeds: [],
-          });
-        }
-      }, QUESTION_TIMEOUT);
-      break;
-
-    case "correct":
-      await message.channel.send({
-        content: result.content,
-        embeds: result.embed ? [result.embed] : [],
-      });
-      break;
-
-    case "error":
-    case "info":
-      await message.reply(result.content);
-      break;
-
-    case "success":
-      if (result.isSinglePlayer && result.nextQuestion) {
-        const userId = result.player?.userId || message.author.id;
-        await message.reply(
-          result.content +
-            `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-            `**Question ${result.questionNumber} of ${result.totalQuestions}**\n\n` +
-            `**${result.nextQuestion.question}**\n\n` +
-            `<@${userId}>, use \`/reply\` to respond!`
-        );
-      } else {
-        await message.reply(result.content);
-      }
-      break;
-
-    default:
-      await message.reply(result.content);
-      break;
   }
 }
 

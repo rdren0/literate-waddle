@@ -1,6 +1,97 @@
 {
   "category_1": [
     {
+      "question": "Which Death Eater's trial does Harry see when he first looks into Dumbledore's Pensieve?",
+      "answer": "Igor Karkaroff's",
+      "key_words": ["Death Eater", "trial", "Pensieve", "Igor Karkaroff"]
+    },
+    {
+      "question": "Who sacrifices his piece during the giant wizard chess game so Harry can win and stop Lord Voldemort from reaching the Sorcerer's Stone?",
+      "answer": "Ron Weasley",
+      "key_words": ["chess", "sacrifice", "Ron Weasley", "Sorcerer's Stone"]
+    },
+    {
+      "question": "In what type of container is Lord Voldemort reborn?",
+      "answer": "A giant cauldron",
+      "key_words": ["Voldemort", "reborn", "cauldron"]
+    },
+    {
+      "question": "What spell conjures the Dark Mark?",
+      "answer": "Morsmordre",
+      "key_words": ["Dark Mark", "spell", "Morsmordre"]
+    },
+    {
+      "question": "At the start of their sixth year at Hogwarts, which schoolmate is Harry convinced has become a Death Eater?",
+      "answer": "Draco Malfoy",
+      "key_words": ["sixth year", "Death Eater", "Draco Malfoy"]
+    },
+    {
+      "question": "Which Death Eater is imprisoned in Azkaban after Sirius Black's death?",
+      "answer": "Lucius Malfoy",
+      "key_words": ["Death Eater", "Azkaban", "Lucius Malfoy"]
+    },
+    {
+      "question": "Who confiscates the locket Horcrux from Mundungus Fletcher?",
+      "answer": "Dolores Umbridge",
+      "key_words": [
+        "Horcrux",
+        "locket",
+        "Mundungus Fletcher",
+        "Dolores Umbridge"
+      ]
+    },
+    {
+      "question": "What type of Muggle structure in London do the Death Eaters cause to collapse?",
+      "answer": "A bridge",
+      "key_words": ["Muggle", "London", "bridge", "collapse", "Death Eaters"]
+    },
+    {
+      "question": "As they prepare to head home after their fifth year at school, what does Harry tell Ron and Hermione they have that Lord Voldemort doesn't?",
+      "answer": "Something worth fighting for",
+      "key_words": [
+        "Harry Potter",
+        "Voldemort",
+        "fifth year",
+        "worth fighting for"
+      ]
+    },
+    {
+      "question": "Who does Igor Karkaroff say is a spy in the Department of Mysteries?",
+      "answer": "Augustus Rookwood",
+      "key_words": [
+        "Igor Karkaroff",
+        "spy",
+        "Department of Mysteries",
+        "Rookwood"
+      ]
+    },
+    {
+      "question": "What does Harry use to destroy the diadem of Rowena Ravenclaw?",
+      "answer": "A Basilisk fang",
+      "key_words": [
+        "Harry Potter",
+        "destroy",
+        "diadem",
+        "Ravenclaw",
+        "Basilisk fang"
+      ]
+    },
+    {
+      "question": "What is Professor Snape's first name?",
+      "answer": "Severus",
+      "key_words": ["Professor Snape", "first name", "Severus"]
+    },
+    {
+      "question": "What is the derogatory term Draco Malfoy uses to describe Muggle-born wizards?",
+      "answer": "Mudblood",
+      "key_words": ["Draco Malfoy", "Muggle-born", "insult", "Mudblood"]
+    },
+    {
+      "question": "What is the derogatory term Draco Malfoy uses to describe Muggle-born wizards?",
+      "answer": "Mudblood",
+      "key_words": ["Draco Malfoy", "insult", "Muggle-born", "Mudblood"]
+    },
+    {
       "question": "According to Mr. Weasley, Sirius Black has escaped from Azkaban to kill whom?",
       "answer": "Harry Potter",
       "key_words": ["harry", "potter", "boy who lived", "chosen one"]
@@ -325,6 +416,96 @@
   ],
   "category_2": [
     {
+      "question": "Who retrieves the sword of Gryffindor from the lake?",
+      "answer": "Harry (with the help of Ron)",
+      "key_words": ["sword of Gryffindor", "lake", "Harry", "Ron"]
+    },
+    {
+      "question": "Which of these was NOT an option on the Weasleys' magical clock that indicated each family member's location: Home, Dentist, Prison or Forbidden Forest?",
+      "answer": "Forbidden Forest",
+      "key_words": ["Weasleys' clock", "Forbidden Forest", "locations"]
+    },
+    {
+      "question": "What does Rita Skeeter use to write her interviews?",
+      "answer": "A Quick-Quotes Quill",
+      "key_words": ["Rita Skeeter", "interviews", "Quick-Quotes Quill"]
+    },
+    {
+      "question": "What is the name of the trophy awarded to the winner of the Triwizard Tournament?",
+      "answer": "The Triwizard Cup",
+      "key_words": ["Triwizard Tournament", "trophy", "Triwizard Cup"]
+    },
+    {
+      "question": "What shoes do the Weasley twins sell in their shop that allow people to walk up walls?",
+      "answer": "Sticky Trainers",
+      "key_words": ["Weasley twins", "shop", "Sticky Trainers", "walk up walls"]
+    },
+    {
+      "question": "What store in Diagon Alley has three Quaffles hanging from its sign?",
+      "answer": "Quality Quidditch Supplies",
+      "key_words": [
+        "Diagon Alley",
+        "store",
+        "Quaffle",
+        "Quality Quidditch Supplies"
+      ]
+    },
+    {
+      "question": "In a house in Budleigh Babberton, Dumbledore discovers a Muggle magazine containing what that Dumbledore loves?",
+      "answer": "Knitting patterns",
+      "key_words": [
+        "Budleigh Babberton",
+        "Dumbledore",
+        "Muggle magazine",
+        "knitting patterns"
+      ]
+    },
+    {
+      "question": "What does Ron use to destroy the Horcrux locket?",
+      "answer": "The sword of Gryffindor",
+      "key_words": ["Ron Weasley", "Horcrux", "locket", "sword of Gryffindor"]
+    },
+    {
+      "question": "What Muggle perfume billboard does Dumbledore appear in front of when he meets Harry in the London Underground?",
+      "answer": "Divine Magic",
+      "key_words": ["Muggle", "perfume billboard", "Dumbledore", "Divine Magic"]
+    },
+    {
+      "question": "What does the Muggle waitress in the underground diner see the pictures do in Harry's copy of the Daily Prophet?",
+      "answer": "Move",
+      "key_words": [
+        "Muggle waitress",
+        "underground diner",
+        "Daily Prophet",
+        "pictures move"
+      ]
+    },
+    {
+      "question": "What book does Mad-Eye Moody give Neville Longbottom?",
+      "answer": "Magical Water Plants of the Highland Lochs",
+      "key_words": ["Mad-Eye Moody", "Neville Longbottom", "book"]
+    },
+    {
+      "question": "What is Horace Slughorn disguised as when Harry first meets him?",
+      "answer": "An armchair",
+      "key_words": ["Horace Slughorn", "disguised", "armchair"]
+    },
+    {
+      "question": "What is the final fate of the Sorcerer's Stone?",
+      "answer": "It's destroyed",
+      "key_words": ["Sorcerer's Stone", "destroyed"]
+    },
+    {
+      "question": "In his youth, what kind of Bertie Bott's Every-Flavor Bean did Dumbledore unfortunately eat?",
+      "answer": "Vomit-flavored",
+      "key_words": ["Dumbledore", "Bertie Bott's Every Flavor Beans", "vomit"]
+    },
+    {
+      "question": "In his youth, what kind of Bertie Bott's Every-Flavor Bean did Dumbledore unfortunately eat?",
+      "answer": "Vomit-flavored",
+      "key_words": ["Dumbledore", "Bertie Bott's Every Flavor Beans", "vomit"]
+    },
+    {
       "question": "Who owned the Invisibility Cloak prior to Harry?",
       "answer": "His father",
       "key_words": ["father", "james potter", "james", "dad", "his dad"]
@@ -447,17 +628,6 @@
       ]
     },
     {
-      "question": "What government building acted as Gringotts Bank in Harry Potter and the Sorcerer's Stone?",
-      "answer": "Australia House—home of the Australian High Commission",
-      "key_words": [
-        "australia house",
-        "australian high commission",
-        "gringotts",
-        "filming location",
-        "london"
-      ]
-    },
-    {
       "question": "Which classroom does Hermione storm out of in her third year at Hogwarts?",
       "answer": "Divination",
       "key_words": [
@@ -466,17 +636,6 @@
         "hermione",
         "trelawney",
         "third year"
-      ]
-    },
-    {
-      "question": "What street, with five houses on each side, did the production build for use in seven of the films?",
-      "answer": "Privet Drive",
-      "key_words": [
-        "privet drive",
-        "dursleys",
-        "little whinging",
-        "filming location",
-        "five houses"
       ]
     },
     {
@@ -500,18 +659,6 @@
         "wizarding equipment",
         "diagon alley",
         "wizard equipment"
-      ]
-    },
-    {
-      "question": "Though the Great Hall at Hogwarts should be able to hold 900 students, producers whittled the filming set down to hold about what more manageable number?",
-      "answer": "400",
-      "key_words": [
-        "400",
-        "four hundred",
-        "great hall",
-        "filming",
-        "set",
-        "students"
       ]
     },
     {
@@ -648,6 +795,105 @@
     }
   ],
   "category_3": [
+    {
+      "question": "What creature does Harry see in the shadows just before the Knight Bus arrives?",
+      "answer": "A giant dog",
+      "key_words": ["Harry", "shadows", "Knight Bus", "giant dog"]
+    },
+    {
+      "question": "To which Hogwarts house do Harry, Ron, and Hermione all belong?",
+      "answer": "Gryffindor",
+      "key_words": ["Hogwarts house", "Harry", "Ron", "Hermione", "Gryffindor"]
+    },
+    {
+      "question": "What is the name of Harry's owl?",
+      "answer": "Hedwig",
+      "key_words": ["Harry", "owl", "Hedwig"]
+    },
+    {
+      "question": "In Harry's first year at Hogwarts, what is the name of the centaur who saves him from Lord Voldemort in the Forbidden Forest?",
+      "answer": "Firenze",
+      "key_words": [
+        "Harry",
+        "first year",
+        "centaur",
+        "Firenze",
+        "Forbidden Forest"
+      ]
+    },
+    {
+      "question": "What small creature does Ginny Weasley get from her brothers' shop?",
+      "answer": "A Pygmy Puff",
+      "key_words": ["Ginny Weasley", "Pygmy Puff", "Weasley shop"]
+    },
+    {
+      "question": "According to director Christopher Columbus, what type of animal's facial characteristics did they give to centaurs to make them more powerful looking?",
+      "answer": "A horse",
+      "key_words": [
+        "Christopher Columbus",
+        "centaurs",
+        "facial characteristics",
+        "horse"
+      ]
+    },
+    {
+      "question": "What type of blood drips from the ceiling of the house where Slughorn is hiding?",
+      "answer": "Dragon's blood",
+      "key_words": ["Slughorn", "hiding", "ceiling", "dragon's blood"]
+    },
+    {
+      "question": "Who let the troll into Hogwarts castle during the Hallowe'en feast?",
+      "answer": "Professor Quirrell",
+      "key_words": ["troll", "Hogwarts", "Hallowe'en feast", "Quirrell"]
+    },
+    {
+      "question": "What giant creature of fire does Lord Voldemort conjure to attack Dumbledore during their duel?",
+      "answer": "A snake",
+      "key_words": ["Voldemort", "duel", "Dumbledore", "snake", "fire"]
+    },
+    {
+      "question": "Who suggests using Thestrals to fly to London to save Sirius Black?",
+      "answer": "Luna Lovegood",
+      "key_words": [
+        "Thestrals",
+        "fly",
+        "London",
+        "Sirius Black",
+        "Luna Lovegood"
+      ]
+    },
+    {
+      "question": "What animal drags Ron into the tunnel at the base of the Whomping Willow?",
+      "answer": "A dog (Sirius Black's Animagus form)",
+      "key_words": [
+        "Ron Weasley",
+        "Whomping Willow",
+        "tunnel",
+        "Sirius Black",
+        "Animagus",
+        "dog"
+      ]
+    },
+    {
+      "question": "What should you never do to a Hippogriff as they are very proud creatures?",
+      "answer": "Insult them",
+      "key_words": ["Hippogriff", "insult", "proud creatures"]
+    },
+    {
+      "question": "Dobby feels so bad about sending the Bludger after Harry that he does what to his hands?",
+      "answer": "He irons them",
+      "key_words": ["Dobby", "Bludger", "punishment", "hands", "iron"]
+    },
+    {
+      "question": "What is the term for someone who can speak to snakes?",
+      "answer": "Parselmouth",
+      "key_words": ["speak to snakes", "Parselmouth"]
+    },
+    {
+      "question": "What is the term for someone who can speak to snakes?",
+      "answer": "Parselmouth",
+      "key_words": ["speak to snakes", "Parselmouth"]
+    },
     {
       "question": "Which owl gets lost delivering Hagrid's release papers?",
       "answer": "Errol",
@@ -802,18 +1048,6 @@
       ]
     },
     {
-      "question": "Alfie Enoch played which one of Harry's friends, who was also Ginny's one-time boyfriend?",
-      "answer": "Dean Thomas",
-      "key_words": [
-        "dean thomas",
-        "dean",
-        "alfie enoch",
-        "ginny",
-        "boyfriend",
-        "gryffindor"
-      ]
-    },
-    {
       "question": "Which of Harry's friends did Matthew Lewis play?",
       "answer": "Neville Longbottom",
       "key_words": [
@@ -858,27 +1092,6 @@
         "wedding",
         "bill",
         "fleur"
-      ]
-    },
-    {
-      "question": "Who played the young Tom Riddle in the orphanage?",
-      "answer": "Hero Fiennes Tiffin",
-      "key_words": [
-        "hero fiennes tiffin",
-        "tom riddle",
-        "young tom riddle",
-        "orphanage",
-        "voldemort"
-      ]
-    },
-    {
-      "question": "Who played Bellatrix Lestrange in the Harry Potter films?",
-      "answer": "Helena Bonham Carter",
-      "key_words": [
-        "helena bonham carter",
-        "bellatrix lestrange",
-        "bellatrix",
-        "actress"
       ]
     },
     {
@@ -992,6 +1205,95 @@
     }
   ],
   "category_4": [
+    {
+      "question": "Gwenog Jones is the captain of which Quidditch team?",
+      "answer": "Holyhead Harpies",
+      "key_words": ["Gwenog Jones", "Quidditch", "Holyhead Harpies"]
+    },
+    {
+      "question": "Where do Ron's parents go during his first Christmas break at Hogwarts?",
+      "answer": "Romania",
+      "key_words": ["Ron Weasley", "parents", "Christmas break", "Romania"]
+    },
+    {
+      "question": "Which of Ron's brothers marries Fleur Delacour?",
+      "answer": "Bill Weasley",
+      "key_words": [
+        "Ron Weasley",
+        "brother",
+        "marriage",
+        "Bill Weasley",
+        "Fleur Delacour"
+      ]
+    },
+    {
+      "question": "Name the 5 members of the Order of the Phoenix that come to the rescue in the Department of Mysteries.",
+      "answer": "Sirius Black, Tonks, Kingsley Shacklebolt, Remus Lupin, Mad-Eye Moody",
+      "key_words": [
+        "Order of the Phoenix",
+        "Department of Mysteries",
+        "Sirius Black",
+        "Tonks",
+        "Kingsley Shacklebolt",
+        "Remus Lupin",
+        "Mad-Eye Moody"
+      ]
+    },
+    {
+      "question": "What is a nickname Bellatrix sometimes calls her sister?",
+      "answer": "Cissy",
+      "key_words": ["Bellatrix", "nickname", "Cissy", "Narcissa"]
+    },
+    {
+      "question": "What did Albus Dumbledore discover that dragon’s blood could be used as?",
+      "answer": "An oven cleaner",
+      "key_words": ["Dumbledore", "dragon’s blood", "uses", "oven cleaner"]
+    },
+    {
+      "question": "In what subject does Professor Quirrell claim to have had a yearlong sabbatical before teaching at Hogwarts?",
+      "answer": "Vampires",
+      "key_words": ["Professor Quirrell", "sabbatical", "subject", "vampires"]
+    },
+    {
+      "question": "According to Bellatrix Lestrange, how many Aurors did it take to capture her and send her to Azkaban?",
+      "answer": "Six",
+      "key_words": ["Bellatrix Lestrange", "Aurors", "Azkaban", "capture"]
+    },
+    {
+      "question": "What does Harry tell Luna Lovegood he is not according to the Quibbler?",
+      "answer": "Crazy",
+      "key_words": ["Harry Potter", "Luna Lovegood", "Quibbler", "crazy"]
+    },
+    {
+      "question": "What powder must be used for magical travel through fireplaces?",
+      "answer": "Floo powder",
+      "key_words": ["fireplaces", "magical travel", "Floo powder"]
+    },
+    {
+      "question": "Which of Hagrid's Care of Magical Creatures classes does Draco Malfoy insult?",
+      "answer": "The Hippogriff lesson",
+      "key_words": [
+        "Hagrid",
+        "Care of Magical Creatures",
+        "Draco Malfoy",
+        "Hippogriff lesson"
+      ]
+    },
+    {
+      "question": "What is the first name of the famous alchemist Flamel?",
+      "answer": "Nicolas",
+      "key_words": ["alchemist", "Flamel", "Nicolas"]
+    },
+    {
+      "question": "What is the name of Ron Weasley's house?",
+      "answer": "The Burrow",
+      "key_words": ["Ron Weasley", "house", "The Burrow"]
+    },
+    {
+      "question": "What is the name of Ron Weasley's house?",
+      "answer": "The Burrow",
+      "key_words": ["Ron Weasley", "house", "The Burrow"]
+    },
     {
       "question": "Who is the Minister for Magic for the first five years that Harry attends Hogwarts?",
       "answer": "Cornelius Fudge",
@@ -1138,17 +1440,6 @@
       ]
     },
     {
-      "question": "Actor Warwick Davis felt the goblin world didn't particularly like to associate with which world?",
-      "answer": "Wizarding",
-      "key_words": [
-        "wizarding",
-        "wizarding world",
-        "goblins",
-        "warwick davis",
-        "goblin world"
-      ]
-    },
-    {
       "question": "What creatures does Hagrid say are as clever as they come but not the most friendly of beasts?",
       "answer": "Goblins",
       "key_words": [
@@ -1287,6 +1578,88 @@
     }
   ],
   "category_5": [
+    {
+      "question": "Where does Dumbledore hide the Sorcerer's Stone?",
+      "answer": "Inside the Mirror of Erised",
+      "key_words": ["Dumbledore", "Sorcerer's Stone", "Mirror of Erised"]
+    },
+    {
+      "question": "How many leeches does the brewing of Polyjuice Potion require?",
+      "answer": "12",
+      "key_words": ["Polyjuice Potion", "leeches", "brewing"]
+    },
+    {
+      "question": "Where do the Weasleys use Omnioculars?",
+      "answer": "In the stands at the Quidditch World Cup",
+      "key_words": ["Weasleys", "Omnioculars", "Quidditch World Cup"]
+    },
+    {
+      "question": "How many levels does the Knight Bus have?",
+      "answer": "Three",
+      "key_words": ["Knight Bus", "levels"]
+    },
+    {
+      "question": "At which London railway station does Dumbledore meet Harry?",
+      "answer": "Surbiton",
+      "key_words": ["Dumbledore", "Harry", "railway station", "Surbiton"]
+    },
+    {
+      "question": "What subject did Horace Slughorn teach at Hogwarts?",
+      "answer": "Potions",
+      "key_words": ["Horace Slughorn", "teaching", "Potions"]
+    },
+    {
+      "question": "Which professor tries to prevent Harry Potter from attending Hogwarts?",
+      "answer": "Professor Quirrell",
+      "key_words": ["Harry Potter", "Hogwarts", "prevent", "Professor Quirrell"]
+    },
+    {
+      "question": "How old was Tom Riddle when he first opened the Chamber of Secrets?",
+      "answer": "16",
+      "key_words": [
+        "Tom Riddle",
+        "Chamber of Secrets",
+        "opened",
+        "16 years old"
+      ]
+    },
+    {
+      "question": "What color were Albus Dumbledore's favorite socks?",
+      "answer": "Purple",
+      "key_words": ["Albus Dumbledore", "favorite socks", "purple"]
+    },
+    {
+      "question": "Who helps Harry, Ron, and Hermione escape from Gringotts on the back of a dragon?",
+      "answer": "Griphook",
+      "key_words": [
+        "Harry Potter",
+        "Ron Weasley",
+        "Hermione Granger",
+        "Gringotts",
+        "dragon",
+        "Griphook"
+      ]
+    },
+    {
+      "question": "Which potion grants good luck to the drinker?",
+      "answer": "Felix Felicis",
+      "key_words": ["potion", "good luck", "Felix Felicis"]
+    },
+    {
+      "question": "What is Dumbledore's first name?",
+      "answer": "Albus",
+      "key_words": ["Dumbledore", "first name", "Albus"]
+    },
+    {
+      "question": "What is the name of Harry Potter's pet owl?",
+      "answer": "Hedwig",
+      "key_words": ["Harry Potter", "pet owl", "Hedwig"]
+    },
+    {
+      "question": "What is the name of Harry Potter's pet owl?",
+      "answer": "Hedwig",
+      "key_words": ["Harry Potter", "pet owl", "Hedwig"]
+    },
     {
       "question": "Hermione's Petrified body is found near what area of Hogwarts?",
       "answer": "The library",
@@ -1616,6 +1989,81 @@
     }
   ],
   "category_6": [
+    {
+      "question": "What memory does Harry draw upon to conjure a Patronus during his lesson with Professor Lupin?",
+      "answer": "The memory of his father and mother",
+      "key_words": ["Harry", "Patronus", "memory", "father", "mother", "Lupin"]
+    },
+    {
+      "question": "How many lacewing flies does a brewing of Polyjuice Potion require?",
+      "answer": "Four – unsiccated ones at that!",
+      "key_words": ["Polyjuice Potion", "lacewing flies"]
+    },
+    {
+      "question": "Occlumency is used to do what?",
+      "answer": "Shield minds from access or influence",
+      "key_words": ["Occlumency", "shield mind", "protection"]
+    },
+    {
+      "question": "What spell does Hermione use to erase the memories of the Death Eaters that attack her, Harry, and Ron in a café in London?",
+      "answer": "Obliviate/Memory Charm",
+      "key_words": ["Hermione", "Obliviate", "Memory Charm", "Death Eaters"]
+    },
+    {
+      "question": "What is the incantation to use to repair the Vanishing Cabinet?",
+      "answer": "Harmonia Nectere Passus",
+      "key_words": ["Vanishing Cabinet", "repair", "Harmonia Nectere Passus"]
+    },
+    {
+      "question": "What is the effect of Felix Felicis potion?",
+      "answer": "It makes the drinker lucky for a period of time",
+      "key_words": ["Felix Felicis", "potion", "effect", "luck"]
+    },
+    {
+      "question": "What spell does Gilderoy Lockhart try to use to erase Harry and Ron's memories?",
+      "answer": "Obliviate",
+      "key_words": ["Gilderoy Lockhart", "spell", "erase memory", "Obliviate"]
+    },
+    {
+      "question": "What does Hermione Granger conjure to send messages to other members of Dumbledore's Army?",
+      "answer": "A Patronus",
+      "key_words": [
+        "Hermione Granger",
+        "Dumbledore's Army",
+        "message",
+        "Patronus"
+      ]
+    },
+    {
+      "question": "What magical creature is a phoenix known for being able to do?",
+      "answer": "Rebirth from ashes",
+      "key_words": ["phoenix", "creature", "rebirth", "ashes"]
+    },
+    {
+      "question": "What is the incantation for the Shield Charm?",
+      "answer": "Protego",
+      "key_words": ["incantation", "Shield Charm", "Protego"]
+    },
+    {
+      "question": "What spell does Harry use to disarm opponents?",
+      "answer": "Expelliarmus",
+      "key_words": ["Harry Potter", "spell", "disarm", "Expelliarmus"]
+    },
+    {
+      "question": "What is Snape's Patronus?",
+      "answer": "A doe",
+      "key_words": ["Snape", "Patronus", "doe"]
+    },
+    {
+      "question": "What is the name of the house-elf that serves the Malfoy family?",
+      "answer": "Dobby",
+      "key_words": ["house-elf", "Malfoy family", "Dobby"]
+    },
+    {
+      "question": "What spell causes an object to rise high into the air?",
+      "answer": "Alarte Ascendare",
+      "key_words": ["spell", "object", "rise", "Alarte Ascendare"]
+    },
     {
       "question": "Once cast, which charm creates a positive force that acts as a shield so Dementors feed on it rather than the wizard?",
       "answer": "The Patronus Charm",
