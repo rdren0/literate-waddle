@@ -280,6 +280,11 @@ class DiscordBotService {
     }
 
     session.singlePlayerQuestions = this.generateSinglePlayerQuestions();
+
+    if (!session.singlePlayerQuestions || session.singlePlayerQuestions.length === 0) {
+      return { error: "No questions could be generated for solo mode" };
+    }
+
     session.isActive = true;
     session.currentQuestion = session.singlePlayerQuestions[0];
     session.answering = true;
@@ -575,13 +580,14 @@ class DiscordBotService {
         usedQuestions
       );
 
-      if (question) {
+      if (question && question.question && question.answer) {
         questions.push({
           ...question,
           questionNumber: questions.length + 1,
           points: difficulty,
           maxPoints: difficulty,
           halfPoints: Math.floor(difficulty / 2),
+          category: question.category || category,
         });
         usedQuestions.add(
           `${question.category}-${difficulty}-${question.question}`
@@ -598,13 +604,14 @@ class DiscordBotService {
         usedQuestions
       );
 
-      if (question) {
+      if (question && question.question && question.answer) {
         questions.push({
           ...question,
           questionNumber: questions.length + 1,
           points: difficulty,
           maxPoints: difficulty,
           halfPoints: Math.floor(difficulty / 2),
+          category: question.category || "Unknown",
         });
         usedQuestions.add(
           `${question.category}-${difficulty}-${question.question}`

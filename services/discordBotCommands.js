@@ -87,7 +87,7 @@ export class DiscordBotCommands {
     const result = discordBot.startSoloModeForUser(
       userId,
       message.author.username,
-      message.member?.displayName
+      message.member?.displayName || message.author.username
     );
 
     if (result.error) {
@@ -99,7 +99,7 @@ export class DiscordBotCommands {
 
     const embed = {
       title: "📚 Solo Trivia Challenge!",
-      description: `**${result.player.displayName}**, you're about to take on 10 Harry Potter questions with increasing difficulty!`,
+      description: `**${result.player.displayName || result.player.username || "Player"}**, you're about to take on 10 Harry Potter questions with increasing difficulty!`,
       color: 0x7c3aed, // Purple color
       fields: [
         {
