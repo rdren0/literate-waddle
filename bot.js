@@ -188,13 +188,13 @@ client.on("interactionCreate", async (interaction) => {
       args = [commandName, category.toString(), points.toString()];
     } else if (commandName === "answer") {
       const answer = interaction.options.getString("answer");
-      args = ["answer", ...answer.split(" ")];
+      args = ["answer", ...(answer ? answer.split(" ") : [])];
     } else if (commandName === "finalbet") {
       const amount = interaction.options.getInteger("amount");
       args = ["finalbet", amount.toString()];
     } else if (commandName === "finalanswer") {
       const answer = interaction.options.getString("answer");
-      args = ["finalanswer", ...answer.split(" ")];
+      args = ["finalanswer", ...(answer ? answer.split(" ") : [])];
     }
 
     result = await discordBotCommands.handleCommand(mockMessage, args);
