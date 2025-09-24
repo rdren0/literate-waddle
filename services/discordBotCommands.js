@@ -1128,14 +1128,14 @@ export class DiscordBotCommands {
 
       return {
         type: "embed",
-        content: `✅ **${message.author.displayName}** has placed their Final Jeopardy bet!\n\n🎯 **ALL BETS ARE IN!** Here's your Final Jeopardy question:`,
+        content: `✅ **${message.member?.displayName || message.author.username}** has placed their Final Jeopardy bet!\n\n🎯 **ALL BETS ARE IN!** Here's your Final Jeopardy question:`,
         embed: finalJeopardyEmbed,
       };
     } else {
       const stillWaiting = result.waitingFor.join(", ");
       return {
         type: "success",
-        content: `✅ **${message.author.displayName}** has placed their Final Jeopardy bet of **$${betAmount}**!\n\n⏳ Still waiting for bets from: **${stillWaiting}**`,
+        content: `✅ **${message.member?.displayName || message.author.username}** has placed their Final Jeopardy bet of **$${betAmount}**!\n\n⏳ Still waiting for bets from: **${stillWaiting}**`,
       };
     }
   }
@@ -1166,7 +1166,7 @@ export class DiscordBotCommands {
       const stillWaiting = result.waitingFor.join(", ");
       return {
         type: "success",
-        content: `✅ **${message.author.displayName}** has submitted their Final Jeopardy answer!\n\n⏳ Still waiting for answers from: **${stillWaiting}**`,
+        content: `✅ **${message.member?.displayName || message.author.username}** has submitted their Final Jeopardy answer!\n\n⏳ Still waiting for answers from: **${stillWaiting}**`,
       };
     }
   }
