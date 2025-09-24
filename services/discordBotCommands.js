@@ -123,25 +123,22 @@ export class DiscordBotCommands {
           name: "📝 How It Works",
           value:
             "• 10 questions total with increasing difficulty\n" +
-            "• Questions 1-2: Easy ($100 each)\n" +
-            "• Questions 3-4: Medium-Easy ($200 each)\n" +
-            "• Questions 5-6: Medium ($300 each)\n" +
-            "• Questions 7-8: Medium-Hard ($400 each)\n" +
-            "• Questions 9-10: Hard ($500 each)",
+            "• Each question is worth **1 point**\n" +
+            "• Questions get harder as you progress\n" +
+            "• **One guess** per question only!",
           inline: false,
         },
         {
           name: "⚡ Scoring",
           value:
-            "• **Full Points**: Exact correct answer\n" +
-            "• **Half Points**: Close/partial answer\n" +
-            "• **No Points**: Wrong answer\n" +
-            "• **One guess** per question only!",
+            "• **1 Point**: Correct answer\n" +
+            "• **0 Points**: Wrong answer\n" +
+            "• Simple and straightforward!",
           inline: false,
         },
         {
           name: "👑 Your Goal",
-          value: `**Maximum Score**: $3,000\n**Good Score**: $2,000+\n**Great Score**: $2,500+`,
+          value: `**Maximum Score**: 10 points\n**Good Score**: 7+ points\n**Great Score**: 9+ points`,
           inline: false,
         },
       ],
@@ -346,11 +343,7 @@ export class DiscordBotCommands {
 
       let answerMessage = "";
       if (result.correct) {
-        if (result.fullPoints) {
-          answerMessage = `✅ **Question ${result.questionNumber}: CORRECT!** (+${result.points} point)\n**Answer:** ${result.answer}\n\n`;
-        } else if (result.halfPoints) {
-          answerMessage = `🟡 **Question ${result.questionNumber}: CLOSE!** (+${result.points} point)\n**Your answer:** ${result.userAnswer}\n**Correct answer:** ${result.answer}\n\n`;
-        }
+        answerMessage = `✅ **Question ${result.questionNumber}: CORRECT!** (+1 point)\n**Answer:** ${result.answer}\n\n`;
       } else {
         answerMessage = `❌ **Question ${result.questionNumber}: WRONG** (+0 points)\n**Your answer:** ${result.userAnswer}\n**Correct answer:** ${result.answer}\n\n`;
       }
@@ -359,18 +352,14 @@ export class DiscordBotCommands {
         type: "embed",
         content:
           answerMessage +
-          `🏁 **GAME COMPLETE!** Final Score: ${result.totalScore} points`,
+          `🏁 **GAME COMPLETE!** Final Score: ${result.totalScore} out of 10 points`,
         embed,
       };
     } else {
       // Continue to next question - send answer feedback first
       let answerMessage = "";
       if (result.correct) {
-        if (result.fullPoints) {
-          answerMessage = `✅ **CORRECT!** (+${result.points} point)\n**Answer:** ${result.answer}`;
-        } else if (result.halfPoints) {
-          answerMessage = `🟡 **CLOSE!** (+${result.points} point)\n**Your answer:** ${result.userAnswer}\n**Correct answer:** ${result.answer}`;
-        }
+        answerMessage = `✅ **CORRECT!** (+1 point)\n**Answer:** ${result.answer}`;
       } else {
         answerMessage = `❌ **WRONG** (+0 points)\n**Your answer:** ${result.userAnswer}\n**Correct answer:** ${result.answer}`;
       }
@@ -378,7 +367,7 @@ export class DiscordBotCommands {
       // Return answer feedback first, then trigger next question
       return {
         type: "success",
-        content: `${answerMessage}\n**Current Score:** ${result.totalScore} points`,
+        content: `${answerMessage}\n**Current Score:** ${result.totalScore} out of 10 points`,
         nextQuestion: result.nextQuestion,
         questionNumber: result.questionNumber,
         totalQuestions: result.totalQuestions,
