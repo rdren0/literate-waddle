@@ -997,7 +997,7 @@ export class DiscordBotCommands {
   }
 
   // Helper: Create question embed
-  createQuestionEmbed(question, currentPlayer) {
+  createQuestionEmbed(question, currentPlayer, isSoloMode = false) {
     if (!question) {
       console.error("createQuestionEmbed: question is null or undefined");
       return {
@@ -1014,6 +1014,20 @@ export class DiscordBotCommands {
     const playerName =
       currentPlayer?.displayName || currentPlayer?.username || "Player";
 
+    if (isSoloMode) {
+      // Solo mode: simple format with no dollar amounts
+      return {
+        title: `💡 ${category}`,
+        description: `${questionText}`,
+        color: 0x10b981, // Green color
+        footer: {
+          text: `${playerName}, worth 1 point!`,
+        },
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    // Multiplayer mode: original format with dollars and daily doubles
     return {
       title: isDailyDouble
         ? `✨ ${category} - DAILY DOUBLE! ✨`

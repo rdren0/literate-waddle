@@ -265,7 +265,8 @@ async function handleSlashResponse(interaction, result) {
 
         const questionEmbed = discordBotCommands.createQuestionEmbed(
           result.nextQuestion,
-          result.player
+          result.player,
+          true // Solo mode
         );
 
         await interaction.followUp({
@@ -289,7 +290,8 @@ async function handleSlashResponse(interaction, result) {
 
         const questionEmbed = discordBotCommands.createQuestionEmbed(
           result.nextQuestion,
-          result.player
+          result.player,
+          true // Solo mode
         );
 
         await interaction.followUp({
