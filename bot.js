@@ -254,6 +254,36 @@ async function handleSlashResponse(interaction, result) {
     await interaction.followUp(responseData);
   }
 
+  // Handle solo mode - send first question after initial setup
+  if (result.isSinglePlayer && result.nextQuestion && result.questionNumber === 1) {
+    setTimeout(async () => {
+      const questionEmbed = discordBotCommands.createQuestionEmbed(
+        result.nextQuestion,
+        result.player
+      );
+
+      await interaction.followUp({
+        content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
+        embeds: [questionEmbed],
+      });
+    }, 2000);
+  }
+
+  // Handle solo mode - send next question after answer
+  if (result.isSinglePlayer && result.nextQuestion && result.questionNumber > 1) {
+    setTimeout(async () => {
+      const questionEmbed = discordBotCommands.createQuestionEmbed(
+        result.nextQuestion,
+        result.player
+      );
+
+      await interaction.followUp({
+        content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
+        embeds: [questionEmbed],
+      });
+    }, 3000);
+  }
+
   if (
     result &&
     (result.type === "correct" ||
