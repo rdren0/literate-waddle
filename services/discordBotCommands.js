@@ -321,17 +321,23 @@ export class DiscordBotCommands {
           {
             name: "⚡ Performance",
             value:
-              result.percentage >= 90
-                ? "👑 EXCELLENT!"
+              result.percentage === 100
+                ? "🏆 **OUTSTANDING!** You're as brilliant as Hermione Granger! Perfect marks - time to become Head Boy/Girl!"
+                : result.percentage >= 90
+                ? "⭐ **EXCELLENT!** You'd make Ravenclaw proud! Professor McGonagall would award you 20 points!"
                 : result.percentage >= 80
-                ? "⭐ GREAT!"
+                ? "🌟 **GREAT WORK!** You're ready for your O.W.L.S.! Even Snape might give you a grudging nod."
                 : result.percentage >= 70
-                ? "🌟 GOOD!"
+                ? "✨ **WELL DONE!** You've earned a Butterbeer at the Three Broomsticks! Keep studying!"
                 : result.percentage >= 60
-                ? "✨ FAIR"
+                ? "📚 **ACCEPTABLE!** You passed your exams, but maybe hit the library with Hermione next time."
                 : result.percentage >= 50
-                ? "📚 NEEDS STUDY"
-                : "💪 KEEP TRYING!",
+                ? "⚠️ **NEEDS IMPROVEMENT!** Time for some remedial Magical History with Professor Binns!"
+                : result.percentage >= 30
+                ? "😬 **OH DEAR!** You're one step away from detention with Snape. Hit the books!"
+                : result.percentage >= 10
+                ? "💀 **DREADFUL!** Even Crabbe and Goyle could do better! Time for summer tutoring!"
+                : "🧹 **TROLL!** You're polishing medals for Filch all summer! Maybe start with 'Hogwarts: A History'?",
             inline: true,
           },
         ],

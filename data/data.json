@@ -1075,6 +1075,8 @@
       "key_words": [
         "killed three muggles",
         "three muggles",
+        "killed 3 muggles",
+        "3 muggles",
         "aunt muriel",
         "dumbledore's father",
         "percival dumbledore"
@@ -1257,7 +1259,16 @@
     {
       "question": "According to Bellatrix Lestrange, how many Aurors did it take to capture her and send her to Azkaban?",
       "answer": "Six",
-      "key_words": ["Bellatrix Lestrange", "Aurors", "Azkaban", "capture"]
+      "key_words": [
+        "Bellatrix Lestrange",
+        "Aurors",
+        "Azkaban",
+        "capture",
+        "six",
+        "6",
+        "6 aurors",
+        "six aurors"
+      ]
     },
     {
       "question": "What does Harry tell Luna Lovegood he is not according to the Quibbler?",
@@ -1345,6 +1356,8 @@
         "nimbus 2001",
         "nimbus",
         "2001",
+        "two thousand one",
+        "two thousand and one",
         "draco",
         "lucius malfoy",
         "slytherin",
@@ -1586,7 +1599,14 @@
     {
       "question": "How many leeches does the brewing of Polyjuice Potion require?",
       "answer": "12",
-      "key_words": ["Polyjuice Potion", "leeches", "brewing"]
+      "key_words": [
+        "Polyjuice Potion",
+        "leeches",
+        "brewing",
+        "12",
+        "twelve",
+        "twelve leeches"
+      ]
     },
     {
       "question": "Where do the Weasleys use Omnioculars?",
@@ -1596,7 +1616,14 @@
     {
       "question": "How many levels does the Knight Bus have?",
       "answer": "Three",
-      "key_words": ["Knight Bus", "levels"]
+      "key_words": [
+        "Knight Bus",
+        "levels",
+        "three",
+        "3",
+        "3 levels",
+        "three levels"
+      ]
     },
     {
       "question": "At which London railway station does Dumbledore meet Harry?",
@@ -1620,7 +1647,10 @@
         "Tom Riddle",
         "Chamber of Secrets",
         "opened",
-        "16 years old"
+        "16 years old",
+        "16",
+        "sixteen",
+        "sixteen years old"
       ]
     },
     {
@@ -1730,6 +1760,8 @@
         "preserved",
         "diary",
         "fifty years",
+        "50 years",
+        "50",
         "tom riddle",
         "chamber of secrets"
       ]
@@ -1997,7 +2029,15 @@
     {
       "question": "How many lacewing flies does a brewing of Polyjuice Potion require?",
       "answer": "Four – unsiccated ones at that!",
-      "key_words": ["Polyjuice Potion", "lacewing flies"]
+      "key_words": [
+        "Polyjuice Potion",
+        "lacewing flies",
+        "four",
+        "4",
+        "4 flies",
+        "4 lacewing flies",
+        "four flies"
+      ]
     },
     {
       "question": "Occlumency is used to do what?",
