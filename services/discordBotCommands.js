@@ -104,6 +104,53 @@ export class DiscordBotCommands {
           content: `❌ ${result.error}`,
         };
       }
+
+      const embed = {
+        title: "📚 Solo Trivia Challenge!",
+        description: `**${
+          result.player.displayName || result.player.username || "Player"
+        }**, you're about to take on 10 Harry Potter questions with increasing difficulty!`,
+        color: 0x7c3aed, // Purple color
+        fields: [
+          {
+            name: "📝 How It Works",
+            value:
+              "• 10 questions total with increasing difficulty\n" +
+              "• Each question is worth **1 point**\n" +
+              "• Questions get harder as you progress\n" +
+              "• **One guess** per question only!",
+            inline: false,
+          },
+          {
+            name: "⚡ Scoring",
+            value:
+              "• **1 Point**: Correct answer\n" +
+              "• **0 Points**: Wrong answer\n" +
+              "• Simple and straightforward!",
+            inline: false,
+          },
+          {
+            name: "👑 Your Goal",
+            value: `**Maximum Score**: 10 points\n**Good Score**: 7+ points\n**Great Score**: 9+ points`,
+            inline: false,
+          },
+        ],
+        footer: {
+          text: "Question 1 of 10 coming up next!",
+        },
+        timestamp: new Date().toISOString(),
+      };
+
+      return {
+        type: "success",
+        content: ` **Solo Mode Started!**`,
+        embed,
+        nextQuestion: result.question,
+        questionNumber: result.questionNumber,
+        totalQuestions: result.totalQuestions,
+        player: result.player,
+        isSinglePlayer: true,
+      };
     } catch (error) {
       console.error("Error in startSoloGame:", error);
       return {
@@ -111,53 +158,6 @@ export class DiscordBotCommands {
         content: `❌ An error occurred starting solo mode: ${error.message}`,
       };
     }
-
-    const embed = {
-      title: "📚 Solo Trivia Challenge!",
-      description: `**${
-        result.player.displayName || result.player.username || "Player"
-      }**, you're about to take on 10 Harry Potter questions with increasing difficulty!`,
-      color: 0x7c3aed, // Purple color
-      fields: [
-        {
-          name: "📝 How It Works",
-          value:
-            "• 10 questions total with increasing difficulty\n" +
-            "• Each question is worth **1 point**\n" +
-            "• Questions get harder as you progress\n" +
-            "• **One guess** per question only!",
-          inline: false,
-        },
-        {
-          name: "⚡ Scoring",
-          value:
-            "• **1 Point**: Correct answer\n" +
-            "• **0 Points**: Wrong answer\n" +
-            "• Simple and straightforward!",
-          inline: false,
-        },
-        {
-          name: "👑 Your Goal",
-          value: `**Maximum Score**: 10 points\n**Good Score**: 7+ points\n**Great Score**: 9+ points`,
-          inline: false,
-        },
-      ],
-      footer: {
-        text: "Question 1 of 10 coming up next!",
-      },
-      timestamp: new Date().toISOString(),
-    };
-
-    return {
-      type: "success",
-      content: ` **Solo Mode Started!**`,
-      embed,
-      nextQuestion: result.question,
-      questionNumber: result.questionNumber,
-      totalQuestions: result.totalQuestions,
-      player: result.player,
-      isSinglePlayer: true,
-    };
   }
 
   // Handle answer submissions via !trivia reply command
