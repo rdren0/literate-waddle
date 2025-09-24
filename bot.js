@@ -258,7 +258,7 @@ async function handleSlashResponse(interaction, result) {
   if (result.isSinglePlayer && result.nextQuestion && result.questionNumber === 1) {
     setTimeout(async () => {
       try {
-        console.log("Creating question embed for solo mode...");
+        console.log("Creating question embed for solo mode - LATEST VERSION...");
         console.log("result.nextQuestion:", JSON.stringify(result.nextQuestion, null, 2));
         console.log("result.player:", JSON.stringify(result.player, null, 2));
 
