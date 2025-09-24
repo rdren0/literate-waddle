@@ -167,6 +167,11 @@ client.on("interactionCreate", async (interaction) => {
 
   const commandName = interaction.commandName;
 
+  // Defer reply immediately for commands that might take time
+  if (!["help", "scores", "players", "board"].includes(commandName)) {
+    await interaction.deferReply();
+  }
+
   try {
     // Create a mock message object for compatibility with existing command handlers
     const mockMessage = {
@@ -249,8 +254,10 @@ async function handleSlashResponse(interaction, result) {
       break;
   }
 
-  if (!interaction.replied) {
+  if (!interaction.replied && !interaction.deferred) {
     await interaction.reply(responseData);
+  } else if (interaction.deferred) {
+    await interaction.editReply(responseData);
   } else {
     await interaction.followUp(responseData);
   }
@@ -406,10 +413,19 @@ server.listen(port, () => {
   console.log(`🌐 HTTP server running on port ${port}`);
 });
 
-setInterval(() => {
+// Keep-alive for Render.com - ping every 10 minutes to prevent sleep
+setInterval(async () => {
   const now = new Date().toISOString();
   console.log(`💓 Keep-alive ping at ${now}`);
-}, 14 * 60 * 1000);
+
+  // Self-ping to prevent Render.com from sleeping
+  try {
+    const response = await fetch(`http://localhost:${port}/health`);
+    console.log(`🏥 Health check status: ${response.status}`);
+  } catch (error) {
+    console.log(`⚠️ Health check failed (this is normal on first startup): ${error.message}`);
+  }
+}, 10 * 60 * 1000); // Every 10 minutes instead of 14
 
 client.login(token).catch((error) => {
   console.error("❌ Failed to login to Discord:", error);
