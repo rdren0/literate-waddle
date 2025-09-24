@@ -994,22 +994,33 @@ export class DiscordBotCommands {
 
   // Helper: Create question embed
   createQuestionEmbed(question, currentPlayer) {
+    if (!question) {
+      console.error("createQuestionEmbed: question is null or undefined");
+      return {
+        title: "❌ Error",
+        description: "Question data is missing",
+        color: 0xff0000,
+      };
+    }
+
     const isDailyDouble = question.isDailyDouble;
+    const category = question.category || "Unknown Category";
+    const points = question.points || 0;
+    const questionText = question.question || "Question text missing";
+    const playerName = currentPlayer?.displayName || currentPlayer?.username || "Player";
 
     return {
       title: isDailyDouble
-        ? `✨ ${question.category} - DAILY DOUBLE! ✨`
-        : `💡 ${question.category}`,
+        ? `✨ ${category} - DAILY DOUBLE! ✨`
+        : `💡 ${category}`,
       description: isDailyDouble
-        ? `**$${question.originalPoints} → $${question.points} (DOUBLE POINTS!)**\n\n${question.question}`
-        : `**$${question.points}**\n\n${question.question}`,
+        ? `**$${question.originalPoints || points} → $${points} (DOUBLE POINTS!)**\n\n${questionText}`
+        : `**$${points}**\n\n${questionText}`,
       color: isDailyDouble ? 0xffd700 : 0x10b981, // Gold for Daily Double, Green for normal
       footer: {
-        text: currentPlayer
-          ? isDailyDouble
-            ? `${currentPlayer.displayName}, this Daily Double is worth double points!`
-            : `${currentPlayer.displayName}, type your answer in chat!`
-          : "Type your answer in chat!",
+        text: isDailyDouble
+          ? `${playerName}, this Daily Double is worth double points!`
+          : `${playerName}, type your answer in chat!`,
       },
       timestamp: new Date().toISOString(),
     };

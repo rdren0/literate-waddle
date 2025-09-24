@@ -257,30 +257,48 @@ async function handleSlashResponse(interaction, result) {
   // Handle solo mode - send first question after initial setup
   if (result.isSinglePlayer && result.nextQuestion && result.questionNumber === 1) {
     setTimeout(async () => {
-      const questionEmbed = discordBotCommands.createQuestionEmbed(
-        result.nextQuestion,
-        result.player
-      );
+      try {
+        if (!result.nextQuestion || !result.nextQuestion.question) {
+          console.error("Error: nextQuestion is missing required properties", result.nextQuestion);
+          return;
+        }
 
-      await interaction.followUp({
-        content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
-        embeds: [questionEmbed],
-      });
+        const questionEmbed = discordBotCommands.createQuestionEmbed(
+          result.nextQuestion,
+          result.player
+        );
+
+        await interaction.followUp({
+          content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
+          embeds: [questionEmbed],
+        });
+      } catch (error) {
+        console.error("Error sending first solo question:", error);
+      }
     }, 2000);
   }
 
   // Handle solo mode - send next question after answer
   if (result.isSinglePlayer && result.nextQuestion && result.questionNumber > 1) {
     setTimeout(async () => {
-      const questionEmbed = discordBotCommands.createQuestionEmbed(
-        result.nextQuestion,
-        result.player
-      );
+      try {
+        if (!result.nextQuestion || !result.nextQuestion.question) {
+          console.error("Error: nextQuestion is missing required properties", result.nextQuestion);
+          return;
+        }
 
-      await interaction.followUp({
-        content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
-        embeds: [questionEmbed],
-      });
+        const questionEmbed = discordBotCommands.createQuestionEmbed(
+          result.nextQuestion,
+          result.player
+        );
+
+        await interaction.followUp({
+          content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
+          embeds: [questionEmbed],
+        });
+      } catch (error) {
+        console.error("Error sending next solo question:", error);
+      }
     }, 3000);
   }
 
