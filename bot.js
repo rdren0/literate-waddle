@@ -258,6 +258,10 @@ async function handleSlashResponse(interaction, result) {
   if (result.isSinglePlayer && result.nextQuestion && result.questionNumber === 1) {
     setTimeout(async () => {
       try {
+        console.log("Creating question embed for solo mode...");
+        console.log("result.nextQuestion:", JSON.stringify(result.nextQuestion, null, 2));
+        console.log("result.player:", JSON.stringify(result.player, null, 2));
+
         if (!result.nextQuestion || !result.nextQuestion.question) {
           console.error("Error: nextQuestion is missing required properties", result.nextQuestion);
           return;
@@ -268,6 +272,7 @@ async function handleSlashResponse(interaction, result) {
           result.player,
           true // Solo mode
         );
+        console.log("Question embed created successfully");
 
         await interaction.followUp({
           content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
@@ -283,6 +288,9 @@ async function handleSlashResponse(interaction, result) {
   if (result.isSinglePlayer && result.nextQuestion && result.questionNumber > 1) {
     setTimeout(async () => {
       try {
+        console.log("Creating next question embed for solo mode...");
+        console.log("result.nextQuestion:", JSON.stringify(result.nextQuestion, null, 2));
+
         if (!result.nextQuestion || !result.nextQuestion.question) {
           console.error("Error: nextQuestion is missing required properties", result.nextQuestion);
           return;
@@ -293,6 +301,7 @@ async function handleSlashResponse(interaction, result) {
           result.player,
           true // Solo mode
         );
+        console.log("Next question embed created successfully");
 
         await interaction.followUp({
           content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
