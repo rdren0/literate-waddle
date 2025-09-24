@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits, EmbedBuilder } from "discord.js";
 import { discordBotCommands } from "./services/discordBotCommands.js";
 import { discordBot } from "./services/discordBotService.js";
+import http from "http";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -384,6 +385,31 @@ if (!token) {
   );
   process.exit(1);
 }
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'ok',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+      guilds: client.guilds.cache.size
+    }));
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  }
+});
+
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+  console.log(`🌐 HTTP server running on port ${port}`);
+});
+
+setInterval(() => {
+  const now = new Date().toISOString();
+  console.log(`💓 Keep-alive ping at ${now}`);
+}, 14 * 60 * 1000);
 
 client.login(token).catch((error) => {
   console.error("❌ Failed to login to Discord:", error);
