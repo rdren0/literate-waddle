@@ -207,7 +207,7 @@ class DiscordBotService {
   createUserSession(userId, channelId, guildId) {
     if (!this.canStartSession(userId)) {
       if (this.activeSessions.has(userId)) {
-        return { error: "You already have an active trivia session!" };
+        return { error: "You already have an active trivia session! Use `/end` to end it first, or `/reset` to clear all sessions." };
       } else {
         this.addToQueue(userId);
         return {
@@ -1387,6 +1387,11 @@ class DiscordBotService {
     this.currentPlayerIndex = 0;
     this.currentQuestion = null;
     this.waitingForRegistration = false;
+
+    // Also clear solo sessions
+    this.activeSessions.clear();
+    this.sessionQueue = [];
+
     if (this.questionTimeout) {
       clearTimeout(this.questionTimeout);
       this.questionTimeout = null;
