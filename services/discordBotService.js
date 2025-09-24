@@ -555,6 +555,7 @@ class DiscordBotService {
   }
 
   generateSinglePlayerQuestions() {
+    console.log("Starting generateSinglePlayerQuestions...");
     const questions = [];
     const usedQuestions = new Set();
 
@@ -564,6 +565,9 @@ class DiscordBotService {
 
     const shuffledCategories = [...this.categories];
     this.shuffleArray(shuffledCategories);
+
+    console.log("Shuffled categories:", shuffledCategories);
+    console.log("Difficulty pool:", difficultyPool);
 
     let questionsFromEachCategory = 0;
     const categoryUsed = new Set();
@@ -664,11 +668,15 @@ class DiscordBotService {
     const randomQuestion =
       availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
 
-    return {
+    const result = {
       ...randomQuestion,
       category,
       difficulty,
     };
+
+    console.log(`Selected question:`, JSON.stringify(result, null, 2));
+
+    return result;
   }
 
   getRandomQuestionByDifficulty(difficulty, usedQuestions) {

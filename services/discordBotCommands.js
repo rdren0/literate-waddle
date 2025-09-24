@@ -67,33 +67,48 @@ export class DiscordBotCommands {
 
   // Start solo game immediately
   async startSoloGame(message) {
-    const userId = message.author.id;
+    try {
+      const userId = message.author.id;
+      console.log("Starting solo game for user:", userId);
 
-    // Try to create a new user session
-    const sessionResult = discordBot.createUserSession(
-      userId,
-      message.channel.id,
-      message.guild?.id
-    );
+      // Try to create a new user session
+      const sessionResult = discordBot.createUserSession(
+        userId,
+        message.channel.id,
+        message.guild?.id
+      );
 
-    if (sessionResult.error) {
+      if (sessionResult.error) {
+        console.log("Session creation error:", sessionResult.error);
+        return {
+          type: "error",
+          content: `❌ ${sessionResult.error}`,
+        };
+      }
+
+      console.log("Session created successfully, starting solo mode...");
+
+      // Start solo mode for this user's session
+      const result = discordBot.startSoloModeForUser(
+        userId,
+        message.author.username,
+        message.member?.displayName || message.author.username
+      );
+
+      console.log("Solo mode result:", JSON.stringify(result, null, 2));
+
+      if (result.error) {
+        console.log("Solo mode error:", result.error);
+        return {
+          type: "error",
+          content: `❌ ${result.error}`,
+        };
+      }
+    } catch (error) {
+      console.error("Error in startSoloGame:", error);
       return {
         type: "error",
-        content: `❌ ${sessionResult.error}`,
-      };
-    }
-
-    // Start solo mode for this user's session
-    const result = discordBot.startSoloModeForUser(
-      userId,
-      message.author.username,
-      message.member?.displayName || message.author.username
-    );
-
-    if (result.error) {
-      return {
-        type: "error",
-        content: `❌ ${result.error}`,
+        content: `❌ An error occurred starting solo mode: ${error.message}`,
       };
     }
 
@@ -1007,14 +1022,17 @@ export class DiscordBotCommands {
     const category = question.category || "Unknown Category";
     const points = question.points || 0;
     const questionText = question.question || "Question text missing";
-    const playerName = currentPlayer?.displayName || currentPlayer?.username || "Player";
+    const playerName =
+      currentPlayer?.displayName || currentPlayer?.username || "Player";
 
     return {
       title: isDailyDouble
         ? `✨ ${category} - DAILY DOUBLE! ✨`
         : `💡 ${category}`,
       description: isDailyDouble
-        ? `**$${question.originalPoints || points} → $${points} (DOUBLE POINTS!)**\n\n${questionText}`
+        ? `**$${
+            question.originalPoints || points
+          } → $${points} (DOUBLE POINTS!)**\n\n${questionText}`
         : `**$${points}**\n\n${questionText}`,
       color: isDailyDouble ? 0xffd700 : 0x10b981, // Gold for Daily Double, Green for normal
       footer: {
