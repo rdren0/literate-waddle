@@ -69,7 +69,7 @@ export class DiscordBotCommands {
   async startSoloGame(message) {
     try {
       const userId = message.author.id;
-      console.log("Starting solo game for user:", userId);
+      console.log("Starting solo game for user:", userId, "- Fixed version");
 
       // Try to create a new user session
       const sessionResult = discordBot.createUserSession(
