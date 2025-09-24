@@ -99,7 +99,9 @@ export class DiscordBotCommands {
 
     const embed = {
       title: "📚 Solo Trivia Challenge!",
-      description: `**${result.player.displayName || result.player.username || "Player"}**, you're about to take on 10 Harry Potter questions with increasing difficulty!`,
+      description: `**${
+        result.player.displayName || result.player.username || "Player"
+      }**, you're about to take on 10 Harry Potter questions with increasing difficulty!`,
       color: 0x7c3aed, // Purple color
       fields: [
         {
@@ -1054,12 +1056,15 @@ export class DiscordBotCommands {
       fields: [
         {
           name: "📝 Instructions",
-          value: "1. All players must set their bets using `/finalbet [amount]`\n2. You cannot bet more than your current score\n3. Once all bets are in, the Final Jeopardy question will be revealed\n4. Submit your answers privately with `/finalanswer [answer]`",
+          value:
+            "1. All players must set their bets using `/finalbet [amount]`\n2. You cannot bet more than your current score\n3. Once all bets are in, the Final Jeopardy question will be revealed\n4. Submit your answers privately with `/finalanswer [answer]`",
           inline: false,
         },
         {
           name: "👥 Players",
-          value: result.players.map(p => `**${p.displayName}** - $${p.score}`).join('\n'),
+          value: result.players
+            .map((p) => `**${p.displayName}** - $${p.score}`)
+            .join("\n"),
           inline: false,
         },
       ],
@@ -1093,7 +1098,10 @@ export class DiscordBotCommands {
       };
     }
 
-    const result = discordBot.submitFinalJeopardyBet(message.author.id, betAmount);
+    const result = discordBot.submitFinalJeopardyBet(
+      message.author.id,
+      betAmount
+    );
 
     if (result.error) {
       return {
@@ -1116,7 +1124,8 @@ export class DiscordBotCommands {
           },
           {
             name: "⚡ Instructions",
-            value: "All players must now submit their answers privately using `/finalanswer [your answer]`\n\n**Remember:** This answer is private and will only be revealed when everyone has answered!",
+            value:
+              "All players must now submit their answers privately using `/finalanswer [your answer]`\n\n**Remember:** This answer is private and will only be revealed when everyone has answered!",
             inline: false,
           },
         ],
@@ -1128,14 +1137,18 @@ export class DiscordBotCommands {
 
       return {
         type: "embed",
-        content: `✅ **${message.member?.displayName || message.author.username}** has placed their Final Jeopardy bet!\n\n🎯 **ALL BETS ARE IN!** Here's your Final Jeopardy question:`,
+        content: `✅ **${
+          message.member?.displayName || message.author.username
+        }** has placed their Final Jeopardy bet!\n\n🎯 **ALL BETS ARE IN!** Here's your Final Jeopardy question:`,
         embed: finalJeopardyEmbed,
       };
     } else {
       const stillWaiting = result.waitingFor.join(", ");
       return {
         type: "success",
-        content: `✅ **${message.member?.displayName || message.author.username}** has placed their Final Jeopardy bet of **$${betAmount}**!\n\n⏳ Still waiting for bets from: **${stillWaiting}**`,
+        content: `✅ **${
+          message.member?.displayName || message.author.username
+        }** has placed their Final Jeopardy bet of **$${betAmount}**!\n\n⏳ Still waiting for bets from: **${stillWaiting}**`,
       };
     }
   }
@@ -1145,12 +1158,16 @@ export class DiscordBotCommands {
     if (args.length < 2) {
       return {
         type: "error",
-        content: "❌ Usage: `/finalanswer [your answer]`\nExample: `/finalanswer Harry Potter`",
+        content:
+          "❌ Usage: `/finalanswer [your answer]`\nExample: `/finalanswer Harry Potter`",
       };
     }
 
     const answer = args.slice(1).join(" ");
-    const result = discordBot.submitFinalJeopardyAnswer(message.author.id, answer);
+    const result = discordBot.submitFinalJeopardyAnswer(
+      message.author.id,
+      answer
+    );
 
     if (result.error) {
       return {
@@ -1166,7 +1183,9 @@ export class DiscordBotCommands {
       const stillWaiting = result.waitingFor.join(", ");
       return {
         type: "success",
-        content: `✅ **${message.member?.displayName || message.author.username}** has submitted their Final Jeopardy answer!\n\n⏳ Still waiting for answers from: **${stillWaiting}**`,
+        content: `✅ **${
+          message.member?.displayName || message.author.username
+        }** has submitted their Final Jeopardy answer!\n\n⏳ Still waiting for answers from: **${stillWaiting}**`,
       };
     }
   }
@@ -1186,7 +1205,8 @@ export class DiscordBotCommands {
 
     // Add each player's results
     result.finalResults.forEach((playerResult, index) => {
-      const { player, bet, answer, correct, oldScore, newScore, scoreChange } = playerResult;
+      const { player, bet, answer, correct, oldScore, newScore, scoreChange } =
+        playerResult;
 
       let resultIcon = correct ? "✅" : "❌";
       let scoreText = correct ? `+$${bet}` : `-$${bet}`;
@@ -1199,7 +1219,9 @@ export class DiscordBotCommands {
     });
 
     // Sort by final score for winner announcement
-    const sortedResults = [...result.finalResults].sort((a, b) => b.newScore - a.newScore);
+    const sortedResults = [...result.finalResults].sort(
+      (a, b) => b.newScore - a.newScore
+    );
     const winner = sortedResults[0];
 
     let winnerMessage = "";
