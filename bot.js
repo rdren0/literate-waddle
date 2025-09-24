@@ -274,8 +274,13 @@ async function handleSlashResponse(interaction, result) {
         );
         console.log("Question embed created successfully");
 
+        // Defensive check for all required properties
+        const questionNumber = result?.questionNumber ?? 1;
+        const totalQuestions = result?.totalQuestions ?? 10;
+        const category = result?.nextQuestion?.category ?? "Unknown";
+
         await interaction.followUp({
-          content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
+          content: `📚 **Question ${questionNumber} of ${totalQuestions}** - ${category}\n\n**Use \`/answer\` to respond!**`,
           embeds: [questionEmbed],
         });
       } catch (error) {
@@ -303,8 +308,13 @@ async function handleSlashResponse(interaction, result) {
         );
         console.log("Next question embed created successfully");
 
+        // Defensive check for all required properties
+        const questionNumber = result?.questionNumber ?? 1;
+        const totalQuestions = result?.totalQuestions ?? 10;
+        const category = result?.nextQuestion?.category ?? "Unknown";
+
         await interaction.followUp({
-          content: `📚 **Question ${result.questionNumber} of ${result.totalQuestions}** - ${result.nextQuestion.category}\n\n**Use `/answer` to respond!**`,
+          content: `📚 **Question ${questionNumber} of ${totalQuestions}** - ${category}\n\n**Use \`/answer\` to respond!**`,
           embeds: [questionEmbed],
         });
       } catch (error) {

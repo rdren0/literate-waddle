@@ -12,7 +12,8 @@
       "Bash(npm install)",
       "Bash(npm run build:*)",
       "Bash(node:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": []
